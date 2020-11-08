@@ -15,21 +15,16 @@ def set_timezone(request):
 
 def user_log_post(request):
     if request.user.is_authenticated:
-        entry = log(Datetime=request.POST.get('datetime'), log_type=request.POST.get('log_type'), user=request.user, Log=request.POST.get('log'))
+        entry = log.objects.create(Datetime=request.POST.get('datetime'), log_type=request.POST.get('log_type'), user=request.user, Log=request.POST.get('log'))
         entry.save()
-    return HttpResponse("Posted.")
+        return HttpResponse("Posted.")
+    return HttpResponse('Not Posted')
 
-def is_authenticated(request):
-    if request.user.is_authenticated:
-        return HttpResponse("Authenticated User")
-    return HttpResponse("Non Authenticated User")
-
-def login_user(request):
+def authenticate_user(request):
     user = authenticate(username=request.POST.get('username'),  password=request.POST.get('password'))
-    if user:
-        login(request, user)
-        return HttpResponse("Logged In")
-    return HttpResponse("Not Logged In")
+    if user is not None:
+        return HttpResponse("Authenticated")
+    return HttpResponse("Not Authenticated")
 
 def register(request):
     if request.method == 'POST':

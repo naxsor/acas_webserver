@@ -684,7 +684,7 @@ true Pacific/Easter
 false Pacific/Efate
 false Pacific/Enderbury
 false Pacific/Fakaofo
-false Pacific/Fiji
+true Pacific/Fiji
 false Pacific/Funafuti
 false Pacific/Galapagos
 false Pacific/Gambier
@@ -790,7 +790,7 @@ false posixrules
     <database id="2" parent="1" name="ACAS">
       <ObjectId>16594</ObjectId>
       <Owner>postgres</Owner>
-      <IntrospectionStateNumber>66391</IntrospectionStateNumber>
+      <IntrospectionStateNumber>66397</IntrospectionStateNumber>
       <Current>1</Current>
       <Relations>sequence|table|25639|25641|1
 sequence|table|25650|25652|1
@@ -864,7 +864,7 @@ sequence|table|25936|25938|1
       <Comment>standard public schema</Comment>
       <StateNumber>276</StateNumber>
       <Owner>postgres</Owner>
-      <IntrospectionStateNumber>66392</IntrospectionStateNumber>
+      <IntrospectionStateNumber>66398</IntrospectionStateNumber>
       <Current>1</Current>
     </schema>
     <access-method id="16" parent="2" name="heap">
