@@ -16,7 +16,7 @@ def set_timezone(request):
 
 def user_log_post(request):
     if request.user.is_authenticated:
-        entry = log.objects.create(Datetime=timezone.localtime(request.POST.get('datetime')), log_type=request.POST.get('log_type'), user=request.user, Log=request.POST.get('log'))
+        entry = log.objects.create(Datetime=request.POST.get('datetime'), log_type=request.POST.get('log_type'), user=request.user, Log=request.POST.get('log'))
         entry.save()
         return HttpResponse("Posted.")
     return HttpResponse('Not Posted')
