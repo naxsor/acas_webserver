@@ -5,6 +5,7 @@ from django.contrib.auth import authenticate, login
 from django.http import HttpResponse
 from .models import log
 from .forms import UserRegisterForm, UserUpdateForm, ProfileUpdateForm
+import django.utils.timezone as timezone
 
 def set_timezone(request):
     if request.method == 'POST':
@@ -15,7 +16,7 @@ def set_timezone(request):
 
 def user_log_post(request):
     if request.user.is_authenticated:
-        entry = log.objects.create(Datetime=request.POST.get('datetime'), log_type=request.POST.get('log_type'), user=request.user, Log=request.POST.get('log'))
+        entry = log.objects.create(Datetime=timezone.localtime(request.POST.get('datetime')), log_type=request.POST.get('log_type'), user=request.user, Log=request.POST.get('log'))
         entry.save()
         return HttpResponse("Posted.")
     return HttpResponse('Not Posted')
