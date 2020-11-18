@@ -134,7 +134,7 @@ USE_L10N = False
 
 DATETIME_FORMAT = ['%Y-%m-%d %H:%M:%S.%f']
 
-USE_TZ = True
+USE_TZ = False
 
 
 # Static files (CSS, JavaScript, Images)
