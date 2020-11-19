@@ -76,8 +76,6 @@ class Log(models.Model):
         managed = True
         db_table = 'sensor_log'
 
-from django.db import models
-
 # Create your models here.
 class Ccn(models.Model):
     datetime = models.DateTimeField(db_column='Datetime', primary_key=True)  # Field name made lowercase.
@@ -136,7 +134,6 @@ class Ccn(models.Model):
         managed = True
         db_table = 'sensor_ccn'
 
-
 class Clap(models.Model):
     datetime = models.DateTimeField(db_column='Datetime', primary_key=True)  # Field name made lowercase.
     record_type = models.IntegerField(db_column='Record Type', blank=True, null=True)  # Field name made lowercase. Field renamed to remove unsuitable characters.
@@ -192,7 +189,6 @@ class Clap(models.Model):
     class Meta:
         managed = True
         db_table = 'sensor_clap'
-
 
 class Dma(models.Model):
     datetime = models.DateTimeField(db_column='Datetime', primary_key=True)  # Field name made lowercase.
@@ -341,7 +337,6 @@ class Dma(models.Model):
         db_table = 'sensor_dma'
         unique_together = (('datetime', 'start_datetime', 'end_datetime'),)
 
-
 class Hygrometer(models.Model):
     datetime = models.DateTimeField(db_column='Datetime', primary_key=True)  # Field name made lowercase.
     water_vapor_content = models.FloatField(db_column='Water Vapor Content', blank=True, null=True)  # Field name made lowercase. Field renamed to remove unsuitable characters.
@@ -351,7 +346,6 @@ class Hygrometer(models.Model):
     class Meta:
         managed = True
         db_table = 'sensor_hygrometer'
-
 
 class Uv_Lif(models.Model):
     datetime = models.DateTimeField(db_column='Datetime', primary_key=True)  # Field name made lowercase.
@@ -412,3 +406,65 @@ class Uv_Lif(models.Model):
     class Meta:
         managed = True
         db_table = 'sensor_uv_lif'
+
+class SensorCpd3Clap(models.Model):
+    datetime = models.DateTimeField(db_column='Datetime', primary_key=True)  # Field name made lowercase.
+    transmittance = models.FloatField(db_column='Transmittance', blank=True, null=True)  # Field name made lowercase.
+    aerosol_light_absorption_coefficient = models.FloatField(db_column='Aerosol light absorption coefficient', blank=True, null=True)  # Field name made lowercase. Field renamed to remove unsuitable characters.
+    transmittance_b = models.FloatField(db_column='Transmittance B', blank=True, null=True)  # Field name made lowercase. Field renamed to remove unsuitable characters.
+
+    class Meta:
+        managed = True
+        db_table = 'sensor_cpd3_clap'
+
+class SensorCpd3Cpc(models.Model):
+    datetime = models.DateTimeField(db_column='Datetime', primary_key=True)  # Field name made lowercase.
+    condensation_nuclei_concentration = models.FloatField(db_column='Condensation nuclei concentration', blank=True, null=True)  # Field name made lowercase. Field renamed to remove unsuitable characters.
+
+    class Meta:
+        managed = True
+        db_table = 'sensor_cpd3_cpc'
+
+class SensorCpd3Neph(models.Model):
+    datetime = models.DateTimeField(db_column='Datetime', primary_key=True)  # Field name made lowercase.
+    aerosol_light_scattering_coefficient = models.FloatField(db_column='Aerosol light scattering coefficient', blank=True, null=True)  # Field name made lowercase. Field renamed to remove unsuitable characters.
+
+    class Meta:
+        managed = True
+        db_table = 'sensor_cpd3_neph'
+
+class SensorCpd3PwdVaisala(models.Model):
+    datetime = models.DateTimeField(db_column='Datetime', primary_key=True)  # Field name made lowercase.
+    ambient_temperature = models.FloatField(db_column='Ambient Temperature', blank=True, null=True)  # Field name made lowercase. Field renamed to remove unsuitable characters.
+    precipitation_rate = models.FloatField(db_column='Precipitation Rate', blank=True, null=True)  # Field name made lowercase. Field renamed to remove unsuitable characters.
+    present_weather_flag = models.FloatField(db_column='Present Weather Flag', blank=True, null=True)  # Field name made lowercase. Field renamed to remove unsuitable characters.
+    present_weather_code = models.FloatField(db_column='Present Weather Code', blank=True, null=True)  # Field name made lowercase. Field renamed to remove unsuitable characters.
+    visibility_distance = models.FloatField(db_column='Visibility Distance', blank=True, null=True)  # Field name made lowercase. Field renamed to remove unsuitable characters.
+
+    class Meta:
+        managed = True
+        db_table = 'sensor_cpd3_pwd_vaisala'
+
+class SensorCpd3WmtVaisala(models.Model):
+    datetime = models.DateTimeField(db_column='Datetime', primary_key=True)  # Field name made lowercase.
+    wind_direction = models.FloatField(db_column='Wind Direction', blank=True, null=True)  # Field name made lowercase. Field renamed to remove unsuitable characters.
+    wind_speed = models.FloatField(db_column='Wind Speed', blank=True, null=True)  # Field name made lowercase. Field renamed to remove unsuitable characters.
+
+    class Meta:
+        managed = True
+        db_table = 'sensor_cpd3_wmt_vaisala'
+
+class SensorCpd3WxtVaisala(models.Model):
+    datetime = models.DateTimeField(db_column='Datetime', primary_key=True)  # Field name made lowercase.
+    ambient_pressure = models.FloatField(db_column='Ambient Pressure', blank=True, null=True)  # Field name made lowercase. Field renamed to remove unsuitable characters.
+    ambient_temperature = models.FloatField(db_column='Ambient Temperature', blank=True, null=True)  # Field name made lowercase. Field renamed to remove unsuitable characters.
+    ambient_relative_humidity = models.FloatField(db_column='Ambient Relative Humidity', blank=True, null=True)  # Field name made lowercase. Field renamed to remove unsuitable characters.
+    solar_radiation = models.FloatField(db_column='Solar Radiation', blank=True, null=True)  # Field name made lowercase. Field renamed to remove unsuitable characters.
+    wind_direction = models.FloatField(db_column='Wind Direction', blank=True, null=True)  # Field name made lowercase. Field renamed to remove unsuitable characters.
+    precipitation_rate = models.FloatField(db_column='Precipitation Rate', blank=True, null=True)  # Field name made lowercase. Field renamed to remove unsuitable characters.
+    wind_speed = models.FloatField(db_column='Wind Speed', blank=True, null=True)  # Field name made lowercase. Field renamed to remove unsuitable characters.
+    wind_gust_speed = models.FloatField(db_column='Wind Gust Speed', blank=True, null=True)  # Field name made lowercase. Field renamed to remove unsuitable characters.
+
+    class Meta:
+        managed = True
+        db_table = 'sensor_cpd3_wxt_vaisala'
