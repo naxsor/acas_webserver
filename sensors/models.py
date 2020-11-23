@@ -30,7 +30,7 @@ class File(models.Model):
 class Inlet_Switcher_State(models.Model):
     datetime = models.DateTimeField(db_column='Datetime', primary_key=True)  # Field name made lowercase.
     inlet_selected = models.IntegerField(blank=True, null=True)
-    intet_name = models.CharField(max_length=15, null=True)
+    inlet_name = models.CharField(max_length=15, null=True)
     inlet_1_state = models.CharField(max_length=4, null=True)
     inlet_2_state = models.CharField(max_length=4, null=True)
 
