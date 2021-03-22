@@ -95,8 +95,8 @@ WSGI_APPLICATION = 'adapts.wsgi.application'
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases
 
 
-DATABASE_ROUTERS = ['router']
-DATABASE_APPS_MAPPING = {'sensor_data': 'sensor_db'}
+DATABASE_ROUTERS = ['users.models.AuthRouter', 'sensors.models.Router']
+DATABASE_APPS_MAPPING = {'sensors': 'sensor_db'}
 
 DATABASES = {
     'default': {
@@ -107,11 +107,11 @@ DATABASES = {
         'HOST': config.get('db_ip'),
         'PORT': config.get('db_port')
     },
-    'sensor_db':{
+    'sensor_db': {
 	    'ENGINE': 'django.db.backends.postgresql',
         'NAME': config.get('db_sensor_name'),
         'USER': config.get('db_sensor_username'),
-        'PASSWORD': config.get('db_sensor__password'),
+        'PASSWORD': config.get('db_sensor_password'),
         'HOST': config.get('db_sensor_ip'),
         'PORT': config.get('db_sensor_sport'),
     }	

@@ -1,4 +1,3 @@
-from django.db import models
 
 # Create your models here.
 from django.db import models
@@ -18,7 +17,7 @@ class Sensor(models.Model):
     class Meta:
         managed = True
         db_table = 'sensor'
-        app_label = 'sensor_data'
+
 
 class File(models.Model):
     sensor = models.OneToOneField(Sensor, models.CASCADE, primary_key=True)
@@ -27,7 +26,7 @@ class File(models.Model):
     class Meta:
         managed = True
         db_table = 'files'
-        app_label = 'sensor_data'
+
 
 class Inlet_Switcher_State(models.Model):
     datetime = models.DateTimeField(db_column='Datetime', primary_key=True)  # Field name made lowercase.
@@ -39,7 +38,7 @@ class Inlet_Switcher_State(models.Model):
     class Meta:
         managed = True
         db_table = 'inlet_switcher_state'
-        app_label = 'sensor_data'
+
 
 class Primary_Variables(models.Model):
     id = models.AutoField(primary_key=True)
@@ -57,7 +56,7 @@ class Primary_Variables(models.Model):
         db_table = 'primary_variables'
         verbose_name = 'Variable'
         ordering = [models.F('sensor').asc(nulls_last=True)]
-        app_label = 'sensor_data'
+
 
 class Process(models.Model):
     id = models.AutoField(primary_key=True)
@@ -68,7 +67,7 @@ class Process(models.Model):
     class Meta:
         managed = True
         db_table = 'process'
-        app_label = 'sensor_data'
+
 
 class Log(models.Model):
     id = models.AutoField(primary_key=True)
@@ -76,7 +75,6 @@ class Log(models.Model):
     datetime = models.DateTimeField(blank=True, null=True)
     log_type = models.CharField(max_length=15, blank=True, null=True)
     log = models.CharField(max_length=300, blank=True, null=True)
-    app_label = 'sensor_data'
 
     def __str__(self):
         return f'{self.datetime} - {self.sensor_id} - {self.log_type} - {self.log}'
@@ -84,7 +82,7 @@ class Log(models.Model):
     class Meta:
         managed = True
         db_table = 'sensor_log'
-        app_label = 'sensor_data'
+
 
 # Create your models here.
 class Ccn(models.Model):
@@ -143,7 +141,7 @@ class Ccn(models.Model):
     class Meta:
         managed = True
         db_table = 'sensor_ccn'
-        app_label = 'sensor_data'
+
 
 class Clap(models.Model):
     datetime = models.DateTimeField(db_column='Datetime', primary_key=True)  # Field name made lowercase.
@@ -200,7 +198,7 @@ class Clap(models.Model):
     class Meta:
         managed = True
         db_table = 'sensor_clap'
-        app_label = 'sensor_data'
+
 
 class Dma(models.Model):
     datetime = models.DateTimeField(db_column='Datetime', primary_key=True)  # Field name made lowercase.
@@ -348,7 +346,7 @@ class Dma(models.Model):
         managed = True
         db_table = 'sensor_dma'
         unique_together = (('datetime', 'start_datetime', 'end_datetime'),)
-        app_label = 'sensor_data'
+
 
 class Hygrometer(models.Model):
     datetime = models.DateTimeField(db_column='Datetime', primary_key=True)  # Field name made lowercase.
@@ -359,7 +357,7 @@ class Hygrometer(models.Model):
     class Meta:
         managed = True
         db_table = 'sensor_hygrometer'
-        app_label = 'sensor_data'
+
 
 class Uv_Lif(models.Model):
     datetime = models.DateTimeField(db_column='Datetime', primary_key=True)  # Field name made lowercase.
@@ -420,7 +418,7 @@ class Uv_Lif(models.Model):
     class Meta:
         managed = True
         db_table = 'sensor_uv_lif'
-        app_label = 'sensor_data'
+
 
 class SensorCpd3Clap(models.Model):
     datetime = models.DateTimeField(db_column='Datetime', primary_key=True)  # Field name made lowercase.
@@ -431,7 +429,7 @@ class SensorCpd3Clap(models.Model):
     class Meta:
         managed = True
         db_table = 'sensor_cpd3_clap'
-        app_label = 'sensor_data'
+
 
 class SensorCpd3Cpc(models.Model):
     datetime = models.DateTimeField(db_column='Datetime', primary_key=True)  # Field name made lowercase.
@@ -440,7 +438,7 @@ class SensorCpd3Cpc(models.Model):
     class Meta:
         managed = True
         db_table = 'sensor_cpd3_cpc'
-        app_label = 'sensor_data'
+
 
 class SensorCpd3Neph(models.Model):
     datetime = models.DateTimeField(db_column='Datetime', primary_key=True)  # Field name made lowercase.
@@ -449,7 +447,7 @@ class SensorCpd3Neph(models.Model):
     class Meta:
         managed = True
         db_table = 'sensor_cpd3_neph'
-        app_label = 'sensor_data'
+
 
 class SensorCpd3PwdVaisala(models.Model):
     datetime = models.DateTimeField(db_column='Datetime', primary_key=True)  # Field name made lowercase.
@@ -462,7 +460,7 @@ class SensorCpd3PwdVaisala(models.Model):
     class Meta:
         managed = True
         db_table = 'sensor_cpd3_pwd_vaisala'
-        app_label = 'sensor_data'
+
 
 class SensorCpd3WmtVaisala(models.Model):
     datetime = models.DateTimeField(db_column='Datetime', primary_key=True)  # Field name made lowercase.
@@ -472,7 +470,7 @@ class SensorCpd3WmtVaisala(models.Model):
     class Meta:
         managed = True
         db_table = 'sensor_cpd3_wmt_vaisala'
-        app_label = 'sensor_data'
+
 
 class SensorCpd3WxtVaisala(models.Model):
     datetime = models.DateTimeField(db_column='Datetime', primary_key=True)  # Field name made lowercase.
@@ -488,4 +486,43 @@ class SensorCpd3WxtVaisala(models.Model):
     class Meta:
         managed = True
         db_table = 'sensor_cpd3_wxt_vaisala'
-        app_label = 'sensor_data'
+
+class Router:
+    """
+    A router to control all database operations on models in the
+    user application.
+    """
+    def db_for_read(self, model, **hints):
+        """
+        Attempts to read user models go to users_db.
+        """
+        if model._meta.app_label == "sensors":
+            return 'sensor_db'
+        return None
+
+    def db_for_write(self, model, **hints):
+        """
+        Attempts to write user models go to users_db.
+        """
+        if model._meta.app_label == "sensors":
+            return 'sensor_db'
+        return None
+
+    def allow_relation(self, obj1, obj2, **hints):
+        """
+        Allow relations if a model in the user app is involved.
+        """
+        db = ['default', 'sensor_db']
+        if obj1._meta.app_label in db and obj2._meta.app_label in db:
+           return True
+        return None
+
+    def allow_migrate(self, db, app_label, model_name=None, **hints):
+        """
+        Make sure the auth app only appears in the 'users_db'
+        database.
+        """
+        if app_label == 'sensors':
+            return db == 'sensor_db'
+        return None
+

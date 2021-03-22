@@ -1,3 +1,5 @@
+
+
 class Router:
     """
     A router to control all database operations on models in the
@@ -7,24 +9,24 @@ class Router:
         """
         Attempts to read user models go to users_db.
         """
-        if model._meta.app_label == 'user_data':
-            return 'users_db'
+        if model._meta.app_label == 'sensor_data':
+            return 'sensor_db'
         return None
 
     def db_for_write(self, model, **hints):
         """
         Attempts to write user models go to users_db.
         """
-        if model._meta.app_label == 'user_data':
-            return 'users_db'
+        if model._meta.app_label == 'sensor_data':
+            return 'sensor_db'
         return None
 
     def allow_relation(self, obj1, obj2, **hints):
         """
         Allow relations if a model in the user app is involved.
         """
-        if obj1._meta.app_label == 'user_data' or \
-           obj2._meta.app_label == 'user_data':
+        if obj1._meta.app_label == 'sensor_data' or \
+           obj2._meta.app_label == 'sensor_data':
            return True
         return None
 
@@ -33,6 +35,6 @@ class Router:
         Make sure the auth app only appears in the 'users_db'
         database.
         """
-        if app_label == 'user_data':
-            return db == 'users_db'
+        if app_label == 'sensor_data':
+            return db == 'sensor_db'
         return None
