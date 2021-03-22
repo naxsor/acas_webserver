@@ -14,7 +14,7 @@ from pathlib import Path
 import os
 import json
 
-with open('etc/config.json') as config_file:
+with open('/etc/config.json') as config_file:
 	config = json.load(config_file)
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -32,7 +32,7 @@ DEBUG = False
 
 ALLOWED_HOSTS = [
 #    'adapts.herokuapp.com'
-    '192.168.0.10'
+    '192.168.0.5'
 ]
 
 # Application definition
@@ -46,8 +46,7 @@ INSTALLED_APPS = [
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
-    'django.contrib.staticfiles',
-    'storages',
+    'django.contrib.staticfiles'
 ]
 
 MIDDLEWARE = [
@@ -95,15 +94,28 @@ WSGI_APPLICATION = 'adapts.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases
 
+
+DATABASE_ROUTERS = ['router']
+DATABASE_APPS_MAPPING = {'sensor_data': 'sensor_db'}
+
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'acas',
-        'USER': 'postgres',
-        'PASSWORD': 'acas2020',
-        'HOST': '127.0.0.1',
-        'PORT': '5432',
+        'NAME': config.get('db_name'),
+        'USER': config.get('db_username'),
+        'PASSWORD': config.get('db_password'),
+        'HOST': config.get('db_ip'),
+        'PORT': config.get('db_port'),
     }
+    'sensor_db'{
+	'ENGINE': 'django.db.backends.postgresql',
+        'NAME': config.get('db_sensor_name'),
+        'USER': config.get('db_sensor_username'),
+        'PASSWORD': config.get('db_sensor__password'),
+        'HOST': config.get('db_sensor_ip'),
+        'PORT': config.get('db_sensor_sport'),
+    }	
+
 }
 
 # Password validation
