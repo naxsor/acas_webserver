@@ -18,6 +18,7 @@ class Sensor(models.Model):
     class Meta:
         managed = True
         db_table = 'sensor'
+        app_label = 'sensor_data'
 
 class File(models.Model):
     sensor = models.OneToOneField(Sensor, models.CASCADE, primary_key=True)
@@ -26,6 +27,7 @@ class File(models.Model):
     class Meta:
         managed = True
         db_table = 'files'
+        app_label = 'sensor_data'
 
 class Inlet_Switcher_State(models.Model):
     datetime = models.DateTimeField(db_column='Datetime', primary_key=True)  # Field name made lowercase.
@@ -37,6 +39,7 @@ class Inlet_Switcher_State(models.Model):
     class Meta:
         managed = True
         db_table = 'inlet_switcher_state'
+        app_label = 'sensor_data'
 
 class Primary_Variables(models.Model):
     id = models.AutoField(primary_key=True)
@@ -54,6 +57,7 @@ class Primary_Variables(models.Model):
         db_table = 'primary_variables'
         verbose_name = 'Variable'
         ordering = [models.F('sensor').asc(nulls_last=True)]
+        app_label = 'sensor_data'
 
 class Process(models.Model):
     id = models.AutoField(primary_key=True)
@@ -64,6 +68,7 @@ class Process(models.Model):
     class Meta:
         managed = True
         db_table = 'process'
+        app_label = 'sensor_data'
 
 class Log(models.Model):
     id = models.AutoField(primary_key=True)
@@ -71,6 +76,7 @@ class Log(models.Model):
     datetime = models.DateTimeField(blank=True, null=True)
     log_type = models.CharField(max_length=15, blank=True, null=True)
     log = models.CharField(max_length=300, blank=True, null=True)
+    app_label = 'sensor_data'
 
     def __str__(self):
         return f'{self.datetime} - {self.sensor_id} - {self.log_type} - {self.log}'
@@ -78,6 +84,7 @@ class Log(models.Model):
     class Meta:
         managed = True
         db_table = 'sensor_log'
+        app_label = 'sensor_data'
 
 # Create your models here.
 class Ccn(models.Model):
@@ -136,6 +143,7 @@ class Ccn(models.Model):
     class Meta:
         managed = True
         db_table = 'sensor_ccn'
+        app_label = 'sensor_data'
 
 class Clap(models.Model):
     datetime = models.DateTimeField(db_column='Datetime', primary_key=True)  # Field name made lowercase.
@@ -192,6 +200,7 @@ class Clap(models.Model):
     class Meta:
         managed = True
         db_table = 'sensor_clap'
+        app_label = 'sensor_data'
 
 class Dma(models.Model):
     datetime = models.DateTimeField(db_column='Datetime', primary_key=True)  # Field name made lowercase.
@@ -339,6 +348,7 @@ class Dma(models.Model):
         managed = True
         db_table = 'sensor_dma'
         unique_together = (('datetime', 'start_datetime', 'end_datetime'),)
+        app_label = 'sensor_data'
 
 class Hygrometer(models.Model):
     datetime = models.DateTimeField(db_column='Datetime', primary_key=True)  # Field name made lowercase.
@@ -349,6 +359,7 @@ class Hygrometer(models.Model):
     class Meta:
         managed = True
         db_table = 'sensor_hygrometer'
+        app_label = 'sensor_data'
 
 class Uv_Lif(models.Model):
     datetime = models.DateTimeField(db_column='Datetime', primary_key=True)  # Field name made lowercase.
@@ -409,6 +420,7 @@ class Uv_Lif(models.Model):
     class Meta:
         managed = True
         db_table = 'sensor_uv_lif'
+        app_label = 'sensor_data'
 
 class SensorCpd3Clap(models.Model):
     datetime = models.DateTimeField(db_column='Datetime', primary_key=True)  # Field name made lowercase.
@@ -419,6 +431,7 @@ class SensorCpd3Clap(models.Model):
     class Meta:
         managed = True
         db_table = 'sensor_cpd3_clap'
+        app_label = 'sensor_data'
 
 class SensorCpd3Cpc(models.Model):
     datetime = models.DateTimeField(db_column='Datetime', primary_key=True)  # Field name made lowercase.
@@ -427,6 +440,7 @@ class SensorCpd3Cpc(models.Model):
     class Meta:
         managed = True
         db_table = 'sensor_cpd3_cpc'
+        app_label = 'sensor_data'
 
 class SensorCpd3Neph(models.Model):
     datetime = models.DateTimeField(db_column='Datetime', primary_key=True)  # Field name made lowercase.
@@ -435,6 +449,7 @@ class SensorCpd3Neph(models.Model):
     class Meta:
         managed = True
         db_table = 'sensor_cpd3_neph'
+        app_label = 'sensor_data'
 
 class SensorCpd3PwdVaisala(models.Model):
     datetime = models.DateTimeField(db_column='Datetime', primary_key=True)  # Field name made lowercase.
@@ -447,6 +462,7 @@ class SensorCpd3PwdVaisala(models.Model):
     class Meta:
         managed = True
         db_table = 'sensor_cpd3_pwd_vaisala'
+        app_label = 'sensor_data'
 
 class SensorCpd3WmtVaisala(models.Model):
     datetime = models.DateTimeField(db_column='Datetime', primary_key=True)  # Field name made lowercase.
@@ -456,6 +472,7 @@ class SensorCpd3WmtVaisala(models.Model):
     class Meta:
         managed = True
         db_table = 'sensor_cpd3_wmt_vaisala'
+        app_label = 'sensor_data'
 
 class SensorCpd3WxtVaisala(models.Model):
     datetime = models.DateTimeField(db_column='Datetime', primary_key=True)  # Field name made lowercase.
@@ -471,3 +488,4 @@ class SensorCpd3WxtVaisala(models.Model):
     class Meta:
         managed = True
         db_table = 'sensor_cpd3_wxt_vaisala'
+        app_label = 'sensor_data'

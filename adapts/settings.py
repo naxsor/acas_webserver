@@ -105,10 +105,10 @@ DATABASES = {
         'USER': config.get('db_username'),
         'PASSWORD': config.get('db_password'),
         'HOST': config.get('db_ip'),
-        'PORT': config.get('db_port'),
-    }
-    'sensor_db'{
-	'ENGINE': 'django.db.backends.postgresql',
+        'PORT': config.get('db_port')
+    },
+    'sensor_db':{
+	    'ENGINE': 'django.db.backends.postgresql',
         'NAME': config.get('db_sensor_name'),
         'USER': config.get('db_sensor_username'),
         'PASSWORD': config.get('db_sensor__password'),
