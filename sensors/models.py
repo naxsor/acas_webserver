@@ -204,7 +204,7 @@ class sp2_xr(models.Model):
     sample_flow_temp = models.FloatField(db_column='Sample Flow Controller Temperature', blank=True, null=True)
     laser_tec_temp = models.FloatField(db_column='Laser TEC Temperature', blank=True, null=True)
     heatsink_temp = models.FloatField(db_column='Computer Heatsink Temperature', blank=True, null=True)
-    laser_heatsink_temp = models.FloatField(db_column='Computer Heatsink Temperature', blank=True, null=True)
+    laser_heatsink_temp = models.FloatField(db_column='Laser Heatsink Temperature', blank=True, null=True)
     outlet_air_temp = models.FloatField(db_column='Outlet Air Temperature', blank=True, null=True)
     yag_output_monitor = models.FloatField(db_column='YAG Output Monitor', blank=True, null=True)
     cavity_pressure = models.FloatField(db_column='Cavity Pressure', blank=True, null=True)
@@ -235,7 +235,7 @@ class sp2_xr(models.Model):
     flag_dual_qualified = models.FloatField(db_column='Flag - Dual Qualified', blank=True, null=True)
     flag_scatt_detected = models.FloatField(db_column='Flag - Scatter Detected', blank=True, null=True)
     flag_incand_detected = models.FloatField(db_column='Flag - Incandescence Detected', blank=True, null=True)
-    flag_scatt_rejected = models.FloatField(db_column='Flag - Scatter Detected', blank=True, null=True)
+    flag_scatt_rejected = models.FloatField(db_column='Flag - Scatter Rejected', blank=True, null=True)
     flag_incand_rejected = models.FloatField(db_column='Flag - Incandescence Rejected', blank=True, null=True)
 
     class Meta:
