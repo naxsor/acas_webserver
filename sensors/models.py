@@ -307,7 +307,7 @@ class Dma(models.Model):
     end_datetime = models.DateTimeField(db_column='End Datetime')  # Field name made lowercase. Field renamed to remove unsuitable characters.
     scan_direction = models.IntegerField(db_column='Scan Direction', blank=True, null=True)  # Field name made lowercase. Field renamed to remove unsuitable characters.
     sheath_sample_pressure = models.IntegerField(db_column='Sheath Sample Pressure', blank=True, null=True)  # Field name made lowercase. Field renamed to remove unsuitable characters.
-    sheath_temp = models.FloatField(db_column='Sheath Temp', blank=True, null=True)  # Field name made lowercase. Field renamed to remove unsuitable characters.
+    sheath_temp = models.FloatField(db_column='Sheath Temperature', blank=True, null=True)  # Field name made lowercase. Field renamed to remove unsuitable characters.
     sheath_average = models.FloatField(db_column='Sheath Average', blank=True, null=True)  # Field name made lowercase. Field renamed to remove unsuitable characters.
     sheath_standard_deviation = models.FloatField(db_column='Sheath Standard Deviation', blank=True, null=True)  # Field name made lowercase. Field renamed to remove unsuitable characters.
     sheath_rh = models.IntegerField(db_column='Sheath RH', blank=True, null=True)  # Field name made lowercase. Field renamed to remove unsuitable characters.
