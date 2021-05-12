@@ -317,8 +317,8 @@ class Dma(models.Model):
     colsamp_temp = models.FloatField(db_column='Temperature', blank=True, null=True)
     cpc_a_flow_average = models.FloatField(db_column='CPC A Flow Average', blank=True, null=True)  # Field name made lowercase. Field renamed to remove unsuitable characters.
     cpc_a_standard_deviation = models.FloatField(db_column='CPC A Standard Deviation', blank=True, null=True)  # Field name made lowercase. Field renamed to remove unsuitable characters.
-    sat_temp = models.FloatField(db_colum='Saturator Temperature', blank=True, null=True)
-    cond_temp = models.FloatField(db_colum='Condenser Temperature', blank=True, null=True)
+    sat_temp = models.FloatField(db_column='Saturator Temperature', blank=True, null=True)
+    cond_temp = models.FloatField(db_column='Condenser Temperature', blank=True, null=True)
     sems_errors = models.FloatField(db_column='SEMS Errors', blank=True, null=True)  # Field name made lowercase. Field renamed to remove unsuitable characters.
     mcpc_errors = models.FloatField(db_column='MCPC Errors', blank=True, null=True)  # Field name made lowercase. Field renamed to remove unsuitable characters.
     impactor_press = models.FloatField(db_column='Impactor Press', blank=True, null=True)  # Field name made lowercase. Field renamed to remove unsuitable characters.
