@@ -311,14 +311,14 @@ class Dma(models.Model):
     sheath_average = models.FloatField(db_column='Sheath Average', blank=True, null=True)  # Field name made lowercase. Field renamed to remove unsuitable characters.
     sheath_standard_deviation = models.FloatField(db_column='Sheath Standard Deviation', blank=True, null=True)  # Field name made lowercase. Field renamed to remove unsuitable characters.
     sheath_rh = models.IntegerField(db_column='Sheath RH', blank=True, null=True)  # Field name made lowercase. Field renamed to remove unsuitable characters.
-    colsamp_avg = models.FloatField(blank=True, null=True)
-    colsamp_sdec = models.FloatField(blank=True, null=True)
-    colsame_rh = models.IntegerField(blank=True, null=True)
-    colsamp_temp = models.FloatField(blank=True, null=True)
+    colsamp_avg = models.FloatField(db_column='Average Column Flow', blank=True, null=True)
+    colsamp_sdec = models.FloatField(db_column='Standard Deviation of Column Flow', blank=True, null=True)
+    colsame_rh = models.IntegerField(db_column='Relative Humidity', blank=True, null=True)
+    colsamp_temp = models.FloatField(db_column='Temperature', blank=True, null=True)
     cpc_a_flow_average = models.FloatField(db_column='CPC A Flow Average', blank=True, null=True)  # Field name made lowercase. Field renamed to remove unsuitable characters.
     cpc_a_standard_deviation = models.FloatField(db_column='CPC A Standard Deviation', blank=True, null=True)  # Field name made lowercase. Field renamed to remove unsuitable characters.
-    sat_temp = models.FloatField(blank=True, null=True)
-    cond_temp = models.FloatField(blank=True, null=True)
+    sat_temp = models.FloatField(db_colum='Saturator Temperature', blank=True, null=True)
+    cond_temp = models.FloatField(db_colum='Condenser Temperature', blank=True, null=True)
     sems_errors = models.FloatField(db_column='SEMS Errors', blank=True, null=True)  # Field name made lowercase. Field renamed to remove unsuitable characters.
     mcpc_errors = models.FloatField(db_column='MCPC Errors', blank=True, null=True)  # Field name made lowercase. Field renamed to remove unsuitable characters.
     impactor_press = models.FloatField(db_column='Impactor Press', blank=True, null=True)  # Field name made lowercase. Field renamed to remove unsuitable characters.
@@ -463,17 +463,17 @@ class Hygrometer(models.Model):
 class Uv_Lif(models.Model):
     datetime = models.DateTimeField(db_column='Datetime', primary_key=True)  # Field name made lowercase.
     number_408_board_temperature = models.FloatField(db_column='408 Board Temperature', blank=True, null=True)  # Field name made lowercase. Field renamed to remove unsuitable characters. Field renamed because it wasn't a valid Python identifier.
-    bandwidths_0 = models.FloatField(blank=True, null=True)
-    bandwidths_1 = models.FloatField(blank=True, null=True)
-    bandwidths_2 = models.FloatField(blank=True, null=True)
-    bandwidths_3 = models.FloatField(blank=True, null=True)
-    baseline_0 = models.FloatField(blank=True, null=True)
-    baseline_1 = models.FloatField(blank=True, null=True)
-    baseline_2 = models.FloatField(blank=True, null=True)
-    baseline_3 = models.FloatField(blank=True, null=True)
+    bandwidths_0 = models.FloatField(db_column='Bandwidths 0', blank=True, null=True)
+    bandwidths_1 = models.FloatField(db_column='Bandwidths 1', blank=True, null=True)
+    bandwidths_2 = models.FloatField(db_column='Bandwidths 2', blank=True, null=True)
+    bandwidths_3 = models.FloatField(db_column='Bandwidths 3', blank=True, null=True)
+    baseline_0 = models.FloatField(db_column='Baseline 0', blank=True, null=True)
+    baseline_1 = models.FloatField(db_column='Baseline 1', blank=True, null=True)
+    baseline_2 = models.FloatField(db_column='Baseline 2', blank=True, null=True)
+    baseline_3 = models.FloatField(db_column='Baseline 3', blank=True, null=True)
     clump_count = models.FloatField(blank=True, null=True)
-    exited_particles_count_cm3_field = models.FloatField(db_column='Exited Particles Count[#/cm3]', blank=True, null=True)  # Field name made lowercase. Field renamed to remove unsuitable characters. Field renamed because it ended with '_'.
-    total_particle_count_all_cm3_field = models.FloatField(db_column='Total Particle Count [all][#/cm3]', blank=True, null=True)  # Field name made lowercase. Field renamed to remove unsuitable characters. Field renamed because it ended with '_'.
+    exited_particles_count_cm3_field = models.FloatField(db_column='Exited Particles Count', blank=True, null=True)  # Field name made lowercase. Field renamed to remove unsuitable characters. Field renamed because it ended with '_'.
+    total_particle_count_all_cm3_field = models.FloatField(db_column='Total Particle Count', blank=True, null=True)  # Field name made lowercase. Field renamed to remove unsuitable characters. Field renamed because it ended with '_'.
     h12310_temperature = models.FloatField(blank=True, null=True)
     max_transit_time_counts = models.FloatField(blank=True, null=True)
     min_transit_time_counts = models.FloatField(blank=True, null=True)
@@ -482,12 +482,12 @@ class Uv_Lif(models.Model):
     num_oversize_rejects = models.FloatField(blank=True, null=True)
     relative_humidity = models.FloatField(db_column='Relative Humidity', blank=True, null=True)  # Field name made lowercase. Field renamed to remove unsuitable characters.
     system_power = models.FloatField(db_column='System Power', blank=True, null=True)  # Field name made lowercase. Field renamed to remove unsuitable characters.
-    sample_mass_flow_rate_l_min_field = models.FloatField(db_column='Sample Mass Flow Rate [L/min]', blank=True, null=True)  # Field name made lowercase. Field renamed to remove unsuitable characters. Field renamed because it endedwith '_'.
+    sample_mass_flow_rate_l_min_field = models.FloatField(db_column='Sample Mass Flow Rate', blank=True, null=True)  # Field name made lowercase. Field renamed to remove unsuitable characters. Field renamed because it endedwith '_'.
     sample_pressure = models.FloatField(db_column='Sample Pressure', blank=True, null=True)  # Field name made lowercase. Field renamed to remove unsuitable characters.
     sample_flow_rate_set_point = models.FloatField(db_column='Sample Flow Rate Set Point', blank=True, null=True)  # Field name made lowercase. Field renamed to remove unsuitable characters.
     sample_temperature = models.FloatField(db_column='Sample Temperature', blank=True, null=True)  # Field name made lowercase. Field renamed to remove unsuitable characters.
     sample_flow_rate = models.FloatField(db_column='Sample Flow Rate', blank=True, null=True)  # Field name made lowercase. Field renamed to remove unsuitable characters.
-    sheath_sample_mass_flow_l_min_field = models.FloatField(db_column='Sheath Sample Mass Flow[L/min]', blank=True, null=True)  # Field name made lowercase. Field renamed to remove unsuitable characters. Field renamed because it ended with '_'.
+    sheath_sample_mass_flow_l_min_field = models.FloatField(db_column='Sheath Sample Mass Flow', blank=True, null=True)  # Field name made lowercase. Field renamed to remove unsuitable characters. Field renamed because it ended with '_'.
     sheath_sample_pressure = models.FloatField(db_column='Sheath Sample Pressure', blank=True, null=True)  # Field name made lowercase. Field renamed to remove unsuitable characters.
     sheath_sample_flow_rate_set_point = models.FloatField(db_column='Sheath Sample Flow Rate Set Point', blank=True, null=True)  # Field name made lowercase. Field renamed to remove unsuitable characters.
     sheath_sample_temperature = models.FloatField(db_column='Sheath Sample Temperature', blank=True, null=True)  # Field name made lowercase. Field renamed to remove unsuitable characters.
