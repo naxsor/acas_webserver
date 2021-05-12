@@ -510,7 +510,7 @@ class Uv_Lif(models.Model):
     nf_shape_3 = models.FloatField(blank=True, null=True)
     nf_sizer_relative_peak = models.FloatField(blank=True, null=True)
     nf_sizer_transit_time_nsec = models.FloatField(blank=True, null=True)
-    size_of_particle_um_field = models.FloatField(db_column='Size of Particle[um]', blank=True, null=True)  # Field name made lowercase. Field renamed to remove unsuitable characters. Field renamed because it ended with '_'.
+    size_of_particle_um_field = models.FloatField(db_column='Size of Particle', blank=True, null=True)  # Field name made lowercase. Field renamed to remove unsuitable characters. Field renamed because it ended with '_'.
     xe1_a_fluorescence_peak = models.FloatField(db_column='Xe1-A Fluorescence Peak', blank=True, null=True)  # Field name made lowercase. Field renamed to remove unsuitable characters.
     xe1_b_fluorescence_peak = models.FloatField(db_column='Xe1-B Fluorescence Peak', blank=True, null=True)  # Field name made lowercase. Field renamed to remove unsuitable characters.
     xe2_a_fluorescence_peak = models.FloatField(db_column='Xe2-A Fluorescence Peak', blank=True, null=True)  # Field name made lowercase. Field renamed to remove unsuitable characters.
