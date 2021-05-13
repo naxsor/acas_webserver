@@ -321,7 +321,7 @@ class Dma(models.Model):
     cond_temp = models.FloatField(db_column='Condenser Temperature', blank=True, null=True)
     sems_errors = models.FloatField(db_column='SEMS Errors', blank=True, null=True)  # Field name made lowercase. Field renamed to remove unsuitable characters.
     mcpc_errors = models.FloatField(db_column='MCPC Errors', blank=True, null=True)  # Field name made lowercase. Field renamed to remove unsuitable characters.
-    impactor_press = models.FloatField(db_column='Impactor Press', blank=True, null=True)  # Field name made lowercase. Field renamed to remove unsuitable characters.
+    impactor_press = models.FloatField(db_column='Impactor Differential Pressure', blank=True, null=True)  # Field name made lowercase. Field renamed to remove unsuitable characters.
     bin_diameter_1 = models.FloatField(db_column='Bin Diameter 1', blank=True, null=True)  # Field name made lowercase. Field renamed to remove unsuitable characters.
     bin_diameter_2 = models.FloatField(db_column='Bin Diameter 2', blank=True, null=True)  # Field name made lowercase. Field renamed to remove unsuitable characters.
     bin_diameter_3 = models.FloatField(db_column='Bin Diameter 3', blank=True, null=True)  # Field name made lowercase. Field renamed to remove unsuitable characters.
