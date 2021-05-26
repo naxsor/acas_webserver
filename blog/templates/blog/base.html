@@ -30,6 +30,16 @@
                     <div class="navbar-nav mr-auto">
                         <a class="nav-item nav-link" href="{% url 'blog-home' %}">Home</a>
                         <a class="nav-item nav-link" href="{% url 'blog-about' %}">About</a>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDarkDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            Form
+                            </a>
+                            <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="navbarDarkDropdownMenuLink">
+                                <li><a class="dropdown-item" href="#">Account Request</a></li>
+                                <li><a class="dropdown-item" href="#">Project Form</a></li>
+                                <li><a class="dropdown-item" href="#">Something else here</a></li>
+                             </ul>
+                        </li>
                     </div>
                     <!-- Navbar Right Side -->
                     <div class="navbar-nav">
@@ -39,7 +49,7 @@
                         <a class="nav-item nav-link" href="{% url 'logout' %}">Logout</a>
                         {% else %}
                         <a class="nav-item nav-link" href="{% url 'login' %}">Login</a>
-                        <a class="nav-item nav-link" href="{% url 'register' %}">Register</a>
+{#                        <a class="nav-item nav-link" href="{% url 'register' %}">Register</a>#}
                         {% endif %}
                     </div>
                 </div>
