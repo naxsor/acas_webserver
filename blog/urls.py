@@ -5,7 +5,12 @@ from .views import (
     PostCreateView,
     PostUpdateView,
     PostDeleteView,
-    UserPostListView
+    UserPostListView,
+)
+from project.views import (
+    ProjectDetailView,
+    ProjectListView,
+    ProjectRequestView,
 )
 from . import views
 
@@ -17,5 +22,9 @@ urlpatterns = [
     path('post/<int:pk>/update/', PostUpdateView.as_view(), name='post-update'),
     path('post/<int:pk>/delete/', PostDeleteView.as_view(), name='post-delete'),
     path('about/', views.about, name='blog-about'),
-    path('project-form/', views.project_form, name='blog-project-form'),
+    path('calendar/', views.calendar, name='blog-calendar'),
+    path('project/', ProjectListView.as_view(), name='project-list'),
+    path('project/<int:pk>/', ProjectDetailView.as_view(), name='project-detail'),
+    path('project/request/', ProjectRequestView.as_view(), name='project-request'),
+
 ]

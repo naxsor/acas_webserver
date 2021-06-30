@@ -25,6 +25,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/3.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
+
 SECRET_KEY = config['SECRET_KEY']
 
 # SECURITY WARNING: don't run with debug turned on in production!
@@ -34,19 +35,25 @@ ALLOWED_HOSTS = [
 #    'adapts.herokuapp.com'
     '192.168.0.5'
 ]
-
 # Application definition
 INSTALLED_APPS = [
     'blog.apps.BlogConfig',
     'users.apps.UsersConfig',
     'sensors.apps.SensorsConfig',
+    'project.apps.ProjectConfig',
     'crispy_forms',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
+    'django.contrib.staticfiles',
+    'storages',
+    'bootstrap4',
+    'bootstrap_datepicker_plus',
+
     'django.contrib.staticfiles'
+
 ]
 
 MIDDLEWARE = [
