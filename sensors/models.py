@@ -1,4 +1,3 @@
-from django.db import models
 
 # Create your models here.
 from django.db import models
@@ -19,6 +18,7 @@ class Sensor(models.Model):
         managed = True
         db_table = 'sensor'
 
+
 class File(models.Model):
     sensor = models.OneToOneField(Sensor, models.CASCADE, primary_key=True)
     file_name = models.CharField(max_length=200, blank=True, null=True)
@@ -26,6 +26,7 @@ class File(models.Model):
     class Meta:
         managed = True
         db_table = 'files'
+
 
 class Inlet_Switcher_State(models.Model):
     datetime = models.DateTimeField(db_column='Datetime', primary_key=True)  # Field name made lowercase.
@@ -37,6 +38,7 @@ class Inlet_Switcher_State(models.Model):
     class Meta:
         managed = True
         db_table = 'inlet_switcher_state'
+
 
 class Primary_Variables(models.Model):
     id = models.AutoField(primary_key=True)
@@ -55,6 +57,7 @@ class Primary_Variables(models.Model):
         verbose_name = 'Variable'
         ordering = [models.F('sensor').asc(nulls_last=True)]
 
+
 class Process(models.Model):
     id = models.AutoField(primary_key=True)
     sensor = models.ForeignKey(Sensor, on_delete=models.CASCADE, db_column='Sensor id', blank=True, null=True, related_name='+')  # Field name made lowercase. Field renamed to remove unsuitable characters.
@@ -64,6 +67,7 @@ class Process(models.Model):
     class Meta:
         managed = True
         db_table = 'process'
+
 
 class Log(models.Model):
     id = models.AutoField(primary_key=True)
@@ -78,6 +82,7 @@ class Log(models.Model):
     class Meta:
         managed = True
         db_table = 'sensor_log'
+
 
 # Create your models here.
 class Ccn(models.Model):
@@ -137,6 +142,108 @@ class Ccn(models.Model):
         managed = True
         db_table = 'sensor_ccn'
 
+class sp2_xr(models.Model):
+    datetime = models.DateTimeField(db_column='Datetime', primary_key=True)  # Field name made lowercase.
+    utc_offset = models.IntegerField(db_column='UTC Offset', blank=True, null=True)
+    incand_part_conc = models.FloatField(db_column='Incandescence Particle Concentration', blank=True, null=True)
+    scatt_part_conc = models.FloatField(db_column='Scattering Particle Concentration', blank=True, null=True)
+    incand_mass_conc = models.FloatField(db_column='Incandescence Mass Concentration', blank=True, null=True)
+    incand_mass_conc = models.FloatField(db_column='Total Mass per Second', blank=True, null=True)
+    scatt_bin_1 = models.FloatField(db_column='Scatter Bin 1', blank=True, null=True)
+    scatt_bin_2 = models.FloatField(db_column='Scatter Bin 2', blank=True, null=True)
+    scatt_bin_3 = models.FloatField(db_column='Scatter Bin 3', blank=True, null=True)
+    scatt_bin_4 = models.FloatField(db_column='Scatter Bin 4', blank=True, null=True)
+    scatt_bin_5 = models.FloatField(db_column='Scatter Bin 5', blank=True, null=True)
+    scatt_bin_6 = models.FloatField(db_column='Scatter Bin 6', blank=True, null=True)
+    scatt_bin_7 = models.FloatField(db_column='Scatter Bin 7', blank=True, null=True)
+    scatt_bin_8 = models.FloatField(db_column='Scatter Bin 8', blank=True, null=True)
+    scatt_bin_9 = models.FloatField(db_column='Scatter Bin 9', blank=True, null=True)
+    scatt_bin_10 = models.FloatField(db_column='Scatter Bin 10', blank=True, null=True)
+    scatt_bin_11 = models.FloatField(db_column='Scatter Bin 11', blank=True, null=True)
+    scatt_bin_12 = models.FloatField(db_column='Scatter Bin 12', blank=True, null=True)
+    scatt_bin_13 = models.FloatField(db_column='Scatter Bin 13', blank=True, null=True)
+    scatt_bin_14 = models.FloatField(db_column='Scatter Bin 14', blank=True, null=True)
+    scatt_bin_15 = models.FloatField(db_column='Scatter Bin 15', blank=True, null=True)
+    scatt_bin_16 = models.FloatField(db_column='Scatter Bin 16', blank=True, null=True)
+    scatt_bin_17 = models.FloatField(db_column='Scatter Bin 17', blank=True, null=True)
+    scatt_bin_18 = models.FloatField(db_column='Scatter Bin 18', blank=True, null=True)
+    scatt_bin_19 = models.FloatField(db_column='Scatter Bin 19', blank=True, null=True)
+    scatt_bin_20 = models.FloatField(db_column='Scatter Bin 20', blank=True, null=True)
+    incand_bin_1 = models.FloatField(db_column='Incandescence Bin 1', blank=True, null=True)
+    incand_bin_2 = models.FloatField(db_column='Incandescence Bin 2', blank=True, null=True)
+    incand_bin_3 = models.FloatField(db_column='Incandescence Bin 3', blank=True, null=True)
+    incand_bin_4 = models.FloatField(db_column='Incandescence Bin 4', blank=True, null=True)
+    incand_bin_5 = models.FloatField(db_column='Incandescence Bin 5', blank=True, null=True)
+    incand_bin_6 = models.FloatField(db_column='Incandescence Bin 6', blank=True, null=True)
+    incand_bin_7 = models.FloatField(db_column='Incandescence Bin 7', blank=True, null=True)
+    incand_bin_8 = models.FloatField(db_column='Incandescence Bin 8', blank=True, null=True)
+    incand_bin_9 = models.FloatField(db_column='Incandescence Bin 9', blank=True, null=True)
+    incand_bin_10 = models.FloatField(db_column='Incandescence Bin 10', blank=True, null=True)
+    incand_bin_11 = models.FloatField(db_column='Incandescence Bin 11', blank=True, null=True)
+    incand_bin_12 = models.FloatField(db_column='Incandescence Bin 12', blank=True, null=True)
+    incand_bin_13 = models.FloatField(db_column='Incandescence Bin 13', blank=True, null=True)
+    incand_bin_14 = models.FloatField(db_column='Incandescence Bin 14', blank=True, null=True)
+    incand_bin_15 = models.FloatField(db_column='Incandescence Bin 15', blank=True, null=True)
+    incand_bin_16 = models.FloatField(db_column='Incandescence Bin 16', blank=True, null=True)
+    incand_bin_17 = models.FloatField(db_column='Incandescence Bin 17', blank=True, null=True)
+    incand_bin_18 = models.FloatField(db_column='Incandescence Bin 18', blank=True, null=True)
+    incand_bin_19 = models.FloatField(db_column='Incandescence Bin 19', blank=True, null=True)
+    incand_bin_20 = models.FloatField(db_column='Incandescence Bin 20', blank=True, null=True)
+    qualified_part = models.FloatField(db_column='Qualified Particles', blank=True, null=True)
+    pbp_record = models.FloatField(db_column='PBP Record', blank=True, null=True)
+    dual_qual_scatt_incand_part = models.FloatField(db_column='Dual Qualified Scatter and Incandescence Particles', blank=True, null=True)
+    qualified_scatt_part = models.FloatField(db_column='Qualified Scatter Only Particles', blank=True, null=True)
+    qualifies_incand_part = models.FloatField(db_column='Qualified Incandescence OnlyParticles', blank=True, null=True)
+    sheath_flow_read_vccm = models.FloatField(db_column='Sheath Flow Controller Read (v)', blank=True, null=True)
+    sheath_flow_read_sccm = models.FloatField(db_column='Sheath Flow Controller Read (s)', blank=True, null=True)
+    sheath_flow_press = models.FloatField(db_column='Sheath Flow Controller Pressure', blank=True, null=True)
+    sheath_flow_temp = models.FloatField(db_column='Sheath Flow Controller Temperature', blank=True, null=True)
+    sample_flow_read_vccm = models.FloatField(db_column='Sample Flow Controller Read (v)', blank=True, null=True)
+    sample_flow_read_sccm = models.FloatField(db_column='Sample Flow Controller Read (s)', blank=True, null=True)
+    sample_flow_press = models.FloatField(db_column='Sample Flow Controller Pressure', blank=True, null=True)
+    sample_flow_temp = models.FloatField(db_column='Sample Flow Controller Temperature', blank=True, null=True)
+    laser_tec_temp = models.FloatField(db_column='Laser TEC Temperature', blank=True, null=True)
+    inlet_air_temp = models.FloatField(db_column='Inlet Air Temperature', blank=True, null=True)
+    heatsink_temp = models.FloatField(db_column='Computer Heatsink Temperature', blank=True, null=True)
+    laser_heatsink_temp = models.FloatField(db_column='Laser Heatsink Temperature', blank=True, null=True)
+    outlet_air_temp = models.FloatField(db_column='Outlet Air Temperature', blank=True, null=True)
+    yag_output_monitor = models.FloatField(db_column='YAG Output Monitor', blank=True, null=True)
+    cavity_pressure = models.FloatField(db_column='Cavity Pressure', blank=True, null=True)
+    current_monitor_pump_laser = models.FloatField(db_column='Current Monitor Pump Laser', blank=True, null=True)
+    pump_laser_power_monitor = models.FloatField(db_column='Pump Laser Power Monitor', blank=True, null=True)
+    laser_voltage_monitor = models.FloatField(db_column='Laser Voltage Monitor', blank=True, null=True)
+    high_voltage_monitor = models.FloatField(db_column='High Voltage Monitor', blank=True, null=True)
+    purge_monitor_flow = models.FloatField(db_column='Purge Flow Monitor', blank=True, null=True)
+    board_temperature = models.FloatField(db_column='Board Temperature', blank=True, null=True)
+    baseline_sizer_low = models.FloatField(db_column='Baseline Sizer Low', blank=True, null=True)
+    baseline_sizer_high = models.FloatField(db_column='Baseline Sizer High', blank=True, null=True)
+    baseline_incand_low = models.FloatField(db_column='Baseline Incandescence Low', blank=True, null=True)
+    baseline_incand_high = models.FloatField(db_column='Baseline Incandescence High', blank=True, null=True)
+    bandwidth_sizer_low = models.FloatField(db_column='Bandwidth Sizer Low', blank=True, null=True)
+    bandwidth_sizer_high = models.FloatField(db_column='Bandwidth Sizer High', blank=True, null=True)
+    bandwidth_incand_low = models.FloatField(db_column='Bandwidth Incandescence Low', blank=True, null=True)
+    bandwidth_incand_high = models.FloatField(db_column='Bandwidth Incandescence High', blank=True, null=True)
+    scatt_rel_peak = models.FloatField(db_column='Scattering Relative Peak', blank=True, null=True)
+    scatt_transit_time = models.FloatField(db_column='Scatter Transit Time', blank=True, null=True)
+    scatt_peak_time = models.FloatField(db_column='Scatter Peak Time', blank=True, null=True)
+    scatt_hwhm = models.FloatField(db_column='Scatter HWHM', blank=True, null=True)
+    scatt_size = models.FloatField(db_column='Scatter Size', blank=True, null=True)
+    incand_rel_peal = models.FloatField(db_column='Incandescence Relative Peak', blank=True, null=True)
+    incand_transit_time = models.FloatField(db_column='Incandescence Transit Time', blank=True, null=True)
+    incand_peak_time = models.FloatField(db_column='Incandescence Peak Time', blank=True, null=True)
+    incand_hwhm = models.FloatField(db_column='Incandescence HWHM', blank=True, null=True)
+    incand_delay = models.FloatField(db_column='Incandescence Delay', blank=True, null=True)
+    incand_mass = models.FloatField(db_column='Incandescence Mass', blank=True, null=True)
+    flag_dual_qualified = models.FloatField(db_column='Flag - Dual Qualified', blank=True, null=True)
+    flag_scatt_detected = models.FloatField(db_column='Flag - Scatter Detected', blank=True, null=True)
+    flag_incand_detected = models.FloatField(db_column='Flag - Incandescence Detected', blank=True, null=True)
+    flag_scatt_rejected = models.FloatField(db_column='Flag - Scatter Rejected', blank=True, null=True)
+    flag_incand_rejected = models.FloatField(db_column='Flag - Incandescence Rejected', blank=True, null=True)
+
+    class Meta:
+        managed = True
+        db_table = 'sensor_sp2'
+
 class Clap(models.Model):
     datetime = models.DateTimeField(db_column='Datetime', primary_key=True)  # Field name made lowercase.
     record_type = models.IntegerField(db_column='Record Type', blank=True, null=True)  # Field name made lowercase. Field renamed to remove unsuitable characters.
@@ -193,27 +300,28 @@ class Clap(models.Model):
         managed = True
         db_table = 'sensor_clap'
 
+
 class Dma(models.Model):
     datetime = models.DateTimeField(db_column='Datetime', primary_key=True)  # Field name made lowercase.
     start_datetime = models.DateTimeField(db_column='Start Datetime')  # Field name made lowercase. Field renamed to remove unsuitable characters.
     end_datetime = models.DateTimeField(db_column='End Datetime')  # Field name made lowercase. Field renamed to remove unsuitable characters.
     scan_direction = models.IntegerField(db_column='Scan Direction', blank=True, null=True)  # Field name made lowercase. Field renamed to remove unsuitable characters.
     sheath_sample_pressure = models.IntegerField(db_column='Sheath Sample Pressure', blank=True, null=True)  # Field name made lowercase. Field renamed to remove unsuitable characters.
-    sheath_temp = models.FloatField(db_column='Sheath Temp', blank=True, null=True)  # Field name made lowercase. Field renamed to remove unsuitable characters.
+    sheath_temp = models.FloatField(db_column='Sheath Temperature', blank=True, null=True)  # Field name made lowercase. Field renamed to remove unsuitable characters.
     sheath_average = models.FloatField(db_column='Sheath Average', blank=True, null=True)  # Field name made lowercase. Field renamed to remove unsuitable characters.
     sheath_standard_deviation = models.FloatField(db_column='Sheath Standard Deviation', blank=True, null=True)  # Field name made lowercase. Field renamed to remove unsuitable characters.
     sheath_rh = models.IntegerField(db_column='Sheath RH', blank=True, null=True)  # Field name made lowercase. Field renamed to remove unsuitable characters.
-    colsamp_avg = models.FloatField(blank=True, null=True)
-    colsamp_sdec = models.FloatField(blank=True, null=True)
-    colsame_rh = models.IntegerField(blank=True, null=True)
-    colsamp_temp = models.FloatField(blank=True, null=True)
+    colsamp_avg = models.FloatField(db_column='Average Column Flow', blank=True, null=True)
+    colsamp_sdec = models.FloatField(db_column='Standard Deviation of Column Flow', blank=True, null=True)
+    colsame_rh = models.IntegerField(db_column='Relative Humidity', blank=True, null=True)
+    colsamp_temp = models.FloatField(db_column='Temperature', blank=True, null=True)
     cpc_a_flow_average = models.FloatField(db_column='CPC A Flow Average', blank=True, null=True)  # Field name made lowercase. Field renamed to remove unsuitable characters.
     cpc_a_standard_deviation = models.FloatField(db_column='CPC A Standard Deviation', blank=True, null=True)  # Field name made lowercase. Field renamed to remove unsuitable characters.
-    sat_temp = models.FloatField(blank=True, null=True)
-    cond_temp = models.FloatField(blank=True, null=True)
+    sat_temp = models.FloatField(db_column='Saturator Temperature', blank=True, null=True)
+    cond_temp = models.FloatField(db_column='Condenser Temperature', blank=True, null=True)
     sems_errors = models.FloatField(db_column='SEMS Errors', blank=True, null=True)  # Field name made lowercase. Field renamed to remove unsuitable characters.
     mcpc_errors = models.FloatField(db_column='MCPC Errors', blank=True, null=True)  # Field name made lowercase. Field renamed to remove unsuitable characters.
-    impactor_press = models.FloatField(db_column='Impactor Press', blank=True, null=True)  # Field name made lowercase. Field renamed to remove unsuitable characters.
+    impactor_press = models.FloatField(db_column='Impactor Differential Pressure', blank=True, null=True)  # Field name made lowercase. Field renamed to remove unsuitable characters.
     bin_diameter_1 = models.FloatField(db_column='Bin Diameter 1', blank=True, null=True)  # Field name made lowercase. Field renamed to remove unsuitable characters.
     bin_diameter_2 = models.FloatField(db_column='Bin Diameter 2', blank=True, null=True)  # Field name made lowercase. Field renamed to remove unsuitable characters.
     bin_diameter_3 = models.FloatField(db_column='Bin Diameter 3', blank=True, null=True)  # Field name made lowercase. Field renamed to remove unsuitable characters.
@@ -274,71 +382,72 @@ class Dma(models.Model):
     bin_diameter_58 = models.FloatField(db_column='Bin Diameter 58', blank=True, null=True)  # Field name made lowercase. Field renamed to remove unsuitable characters.
     bin_diameter_59 = models.FloatField(db_column='Bin Diameter 59', blank=True, null=True)  # Field name made lowercase. Field renamed to remove unsuitable characters.
     bin_diameter_60 = models.FloatField(db_column='Bin Diameter 60', blank=True, null=True)  # Field name made lowercase. Field renamed to remove unsuitable characters.
-    bin_constant_1 = models.FloatField(db_column='Bin Constant 1', blank=True, null=True)  # Field name made lowercase. Field renamed to remove unsuitable characters.
-    bin_constant_2 = models.FloatField(db_column='Bin Constant 2', blank=True, null=True)  # Field name made lowercase. Field renamed to remove unsuitable characters.
-    bin_constant_3 = models.FloatField(db_column='Bin Constant 3', blank=True, null=True)  # Field name made lowercase. Field renamed to remove unsuitable characters.
-    bin_constant_4 = models.FloatField(db_column='Bin Constant 4', blank=True, null=True)  # Field name made lowercase. Field renamed to remove unsuitable characters.
-    bin_constant_5 = models.FloatField(db_column='Bin Constant 5', blank=True, null=True)  # Field name made lowercase. Field renamed to remove unsuitable characters.
-    bin_constant_6 = models.FloatField(db_column='Bin Constant 6', blank=True, null=True)  # Field name made lowercase. Field renamed to remove unsuitable characters.
-    bin_constant_7 = models.FloatField(db_column='Bin Constant 7', blank=True, null=True)  # Field name made lowercase. Field renamed to remove unsuitable characters.
-    bin_constant_8 = models.FloatField(db_column='Bin Constant 8', blank=True, null=True)  # Field name made lowercase. Field renamed to remove unsuitable characters.
-    bin_constant_9 = models.FloatField(db_column='Bin Constant 9', blank=True, null=True)  # Field name made lowercase. Field renamed to remove unsuitable characters.
-    bin_constant_10 = models.FloatField(db_column='Bin Constant 10', blank=True, null=True)  # Field name made lowercase. Field renamed to remove unsuitable characters.
-    bin_constant_11 = models.FloatField(db_column='Bin Constant 11', blank=True, null=True)  # Field name made lowercase. Field renamed to remove unsuitable characters.
-    bin_constant_12 = models.FloatField(db_column='Bin Constant 12', blank=True, null=True)  # Field name made lowercase. Field renamed to remove unsuitable characters.
-    bin_constant_13 = models.FloatField(db_column='Bin Constant 13', blank=True, null=True)  # Field name made lowercase. Field renamed to remove unsuitable characters.
-    bin_constant_14 = models.FloatField(db_column='Bin Constant 14', blank=True, null=True)  # Field name made lowercase. Field renamed to remove unsuitable characters.
-    bin_constant_15 = models.FloatField(db_column='Bin Constant 15', blank=True, null=True)  # Field name made lowercase. Field renamed to remove unsuitable characters.
-    bin_constant_16 = models.FloatField(db_column='Bin Constant 16', blank=True, null=True)  # Field name made lowercase. Field renamed to remove unsuitable characters.
-    bin_constant_17 = models.FloatField(db_column='Bin Constant 17', blank=True, null=True)  # Field name made lowercase. Field renamed to remove unsuitable characters.
-    bin_constant_18 = models.FloatField(db_column='Bin Constant 18', blank=True, null=True)  # Field name made lowercase. Field renamed to remove unsuitable characters.
-    bin_constant_19 = models.FloatField(db_column='Bin Constant 19', blank=True, null=True)  # Field name made lowercase. Field renamed to remove unsuitable characters.
-    bin_constant_20 = models.FloatField(db_column='Bin Constant 20', blank=True, null=True)  # Field name made lowercase. Field renamed to remove unsuitable characters.
-    bin_constant_21 = models.FloatField(db_column='Bin Constant 21', blank=True, null=True)  # Field name made lowercase. Field renamed to remove unsuitable characters.
-    bin_constant_22 = models.FloatField(db_column='Bin Constant 22', blank=True, null=True)  # Field name made lowercase. Field renamed to remove unsuitable characters.
-    bin_constant_23 = models.FloatField(db_column='Bin Constant 23', blank=True, null=True)  # Field name made lowercase. Field renamed to remove unsuitable characters.
-    bin_constant_24 = models.FloatField(db_column='Bin Constant 24', blank=True, null=True)  # Field name made lowercase. Field renamed to remove unsuitable characters.
-    bin_constant_25 = models.FloatField(db_column='Bin Constant 25', blank=True, null=True)  # Field name made lowercase. Field renamed to remove unsuitable characters.
-    bin_constant_26 = models.FloatField(db_column='Bin Constant 26', blank=True, null=True)  # Field name made lowercase. Field renamed to remove unsuitable characters.
-    bin_constant_27 = models.FloatField(db_column='Bin Constant 27', blank=True, null=True)  # Field name made lowercase. Field renamed to remove unsuitable characters.
-    bin_constant_28 = models.FloatField(db_column='Bin Constant 28', blank=True, null=True)  # Field name made lowercase. Field renamed to remove unsuitable characters.
-    bin_constant_29 = models.FloatField(db_column='Bin Constant 29', blank=True, null=True)  # Field name made lowercase. Field renamed to remove unsuitable characters.
-    bin_constant_30 = models.FloatField(db_column='Bin Constant 30', blank=True, null=True)  # Field name made lowercase. Field renamed to remove unsuitable characters.
-    bin_constant_31 = models.FloatField(db_column='Bin Constant 31', blank=True, null=True)  # Field name made lowercase. Field renamed to remove unsuitable characters.
-    bin_constant_32 = models.FloatField(db_column='Bin Constant 32', blank=True, null=True)  # Field name made lowercase. Field renamed to remove unsuitable characters.
-    bin_constant_33 = models.FloatField(db_column='Bin Constant 33', blank=True, null=True)  # Field name made lowercase. Field renamed to remove unsuitable characters.
-    bin_constant_34 = models.FloatField(db_column='Bin Constant 34', blank=True, null=True)  # Field name made lowercase. Field renamed to remove unsuitable characters.
-    bin_constant_35 = models.FloatField(db_column='Bin Constant 35', blank=True, null=True)  # Field name made lowercase. Field renamed to remove unsuitable characters.
-    bin_constant_36 = models.FloatField(db_column='Bin Constant 36', blank=True, null=True)  # Field name made lowercase. Field renamed to remove unsuitable characters.
-    bin_constant_37 = models.FloatField(db_column='Bin Constant 37', blank=True, null=True)  # Field name made lowercase. Field renamed to remove unsuitable characters.
-    bin_constant_38 = models.FloatField(db_column='Bin Constant 38', blank=True, null=True)  # Field name made lowercase. Field renamed to remove unsuitable characters.
-    bin_constant_39 = models.FloatField(db_column='Bin Constant 39', blank=True, null=True)  # Field name made lowercase. Field renamed to remove unsuitable characters.
-    bin_constant_40 = models.FloatField(db_column='Bin Constant 40', blank=True, null=True)  # Field name made lowercase. Field renamed to remove unsuitable characters.
-    bin_constant_41 = models.FloatField(db_column='Bin Constant 41', blank=True, null=True)  # Field name made lowercase. Field renamed to remove unsuitable characters.
-    bin_constant_42 = models.FloatField(db_column='Bin Constant 42', blank=True, null=True)  # Field name made lowercase. Field renamed to remove unsuitable characters.
-    bin_constant_43 = models.FloatField(db_column='Bin Constant 43', blank=True, null=True)  # Field name made lowercase. Field renamed to remove unsuitable characters.
-    bin_constant_44 = models.FloatField(db_column='Bin Constant 44', blank=True, null=True)  # Field name made lowercase. Field renamed to remove unsuitable characters.
-    bin_constant_45 = models.FloatField(db_column='Bin Constant 45', blank=True, null=True)  # Field name made lowercase. Field renamed to remove unsuitable characters.
-    bin_constant_46 = models.FloatField(db_column='Bin Constant 46', blank=True, null=True)  # Field name made lowercase. Field renamed to remove unsuitable characters.
-    bin_constant_47 = models.FloatField(db_column='Bin Constant 47', blank=True, null=True)  # Field name made lowercase. Field renamed to remove unsuitable characters.
-    bin_constant_48 = models.FloatField(db_column='Bin Constant 48', blank=True, null=True)  # Field name made lowercase. Field renamed to remove unsuitable characters.
-    bin_constant_49 = models.FloatField(db_column='Bin Constant 49', blank=True, null=True)  # Field name made lowercase. Field renamed to remove unsuitable characters.
-    bin_constant_50 = models.FloatField(db_column='Bin Constant 50', blank=True, null=True)  # Field name made lowercase. Field renamed to remove unsuitable characters.
-    bin_constant_51 = models.FloatField(db_column='Bin Constant 51', blank=True, null=True)  # Field name made lowercase. Field renamed to remove unsuitable characters.
-    bin_constant_52 = models.FloatField(db_column='Bin Constant 52', blank=True, null=True)  # Field name made lowercase. Field renamed to remove unsuitable characters.
-    bin_constant_53 = models.FloatField(db_column='Bin Constant 53', blank=True, null=True)  # Field name made lowercase. Field renamed to remove unsuitable characters.
-    bin_constant_54 = models.FloatField(db_column='Bin Constant 54', blank=True, null=True)  # Field name made lowercase. Field renamed to remove unsuitable characters.
-    bin_constant_55 = models.FloatField(db_column='Bin Constant 55', blank=True, null=True)  # Field name made lowercase. Field renamed to remove unsuitable characters.
-    bin_constant_56 = models.FloatField(db_column='Bin Constant 56', blank=True, null=True)  # Field name made lowercase. Field renamed to remove unsuitable characters.
-    bin_constant_57 = models.FloatField(db_column='Bin Constant 57', blank=True, null=True)  # Field name made lowercase. Field renamed to remove unsuitable characters.
-    bin_constant_58 = models.FloatField(db_column='Bin Constant 58', blank=True, null=True)  # Field name made lowercase. Field renamed to remove unsuitable characters.
-    bin_constant_59 = models.FloatField(db_column='Bin Constant 59', blank=True, null=True)  # Field name made lowercase. Field renamed to remove unsuitable characters.
-    bin_constant_60 = models.FloatField(db_column='Bin Constant 60', blank=True, null=True)  # Field name made lowercase. Field renamed to remove unsuitable characters.
+    bin_conc_1 = models.FloatField(db_column='Bin Concentration 1', blank=True, null=True)  # Field name made lowercase. Field renamed to remove unsuitable characters.
+    bin_conc_2 = models.FloatField(db_column='Bin Concentration 2', blank=True, null=True)  # Field name made lowercase. Field renamed to remove unsuitable characters.
+    bin_conc_3 = models.FloatField(db_column='Bin Concentration 3', blank=True, null=True)  # Field name made lowercase. Field renamed to remove unsuitable characters.
+    bin_conc_4 = models.FloatField(db_column='Bin Concentration 4', blank=True, null=True)  # Field name made lowercase. Field renamed to remove unsuitable characters.
+    bin_conc_5 = models.FloatField(db_column='Bin Concentration 5', blank=True, null=True)  # Field name made lowercase. Field renamed to remove unsuitable characters.
+    bin_conc_6 = models.FloatField(db_column='Bin Concentration 6', blank=True, null=True)  # Field name made lowercase. Field renamed to remove unsuitable characters.
+    bin_conc_7 = models.FloatField(db_column='Bin Concentration 7', blank=True, null=True)  # Field name made lowercase. Field renamed to remove unsuitable characters.
+    bin_conc_8 = models.FloatField(db_column='Bin Concentration 8', blank=True, null=True)  # Field name made lowercase. Field renamed to remove unsuitable characters.
+    bin_conc_9 = models.FloatField(db_column='Bin Concentration 9', blank=True, null=True)  # Field name made lowercase. Field renamed to remove unsuitable characters.
+    bin_conc_10 = models.FloatField(db_column='Bin Concentration 10', blank=True, null=True)  # Field name made lowercase. Field renamed to remove unsuitable characters.
+    bin_conc_11 = models.FloatField(db_column='Bin Concentration 11', blank=True, null=True)  # Field name made lowercase. Field renamed to remove unsuitable characters.
+    bin_conc_12 = models.FloatField(db_column='Bin Concentration 12', blank=True, null=True)  # Field name made lowercase. Field renamed to remove unsuitable characters.
+    bin_conc_13 = models.FloatField(db_column='Bin Concentration 13', blank=True, null=True)  # Field name made lowercase. Field renamed to remove unsuitable characters.
+    bin_conc_14 = models.FloatField(db_column='Bin Concentration 14', blank=True, null=True)  # Field name made lowercase. Field renamed to remove unsuitable characters.
+    bin_conc_15 = models.FloatField(db_column='Bin Concentration 15', blank=True, null=True)  # Field name made lowercase. Field renamed to remove unsuitable characters.
+    bin_conc_16 = models.FloatField(db_column='Bin Concentration 16', blank=True, null=True)  # Field name made lowercase. Field renamed to remove unsuitable characters.
+    bin_conc_17 = models.FloatField(db_column='Bin Concentration 17', blank=True, null=True)  # Field name made lowercase. Field renamed to remove unsuitable characters.
+    bin_conc_18 = models.FloatField(db_column='Bin Concentration 18', blank=True, null=True)  # Field name made lowercase. Field renamed to remove unsuitable characters.
+    bin_conc_19 = models.FloatField(db_column='Bin Concentration 19', blank=True, null=True)  # Field name made lowercase. Field renamed to remove unsuitable characters.
+    bin_conc_20 = models.FloatField(db_column='Bin Concentration 20', blank=True, null=True)  # Field name made lowercase. Field renamed to remove unsuitable characters.
+    bin_conc_21 = models.FloatField(db_column='Bin Concentration 21', blank=True, null=True)  # Field name made lowercase. Field renamed to remove unsuitable characters.
+    bin_conc_22 = models.FloatField(db_column='Bin Concentration 22', blank=True, null=True)  # Field name made lowercase. Field renamed to remove unsuitable characters.
+    bin_conc_23 = models.FloatField(db_column='Bin Concentration 23', blank=True, null=True)  # Field name made lowercase. Field renamed to remove unsuitable characters.
+    bin_conc_24 = models.FloatField(db_column='Bin Concentration 24', blank=True, null=True)  # Field name made lowercase. Field renamed to remove unsuitable characters.
+    bin_conc_25 = models.FloatField(db_column='Bin Concentration 25', blank=True, null=True)  # Field name made lowercase. Field renamed to remove unsuitable characters.
+    bin_conc_26 = models.FloatField(db_column='Bin Concentration 26', blank=True, null=True)  # Field name made lowercase. Field renamed to remove unsuitable characters.
+    bin_conc_27 = models.FloatField(db_column='Bin Concentration 27', blank=True, null=True)  # Field name made lowercase. Field renamed to remove unsuitable characters.
+    bin_conc_28 = models.FloatField(db_column='Bin Concentration 28', blank=True, null=True)  # Field name made lowercase. Field renamed to remove unsuitable characters.
+    bin_conc_29 = models.FloatField(db_column='Bin Concentration 29', blank=True, null=True)  # Field name made lowercase. Field renamed to remove unsuitable characters.
+    bin_conc_30 = models.FloatField(db_column='Bin Concentration 30', blank=True, null=True)  # Field name made lowercase. Field renamed to remove unsuitable characters.
+    bin_conc_31 = models.FloatField(db_column='Bin Concentration 31', blank=True, null=True)  # Field name made lowercase. Field renamed to remove unsuitable characters.
+    bin_conc_32 = models.FloatField(db_column='Bin Concentration 32', blank=True, null=True)  # Field name made lowercase. Field renamed to remove unsuitable characters.
+    bin_conc_33 = models.FloatField(db_column='Bin Concentration 33', blank=True, null=True)  # Field name made lowercase. Field renamed to remove unsuitable characters.
+    bin_conc_34 = models.FloatField(db_column='Bin Concentration 34', blank=True, null=True)  # Field name made lowercase. Field renamed to remove unsuitable characters.
+    bin_conc_35 = models.FloatField(db_column='Bin Concentration 35', blank=True, null=True)  # Field name made lowercase. Field renamed to remove unsuitable characters.
+    bin_conc_36 = models.FloatField(db_column='Bin Concentration 36', blank=True, null=True)  # Field name made lowercase. Field renamed to remove unsuitable characters.
+    bin_conc_37 = models.FloatField(db_column='Bin Concentration 37', blank=True, null=True)  # Field name made lowercase. Field renamed to remove unsuitable characters.
+    bin_conc_38 = models.FloatField(db_column='Bin Concentration 38', blank=True, null=True)  # Field name made lowercase. Field renamed to remove unsuitable characters.
+    bin_conc_39 = models.FloatField(db_column='Bin Concentration 39', blank=True, null=True)  # Field name made lowercase. Field renamed to remove unsuitable characters.
+    bin_conc_40 = models.FloatField(db_column='Bin Concentration 40', blank=True, null=True)  # Field name made lowercase. Field renamed to remove unsuitable characters.
+    bin_conc_41 = models.FloatField(db_column='Bin Concentration 41', blank=True, null=True)  # Field name made lowercase. Field renamed to remove unsuitable characters.
+    bin_conc_42 = models.FloatField(db_column='Bin Concentration 42', blank=True, null=True)  # Field name made lowercase. Field renamed to remove unsuitable characters.
+    bin_conc_43 = models.FloatField(db_column='Bin Concentration 43', blank=True, null=True)  # Field name made lowercase. Field renamed to remove unsuitable characters.
+    bin_conc_44 = models.FloatField(db_column='Bin Concentration 44', blank=True, null=True)  # Field name made lowercase. Field renamed to remove unsuitable characters.
+    bin_conc_45 = models.FloatField(db_column='Bin Concentration 45', blank=True, null=True)  # Field name made lowercase. Field renamed to remove unsuitable characters.
+    bin_conc_46 = models.FloatField(db_column='Bin Concentration 46', blank=True, null=True)  # Field name made lowercase. Field renamed to remove unsuitable characters.
+    bin_conc_47 = models.FloatField(db_column='Bin Concentration 47', blank=True, null=True)  # Field name made lowercase. Field renamed to remove unsuitable characters.
+    bin_conc_48 = models.FloatField(db_column='Bin Concentration 48', blank=True, null=True)  # Field name made lowercase. Field renamed to remove unsuitable characters.
+    bin_conc_49 = models.FloatField(db_column='Bin Concentration 49', blank=True, null=True)  # Field name made lowercase. Field renamed to remove unsuitable characters.
+    bin_conc_50 = models.FloatField(db_column='Bin Concentration 50', blank=True, null=True)  # Field name made lowercase. Field renamed to remove unsuitable characters.
+    bin_conc_51 = models.FloatField(db_column='Bin Concentration 51', blank=True, null=True)  # Field name made lowercase. Field renamed to remove unsuitable characters.
+    bin_conc_52 = models.FloatField(db_column='Bin Concentration 52', blank=True, null=True)  # Field name made lowercase. Field renamed to remove unsuitable characters.
+    bin_conc_53 = models.FloatField(db_column='Bin Concentration 53', blank=True, null=True)  # Field name made lowercase. Field renamed to remove unsuitable characters.
+    bin_conc_54 = models.FloatField(db_column='Bin Concentration 54', blank=True, null=True)  # Field name made lowercase. Field renamed to remove unsuitable characters.
+    bin_conc_55 = models.FloatField(db_column='Bin Concentration 55', blank=True, null=True)  # Field name made lowercase. Field renamed to remove unsuitable characters.
+    bin_conc_56 = models.FloatField(db_column='Bin Concentration 56', blank=True, null=True)  # Field name made lowercase. Field renamed to remove unsuitable characters.
+    bin_conc_57 = models.FloatField(db_column='Bin Concentration 57', blank=True, null=True)  # Field name made lowercase. Field renamed to remove unsuitable characters.
+    bin_conc_58 = models.FloatField(db_column='Bin Concentration 58', blank=True, null=True)  # Field name made lowercase. Field renamed to remove unsuitable characters.
+    bin_conc_59 = models.FloatField(db_column='Bin Concentration 59', blank=True, null=True)  # Field name made lowercase. Field renamed to remove unsuitable characters.
+    bin_conc_60 = models.FloatField(db_column='Bin Concentration 60', blank=True, null=True)  # Field name made lowercase. Field renamed to remove unsuitable characters.
 
     class Meta:
         managed = True
         db_table = 'sensor_dma'
         unique_together = (('datetime', 'start_datetime', 'end_datetime'),)
+
 
 class Hygrometer(models.Model):
     datetime = models.DateTimeField(db_column='Datetime', primary_key=True)  # Field name made lowercase.
@@ -350,20 +459,21 @@ class Hygrometer(models.Model):
         managed = True
         db_table = 'sensor_hygrometer'
 
+
 class Uv_Lif(models.Model):
     datetime = models.DateTimeField(db_column='Datetime', primary_key=True)  # Field name made lowercase.
     number_408_board_temperature = models.FloatField(db_column='408 Board Temperature', blank=True, null=True)  # Field name made lowercase. Field renamed to remove unsuitable characters. Field renamed because it wasn't a valid Python identifier.
-    bandwidths_0 = models.FloatField(blank=True, null=True)
-    bandwidths_1 = models.FloatField(blank=True, null=True)
-    bandwidths_2 = models.FloatField(blank=True, null=True)
-    bandwidths_3 = models.FloatField(blank=True, null=True)
-    baseline_0 = models.FloatField(blank=True, null=True)
-    baseline_1 = models.FloatField(blank=True, null=True)
-    baseline_2 = models.FloatField(blank=True, null=True)
-    baseline_3 = models.FloatField(blank=True, null=True)
+    bandwidths_0 = models.FloatField(db_column='Bandwidths 0', blank=True, null=True)
+    bandwidths_1 = models.FloatField(db_column='Bandwidths 1', blank=True, null=True)
+    bandwidths_2 = models.FloatField(db_column='Bandwidths 2', blank=True, null=True)
+    bandwidths_3 = models.FloatField(db_column='Bandwidths 3', blank=True, null=True)
+    baseline_0 = models.FloatField(db_column='Baseline 0', blank=True, null=True)
+    baseline_1 = models.FloatField(db_column='Baseline 1', blank=True, null=True)
+    baseline_2 = models.FloatField(db_column='Baseline 2', blank=True, null=True)
+    baseline_3 = models.FloatField(db_column='Baseline 3', blank=True, null=True)
     clump_count = models.FloatField(blank=True, null=True)
-    exited_particles_count_cm3_field = models.FloatField(db_column='Exited Particles Count[#/cm3]', blank=True, null=True)  # Field name made lowercase. Field renamed to remove unsuitable characters. Field renamed because it ended with '_'.
-    total_particle_count_all_cm3_field = models.FloatField(db_column='Total Particle Count [all][#/cm3]', blank=True, null=True)  # Field name made lowercase. Field renamed to remove unsuitable characters. Field renamed because it ended with '_'.
+    exited_particles_count_cm3_field = models.FloatField(db_column='Exited Particles Count', blank=True, null=True)  # Field name made lowercase. Field renamed to remove unsuitable characters. Field renamed because it ended with '_'.
+    total_particle_count_all_cm3_field = models.FloatField(db_column='Total Particle Count', blank=True, null=True)  # Field name made lowercase. Field renamed to remove unsuitable characters. Field renamed because it ended with '_'.
     h12310_temperature = models.FloatField(blank=True, null=True)
     max_transit_time_counts = models.FloatField(blank=True, null=True)
     min_transit_time_counts = models.FloatField(blank=True, null=True)
@@ -372,12 +482,12 @@ class Uv_Lif(models.Model):
     num_oversize_rejects = models.FloatField(blank=True, null=True)
     relative_humidity = models.FloatField(db_column='Relative Humidity', blank=True, null=True)  # Field name made lowercase. Field renamed to remove unsuitable characters.
     system_power = models.FloatField(db_column='System Power', blank=True, null=True)  # Field name made lowercase. Field renamed to remove unsuitable characters.
-    sample_mass_flow_rate_l_min_field = models.FloatField(db_column='Sample Mass Flow Rate [L/min]', blank=True, null=True)  # Field name made lowercase. Field renamed to remove unsuitable characters. Field renamed because it endedwith '_'.
+    sample_mass_flow_rate_l_min_field = models.FloatField(db_column='Sample Mass Flow Rate', blank=True, null=True)  # Field name made lowercase. Field renamed to remove unsuitable characters. Field renamed because it endedwith '_'.
     sample_pressure = models.FloatField(db_column='Sample Pressure', blank=True, null=True)  # Field name made lowercase. Field renamed to remove unsuitable characters.
     sample_flow_rate_set_point = models.FloatField(db_column='Sample Flow Rate Set Point', blank=True, null=True)  # Field name made lowercase. Field renamed to remove unsuitable characters.
     sample_temperature = models.FloatField(db_column='Sample Temperature', blank=True, null=True)  # Field name made lowercase. Field renamed to remove unsuitable characters.
     sample_flow_rate = models.FloatField(db_column='Sample Flow Rate', blank=True, null=True)  # Field name made lowercase. Field renamed to remove unsuitable characters.
-    sheath_sample_mass_flow_l_min_field = models.FloatField(db_column='Sheath Sample Mass Flow[L/min]', blank=True, null=True)  # Field name made lowercase. Field renamed to remove unsuitable characters. Field renamed because it ended with '_'.
+    sheath_sample_mass_flow_l_min_field = models.FloatField(db_column='Sheath Sample Mass Flow', blank=True, null=True)  # Field name made lowercase. Field renamed to remove unsuitable characters. Field renamed because it ended with '_'.
     sheath_sample_pressure = models.FloatField(db_column='Sheath Sample Pressure', blank=True, null=True)  # Field name made lowercase. Field renamed to remove unsuitable characters.
     sheath_sample_flow_rate_set_point = models.FloatField(db_column='Sheath Sample Flow Rate Set Point', blank=True, null=True)  # Field name made lowercase. Field renamed to remove unsuitable characters.
     sheath_sample_temperature = models.FloatField(db_column='Sheath Sample Temperature', blank=True, null=True)  # Field name made lowercase. Field renamed to remove unsuitable characters.
@@ -400,7 +510,7 @@ class Uv_Lif(models.Model):
     nf_shape_3 = models.FloatField(blank=True, null=True)
     nf_sizer_relative_peak = models.FloatField(blank=True, null=True)
     nf_sizer_transit_time_nsec = models.FloatField(blank=True, null=True)
-    size_of_particle_um_field = models.FloatField(db_column='Size of Particle[um]', blank=True, null=True)  # Field name made lowercase. Field renamed to remove unsuitable characters. Field renamed because it ended with '_'.
+    size_of_particle_um_field = models.FloatField(db_column='Size of Particle', blank=True, null=True)  # Field name made lowercase. Field renamed to remove unsuitable characters. Field renamed because it ended with '_'.
     xe1_a_fluorescence_peak = models.FloatField(db_column='Xe1-A Fluorescence Peak', blank=True, null=True)  # Field name made lowercase. Field renamed to remove unsuitable characters.
     xe1_b_fluorescence_peak = models.FloatField(db_column='Xe1-B Fluorescence Peak', blank=True, null=True)  # Field name made lowercase. Field renamed to remove unsuitable characters.
     xe2_a_fluorescence_peak = models.FloatField(db_column='Xe2-A Fluorescence Peak', blank=True, null=True)  # Field name made lowercase. Field renamed to remove unsuitable characters.
@@ -409,6 +519,7 @@ class Uv_Lif(models.Model):
     class Meta:
         managed = True
         db_table = 'sensor_uv_lif'
+
 
 class SensorCpd3Clap(models.Model):
     datetime = models.DateTimeField(db_column='Datetime', primary_key=True)  # Field name made lowercase.
@@ -420,6 +531,7 @@ class SensorCpd3Clap(models.Model):
         managed = True
         db_table = 'sensor_cpd3_clap'
 
+
 class SensorCpd3Cpc(models.Model):
     datetime = models.DateTimeField(db_column='Datetime', primary_key=True)  # Field name made lowercase.
     condensation_nuclei_concentration = models.FloatField(db_column='Condensation nuclei concentration', blank=True, null=True)  # Field name made lowercase. Field renamed to remove unsuitable characters.
@@ -428,6 +540,7 @@ class SensorCpd3Cpc(models.Model):
         managed = True
         db_table = 'sensor_cpd3_cpc'
 
+
 class SensorCpd3Neph(models.Model):
     datetime = models.DateTimeField(db_column='Datetime', primary_key=True)  # Field name made lowercase.
     aerosol_light_scattering_coefficient = models.FloatField(db_column='Aerosol light scattering coefficient', blank=True, null=True)  # Field name made lowercase. Field renamed to remove unsuitable characters.
@@ -435,6 +548,7 @@ class SensorCpd3Neph(models.Model):
     class Meta:
         managed = True
         db_table = 'sensor_cpd3_neph'
+
 
 class SensorCpd3PwdVaisala(models.Model):
     datetime = models.DateTimeField(db_column='Datetime', primary_key=True)  # Field name made lowercase.
@@ -448,6 +562,7 @@ class SensorCpd3PwdVaisala(models.Model):
         managed = True
         db_table = 'sensor_cpd3_pwd_vaisala'
 
+
 class SensorCpd3WmtVaisala(models.Model):
     datetime = models.DateTimeField(db_column='Datetime', primary_key=True)  # Field name made lowercase.
     wind_direction = models.FloatField(db_column='Wind Direction', blank=True, null=True)  # Field name made lowercase. Field renamed to remove unsuitable characters.
@@ -456,6 +571,7 @@ class SensorCpd3WmtVaisala(models.Model):
     class Meta:
         managed = True
         db_table = 'sensor_cpd3_wmt_vaisala'
+
 
 class SensorCpd3WxtVaisala(models.Model):
     datetime = models.DateTimeField(db_column='Datetime', primary_key=True)  # Field name made lowercase.
@@ -471,3 +587,43 @@ class SensorCpd3WxtVaisala(models.Model):
     class Meta:
         managed = True
         db_table = 'sensor_cpd3_wxt_vaisala'
+
+class Router:
+    """
+    A router to control all database operations on models in the
+    user application.
+    """
+    def db_for_read(self, model, **hints):
+        """
+        Attempts to read user models go to users_db.
+        """
+        if model._meta.app_label == "sensors":
+            return 'sensor_db'
+        return None
+
+    def db_for_write(self, model, **hints):
+        """
+        Attempts to write user models go to users_db.
+        """
+        if model._meta.app_label == "sensors":
+            return 'sensor_db'
+        return None
+
+    def allow_relation(self, obj1, obj2, **hints):
+        """
+        Allow relations if a model in the user app is involved.
+        """
+        db = ['default', 'sensor_db']
+        if obj1._meta.app_label in db and obj2._meta.app_label in db:
+           return True
+        return None
+
+    def allow_migrate(self, db, app_label, model_name=None, **hints):
+        """
+        Make sure the auth app only appears in the 'users_db'
+        database.
+        """
+        if app_label == 'sensors':
+            return db == 'sensor_db'
+        return None
+

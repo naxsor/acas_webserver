@@ -64,7 +64,6 @@ class PostUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
             return True
         return False
 
-
 class PostDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
     model = Post
     success_url = '/'
@@ -81,3 +80,4 @@ def about(request):
 
 def calendar(request):
     return render(request, 'blog/calendar.html', {'title': 'Calendar'})
+
