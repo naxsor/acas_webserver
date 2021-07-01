@@ -51,9 +51,6 @@ INSTALLED_APPS = [
     'storages',
     'bootstrap4',
     'bootstrap_datepicker_plus',
-
-    'django.contrib.staticfiles'
-
 ]
 
 MIDDLEWARE = [
