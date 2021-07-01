@@ -12,7 +12,7 @@ class Project(models.Model):
     project_duration = models.CharField(max_length=50)
     request_date = models.DateTimeField(default=timezone.now)
     request_by = models.ForeignKey(User, on_delete=models.CASCADE)
-    active = models.BooleanField()
+    active = models.BooleanField(default=False)
 
     def __str__(self):
         return self.project_name
