@@ -9,8 +9,8 @@
             {% csrf_token %}
             <fieldset class="form-group">
                 <legend class="border-bottom mb-4">Project Request</legend>
+                <small class="text-muted">{{"Is required that this request is done by the principal investigator or the person in charge of the project"}}</small>
                 {{ form |crispy }}
-
             </fieldset>
             <div class="form-group">
                 <button class="btn btn-outline-info" type="submit">Request</button>

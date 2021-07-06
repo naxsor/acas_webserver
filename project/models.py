@@ -7,12 +7,13 @@ from django.utils import timezone
 class Project(models.Model):
     project_name = models.CharField(max_length=50)
     research_objective = models.TextField()
-    principal_investigator = models.CharField(max_length=50)
+    principal_investigator = models.ForeignKey(User, on_delete=models.CASCADE)
     project_tentative_start_date = models.DateField()
     project_duration = models.CharField(max_length=50)
     request_date = models.DateTimeField(default=timezone.now)
-    request_by = models.ForeignKey(User, on_delete=models.CASCADE)
-    active = models.BooleanField(default=False)
+    active = models.BooleanField(null=True)
+    show = models.BooleanField(default=False, null=True)
+
 
     def __str__(self):
         return self.project_name

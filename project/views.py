@@ -1,6 +1,9 @@
 from django.shortcuts import render
 from bootstrap_datepicker_plus import DatePickerInput
 from .models import Project
+from django import forms
+from adapts.settings import EMAIL_HOST_USER
+from django.core.mail import send_mail
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.views.generic import (
     ListView,
@@ -23,15 +26,21 @@ class ProjectDetailView(DetailView):
 
 class ProjectRequestView(LoginRequiredMixin, CreateView):
     model = Project
-    fields = ['project_name', 'research_objective', 'principal_investigator', 'project_tentative_start_date', 'project_duration', 'request_by']
+    fields = ['project_name', 'research_objective', 'principal_investigator', 'project_tentative_start_date', 'project_duration']
 
     def form_valid(self, form):
         form.instance.author = self.request.user
+        send_mail('Project Request: ' + form.cleaned_data['project_name'],
+                  'A Project Request was summited through the ACAS Blog. The project requested'
+                  'name is ' + form.cleaned_data['project_name'] + '. The request is being made by ' + form.cleaned_data['principal_investigator'].first_name
+                  + ' ' + form.cleaned_data['principal_investigator'].last_name + '('+ form.cleaned_data['principal_investigator'].username +')'  + '. Please check the request.', EMAIL_HOST_USER, recipient_list=['lemanuel.colon@upr.edu'])
         return super().form_valid(form)
 
     def get_form(self):
         form = super().get_form()
         form.fields['project_tentative_start_date'].widget = DatePickerInput()
+        form.fields['principal_investigator'].initial = self.request.user
+        form.fields['principal_investigator'].widget = forms.HiddenInput()
         return form
 
 class ProjectDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
@@ -40,7 +49,25 @@ class ProjectDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
 
     def test_func(self):
         project = self.get_object()
-        if self.request.user == project.request_by:
+        if self.request.user == project.principal_investigator:
             return True
         return False
 
+class ProjectUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
+    model = Project
+    fields = ['project_name', 'research_objective','project_tentative_start_date', 'project_duration']
+
+    def form_valid(self, form):
+        form.instance.author = self.request.user
+        return super().form_valid(form)
+
+    def test_func(self):
+        project = self.get_object()
+        if self.request.user == project.principal_investigator:
+            return True
+        return False
+
+    def get_form(self):
+        form = super().get_form()
+        form.fields['project_tentative_start_date'].widget = DatePickerInput()
+        return form

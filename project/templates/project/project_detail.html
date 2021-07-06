@@ -1,20 +1,30 @@
 {% extends "blog/base.html" %}
 {% block content %}
     <article class="media content-section">
-        <img class="rounded-circle article-img" src="{{ object.request_by.profile.image.url }}">
+{#        <img class="rounded-circle article-img" src="{{ object.request_by.profile.image.url }}">#}
         <div class="media-body">
-            <div class="article-metadata">
-                <a class="mr-2" href="#">{{ object.author }}</a>
+            <div class="article-metadata" style="padding: 5px">
+                Principal Investigator: <a class="mr-2" href="{% url 'project-detail' project.id %}">{{ project.principal_investigator.profile.user.first_name}} {{ project.principal_investigator.last_name }}</a>
                 <small class="text-muted">{{ object.date_posted|date:"F d, Y" }}</small>
-                {% if object.request_by == user %}
+                {% if object.principal_investigator == user %}
                 <div>
-                    <a class="btn btn-secondary btn-sm mt-1 mb-1" href="{% url 'post-update' object.id %}">Update</a>
-                    <a class="btn btn-danger btn-sm mt-1 mb-1" href="{% url 'post-delete' object.id %}">Delete</a>
+                    <a class="btn-secondary btn-sm mt-1 mb-1" href="{% url 'project-update' object.id %}">Update</a>
+                    <a class="btn-danger btn-sm mt-1 mb-1" href="{% url 'project-delete' object.id %}">Delete</a>
                 </div>
                 {% endif %}
             </div>
-            <h2 class="article-title">{{ object.project_name }}</h2>
-            <p class="article-content">{{ object.research_objective }}</p>
+            <h2><a class="article-title" href="{% url 'project-detail' project.id %}">{{ project.project_name }}</a></h2>
+            <h4>
+
+            {% if project.active == True %}
+                <span class="badge badge-success">Active</span>
+            {% else %}
+                <span class="badge badge-danger">Not Active</span>
+            {% endif %}
+
+            </h4>
+            <p class="article-content">{{ project.research_objective }}</p>
+            <p class="article-content">Proposed Start Date: {{ project.project_tentative_start_date }}</p>
         </div>
     </article>
 {% endblock content %}

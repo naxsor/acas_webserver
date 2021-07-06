@@ -12,10 +12,6 @@ https://docs.djangoproject.com/en/3.1/ref/settings/
 
 from pathlib import Path
 import os
-import json
-
-with open('/etc/config.json') as config_file:
-	config = json.load(config_file)
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -25,22 +21,20 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/3.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-
-SECRET_KEY = config['SECRET_KEY']
+SECRET_KEY = '5yw(wp7(@meq4=(c3_3@2qtmmoyxa2k&0=u3'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
-ALLOWED_HOSTS = [
-#    'adapts.herokuapp.com'
-    '192.168.0.5'
-]
+ALLOWED_HOSTS = ['localhost', '127.0.0.1']
+
 # Application definition
 INSTALLED_APPS = [
     'blog.apps.BlogConfig',
     'users.apps.UsersConfig',
     'sensors.apps.SensorsConfig',
     'project.apps.ProjectConfig',
+    'app.apps.AppConfig',
     'crispy_forms',
     'django.contrib.admin',
     'django.contrib.auth',
@@ -98,28 +92,15 @@ WSGI_APPLICATION = 'adapts.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases
 
-
-DATABASE_ROUTERS = ['users.models.AuthRouter', 'sensors.models.Router']
-DATABASE_APPS_MAPPING = {'sensors': 'sensor_db'}
-
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': config.get('db_name'),
-        'USER': config.get('db_username'),
-        'PASSWORD': config.get('db_password'),
-        'HOST': config.get('db_ip'),
-        'PORT': config.get('db_port')
-    },
-    'sensor_db': {
-	    'ENGINE': 'django.db.backends.postgresql',
-        'NAME': config.get('db_sensor_name'),
-        'USER': config.get('db_sensor_username'),
-        'PASSWORD': config.get('db_sensor_password'),
-        'HOST': config.get('db_sensor_ip'),
-        'PORT': config.get('db_sensor_sport'),
-    }	
-
+        'NAME': 'acas',
+        'USER': 'postgres',
+        'PASSWORD': 'acas2020',
+        'HOST': '127.0.0.1',
+        'PORT': '5432',
+    }
 }
 
 # Password validation
@@ -175,8 +156,8 @@ EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
-EMAIL_HOST_USER = config.get('EMAIL_USER')
-EMAIL_HOST_PASSWORD = config.get('EMAIL_PASS')
+EMAIL_HOST_USER = 'lemanuel.colon@upr.edu'
+EMAIL_HOST_PASSWORD = 'htaqfxtjvmnxjfca'
 
 #AWS_S3_REGION_NAME = 'us-east-1'
 #AWS_STORAGE_BUCKET_NAME = os.environ.get('AWS_STORAGE_BUCKET_NAME')
