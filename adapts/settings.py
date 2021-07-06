@@ -34,6 +34,7 @@ INSTALLED_APPS = [
     'users.apps.UsersConfig',
     'sensors.apps.SensorsConfig',
     'project.apps.ProjectConfig',
+    'app.apps.AppConfig',
     'crispy_forms',
     'django.contrib.admin',
     'django.contrib.auth',

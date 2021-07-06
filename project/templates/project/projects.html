@@ -1,17 +1,30 @@
 {% extends "blog/base.html" %}
 {% block content %}
     {% for project in projects %}
-        <article class="media content-section">
-            <img class="rounded-circle article-img" src="{{ project.request_by.profile.image.url }}">
-            <div class="media-body">
-                <div class="article-metadata">
-                    <a class="mr-2" href="{% url 'user-posts' project.request_by.username %}">{{ project.request_by }}</a>
-                    <small class="text-muted">{{ project.request_date|date:"F d, Y" }}</small>
+        {% if project.show == True %}
+            <article class="media content-section">
+    {#            <img class="rounded-circle article-img" src="{{ project.request_by.profile.image.url }}">#}
+                <div class="media-body">
+                    <div class="article-metadata">
+                        Principal Investigator: <a class="mr-2" href="{% url 'project-detail' project.id %}">{{ project.principal_investigator.profile.user.first_name}} {{ project.principal_investigator.last_name }}</a>
+                        <small class="text-muted">{{ project.request_date|date:"F d, Y" }}</small>
+                    </div>
+                    <h2><a class="article-title" href="{% url 'project-detail' project.id %}">{{ project.project_name }}</a></h2>
+                    <h4>
+                        <p class="article-content">
+                        {% if project.active == True %}
+                            <span class="badge badge-success">Active</span>
+                        {% else %}
+                            <span class="badge badge-danger">Not Active</span>
+                        {% endif %}
+                        </p>
+                    </h4>
+                    <p class="article-content">{{ project.research_objective }}</p>
+                    <p class="article-content">Proposed Start Date: {{ project.project_tentative_start_date }}</p>
+    {#                <p class="article-content">{{ project.research_objective }}</p>#}
                 </div>
-                <h2><a class="article-title" href="{% url 'project-detail' project.id %}">{{ project.title }}</a></h2>
-                <p class="article-content">{{ project.research_objective }}</p>
-            </div>
-        </article>
+            </article>
+        {% endif %}
     {% endfor %}
     {% if is_paginated %}
 
