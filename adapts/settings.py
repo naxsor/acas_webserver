@@ -29,8 +29,7 @@ SECRET_KEY = config['SECRET_KEY']
 DEBUG = False
 
 ALLOWED_HOSTS = [
-#    'adapts.herokuapp.com'
-    '192.168.0.5'
+    'acas.uprrp.edu'
 ]
 # Application definition
 INSTALLED_APPS = [
@@ -38,6 +37,7 @@ INSTALLED_APPS = [
     'users.apps.UsersConfig',
     'sensors.apps.SensorsConfig',
     'project.apps.ProjectConfig',
+    'app.apps.AppConfig',
     'crispy_forms',
     'django.contrib.admin',
     'django.contrib.auth',
@@ -184,3 +184,6 @@ EMAIL_HOST_PASSWORD = config.get('EMAIL_PASS')
 #AWS_DEFAULT_ACL = None
 #
 #DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
+#S3_USE_SIGV4 = True
+
+#django_heroku.settings(locals())
