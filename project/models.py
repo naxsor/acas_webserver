@@ -14,6 +14,7 @@ class Project(models.Model):
     active = models.BooleanField(null=True)
     show = models.BooleanField(default=False, null=True)
 
+
     def __str__(self):
         return self.project_name
 
