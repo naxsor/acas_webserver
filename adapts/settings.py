@@ -157,7 +157,7 @@ EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 EMAIL_HOST_USER = 'lemanuel.colon@upr.edu'
-EMAIL_HOST_PASSWORD = 'rgxhcrwdfswptjsf'
+EMAIL_HOST_PASSWORD = 'htaqfxtjvmnxjfca'
 
 #AWS_S3_REGION_NAME = 'us-east-1'
 #AWS_STORAGE_BUCKET_NAME = os.environ.get('AWS_STORAGE_BUCKET_NAME')
