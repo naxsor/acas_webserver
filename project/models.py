@@ -11,7 +11,7 @@ class Project(models.Model):
     project_tentative_start_date = models.DateField()
     project_duration = models.CharField(max_length=50)
     request_date = models.DateTimeField(default=timezone.now)
-    active = models.BooleanField(null=True)
+    active = models.BooleanField(default=False, null=True)
     show = models.BooleanField(default=False, null=True)
 
 

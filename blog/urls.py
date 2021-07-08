@@ -24,9 +24,10 @@ from sensors.views import (
     sensors
 )
 from . import views
-
+from django.contrib import admin
 
 urlpatterns = [
+    path('admin/', admin.site.urls),
     path('', PostListView.as_view(), name='blog-home'),
     path('user/<str:username>', UserPostListView.as_view(), name='user-posts'),
     path('post/<int:pk>/', PostDetailView.as_view(), name='post-detail'),
@@ -45,3 +46,6 @@ urlpatterns = [
     path('adapts/download', app_download, name='app-download'),
 
 ]
+
+admin.site.site_header = 'ACAS Administration'
+admin.site.site_title = 'ACAS Administration'

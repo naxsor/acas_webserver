@@ -8,7 +8,11 @@ def app_about(request):
 
 @login_required
 def app_download(request):
-    if(request.user.profile.project.active == True):
-        return render(request, 'app_download.html', {'title': 'ADAPTS Download'})
+    x = request.user.profile.project
+    if(request.user.profile.project != None):
+        if(request.user.profile.project.active == True):
+            return render(request, 'app_download.html', {'title': 'ADAPTS Download'})
+        else:
+            return render(request, 'app_download_denied.html', {'title': 'ADAPTS Download'})
     else:
         return render(request, 'app_download_denied.html', {'title': 'ADAPTS Download'})
