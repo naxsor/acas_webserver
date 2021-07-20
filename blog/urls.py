@@ -25,6 +25,8 @@ from sensors.views import (
 )
 from . import views
 from django.contrib import admin
+from django.conf.urls.static import static
+from django.conf import settings
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -45,7 +47,7 @@ urlpatterns = [
     path('adapts/about', app_about, name='app-about'),
     path('adapts/download', app_download, name='app-download'),
 
-]
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 admin.site.site_header = 'ACAS Administration'
 admin.site.site_title = 'ACAS Administration'
