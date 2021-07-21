@@ -4,7 +4,7 @@ from .models import Project
 from django import forms
 from adapts.settings import EMAIL_HOST_USER
 from django.core.mail import send_mail
-from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
+from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin, PermissionRequiredMixin
 from django.views.generic import (
     ListView,
     DetailView,
@@ -43,7 +43,8 @@ class ProjectRequestView(LoginRequiredMixin, CreateView):
         form.fields['principal_investigator'].widget = forms.HiddenInput()
         return form
 
-class ProjectDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
+class ProjectDeleteView(PermissionRequiredMixin, LoginRequiredMixin, UserPassesTestMixin, DeleteView):
+    permission_required = 'project.delete_project'
     model = Project
     success_url = '/'
 
@@ -53,8 +54,9 @@ class ProjectDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
             return True
         return False
 
-class ProjectUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
+class ProjectUpdateView(PermissionRequiredMixin ,LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     model = Project
+    permission_required = 'project.change_project'
     fields = ['project_name', 'research_objective','project_tentative_start_date', 'project_duration']
 
     def form_valid(self, form):

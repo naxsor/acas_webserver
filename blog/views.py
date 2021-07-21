@@ -1,6 +1,7 @@
 from django.shortcuts import render, get_object_or_404
-from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
+from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin, PermissionRequiredMixin
 from django.contrib.auth.models import User
+from sensors.models import Sensor
 from django.views.generic import (
     ListView,
     DetailView,
@@ -25,7 +26,6 @@ class PostListView(ListView):
     ordering = ['-date_posted']
     paginate_by = 5
 
-
 class UserPostListView(ListView):
     model = Post
     template_name = 'blog/user_posts.html'  # <app>/<model>_<viewtype>.html
@@ -40,8 +40,8 @@ class UserPostListView(ListView):
 class PostDetailView(DetailView):
     model = Post
 
-
-class PostCreateView(LoginRequiredMixin, CreateView):
+class PostCreateView(PermissionRequiredMixin, LoginRequiredMixin, CreateView):
+    permission_required = 'blog.add_post'
     model = Post
     fields = ['title', 'content', 'image']
 
@@ -53,7 +53,8 @@ class PostCreateView(LoginRequiredMixin, CreateView):
         return super().form_valid(form)
 
 
-class PostUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
+class PostUpdateView(PermissionRequiredMixin, LoginRequiredMixin, UserPassesTestMixin, UpdateView):
+    permission_required = 'blog.change_post'
     model = Post
     fields = ['title', 'content', 'image']
 
@@ -67,9 +68,10 @@ class PostUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
             return True
         return False
 
-class PostDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
+class PostDeleteView(PermissionRequiredMixin, LoginRequiredMixin, UserPassesTestMixin, DeleteView):
     model = Post
     success_url = '/'
+    permission_required = 'blog.delete_post'
 
     def test_func(self):
         post = self.get_object()
