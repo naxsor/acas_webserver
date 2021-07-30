@@ -27,3 +27,13 @@ class Post(models.Model):
     #         output_size = (300, 300)
     #         img.thumbnail(output_size)
     #         img.save(self.image.path)
+
+class Slideshow(models.Model):
+    title = models.CharField(max_length=100)
+    image = models.ImageField(upload_to='slideshow_images/')
+    content = models.TextField(max_length=300)
+    link = models.CharField(max_length=250)
+
+class Image(models.Model):
+    title = models.CharField(max_length=25)
+    image = models.ImageField(upload_to='blog_images/')

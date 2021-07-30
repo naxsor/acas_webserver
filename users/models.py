@@ -8,6 +8,8 @@ class Profile(models.Model):
     image = models.ImageField(default='default.jpg', upload_to='profile_pics')
     project = models.ForeignKey(Project, on_delete=models.CASCADE, null=True)
     acas_staff = models.BooleanField(default=False)
+    about = models.TextField(default='About me content', blank=True, null=True)
+    position = models.TextField(max_length=50, blank=True, null=True)
 
     def __str__(self):
         return f'{self.user.username} Profile'

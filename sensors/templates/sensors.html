@@ -1,27 +1,104 @@
 {% extends "blog/base.html" %}
 {% block content %}
-     <div class="content-section">
+    <div class="content-section">
         <h2>Aerosol and Cloud Analysis System Sensors</h2>
+        <div class="content-section">
+            <img class="rounded img-fluid mx-auto d-block" src="{{ image.image.url }}">
+        </div>
         <hr/>
-        <h4>Aerosol Sensors</h4>
-        <p class="text-justify">
-            <ul>
-                <li><b>CLAP</b>: Measure the light absorption coefficient.</li>
-                <li><b>Cloud Condensation Nuclei</b> (CCN): Cloud Condensation Nuclei spectrometer from Droplet Measurements Technologies.</li>
-                <li><b>CSS</b>: Aerodyne Aerosol Specification Monitor that measure ion mass.</li>
-                <li><b>LIIS</b>: Wideband Integrated Bio-aerosol Spectrometer that detects primarily biological.</li>
-                <li><b>DMA</b>: Brechtel Engineering Scanning Electro-Mobility Sizer that provides size distributions.</li>
-                <li><b>UV-IFS</b>: Single Particle Soot Photometer (SP2) from DM2 that measures refractory black carbon.</li>
-            </ul>
-        <hr/>
-        <h4>Cloud Sensors</h4>
-        <p class="text-justify">
-            <ul>
-                <li><b>Cloud Droplet Sensor</b> (CDS): DMT backscattering cloud probe (BCP) that produces a droplet size distribution
-                    from 5 ~ 75 um.</li>
-                <li><b>Liquid Water Content</b> (LWC): Liquid water content is measured with a DMT heated-wire sensors (LWC-300).</li>
-                <li><b>Hygrometer</b> (TDLH): The TDLH will be used to measure the water vapor that is produced by measuring the cloud droplets being evaporated in the CVI.</li>
-            </ul>
-        </p>
-     </div>
+        <div class="content-section">
+            <div class="row">
+                <div class="col-3">
+                    <div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
+                        <a class="nav-link active" id="v-pills-sensor-tab" data-toggle="pill" href="#v-pills-sensor"
+                           role="tab"
+                           aria-controls="v-pills-sensor" aria-selected="true">Sensors</a>
+                        <a class="nav-link" id="v-pills-inlets-tab" data-toggle="pill" href="#v-pills-inlets" role="tab"
+                           aria-controls="v-pills-inlets" aria-selected="false">Inlets</a>
+                        <a class="nav-link" id="v-pills-adapts-tab" data-toggle="pill" href="#v-pills-adapts" role="tab"
+                           aria-controls="v-pills-adapts" aria-selected="false">ADAPTS</a>
+                    </div>
+                </div>
+                <div class="col-9">
+                    <div class="tab-content" id="v-pills-tabContent">
+                        <div class="tab-pane fade show active" id="v-pills-sensor" role="tabpanel"
+                             aria-labelledby="v-pills-sensor-tab">
+                            <div class="row">
+                                <div class="col-3">
+                                    <div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist"
+                                         aria-orientation="vertical">
+                                        <a class="nav-link active" id="v-pills-aerosol-tab" data-toggle="pill"
+                                           href="#v-pills-aerosol" role="tab"
+                                           aria-controls="v-pills-aerosol" aria-selected="true">Aerosol</a>
+                                        <a class="nav-link" id="v-pills-cloud-tab" data-toggle="pill"
+                                           href="#v-pills-cloud" role="tab"
+                                           aria-controls="v-pills-clouds" aria-selected="false">Clouds</a>
+                                    </div>
+                                </div>
+                                <div class="col-9">
+                                    <div class="tab-content" id="v-pills-tabContent">
+                                        <div class="tab-pane fade show active" id="v-pills-aerosol" role="tabpanel"
+                                             aria-labelledby="v-pills-aerosol-tab">
+                                            <ul>
+                                                {% for sensor in sensors %}
+                                                    {% if sensor.type == "Aerosol" %}
+                                                        <li>{{ sensor.name }}</li>
+                                                    {% endif %}
+                                                {% endfor %}
+                                            </ul>
+                                        </div>
+                                        <div class="tab-pane fade" id="v-pills-cloud" role="tabpanel"
+                                             aria-labelledby="v-pills-cloud-tab">
+                                            <ul>
+                                                {% for sensor in sensors %}
+                                                    {% if sensor.type == "Cloud" %}
+                                                        <li>{{ sensor.name }}</li>
+                                                    {% endif %}
+                                                {% endfor %}
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="tab-pane fade" id="v-pills-inlets" role="tabpanel"
+                             aria-labelledby="v-pills-inlets-tab">Inlet
+                        </div>
+                        <div class="tab-pane fade" id="v-pills-adapts" role="tabpanel"
+                             aria-labelledby="v-pills-adapts-tab">ADAPTS
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {#        <h4>Aerosol Sensors</h4>#}
+        {#        <p class="text-justify">#}
+        {#        <ul>#}
+        {#            <li><b>CLAP</b>: Measure the light absorption coefficient.</li>#}
+        {#            <li><b>Cloud Condensation Nuclei</b> (CCN): Cloud Condensation Nuclei spectrometer from Droplet Measurements#}
+        {#                Technologies.#}
+        {#            </li>#}
+        {#            <li><b>CSS</b>: Aerodyne Aerosol Specification Monitor that measure ion mass.</li>#}
+        {#            <li><b>LIIS</b>: Wideband Integrated Bio-aerosol Spectrometer that detects primarily biological.</li>#}
+        {#            <li><b>DMA</b>: Brechtel Engineering Scanning Electro-Mobility Sizer that provides size distributions.</li>#}
+        {#            <li><b>UV-IFS</b>: Single Particle Soot Photometer (SP2) from DM2 that measures refractory black carbon.#}
+        {#            </li>#}
+        {#        </ul>#}
+        {#        <hr/>#}
+        {#        <h4>Cloud Sensors</h4>#}
+        {#        <p class="text-justify">#}
+        {#        <ul>#}
+        {#            <li><b>Cloud Droplet Sensor</b> (CDS): DMT backscattering cloud probe (BCP) that produces a droplet size#}
+        {#                distribution#}
+        {#                from 5 ~ 75 um.#}
+        {#            </li>#}
+        {#            <li><b>Liquid Water Content</b> (LWC): Liquid water content is measured with a DMT heated-wire sensors#}
+        {#                (LWC-300).#}
+        {#            </li>#}
+        {#            <li><b>Hygrometer</b> (TDLH): The TDLH will be used to measure the water vapor that is produced by measuring#}
+        {#                the cloud droplets being evaporated in the CVI.#}
+        {#            </li>#}
+        {#        </ul>#}
+        {#        </p>#}
+    </div>
 {% endblock content %}

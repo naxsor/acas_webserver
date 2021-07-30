@@ -92,10 +92,21 @@ WSGI_APPLICATION = 'adapts.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases
 
+DATABASE_ROUTERS = ['sensors.models.Router']
+DATABASE_APPS_MAPPING = {'sensors': 'sensor_db'}
+
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'acas',
+        'USER': 'postgres',
+        'PASSWORD': 'acas2020',
+        'HOST': '127.0.0.1',
+        'PORT': '5432',
+    },
+    'sensor_db': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'sensor_db',
         'USER': 'postgres',
         'PASSWORD': 'acas2020',
         'HOST': '127.0.0.1',

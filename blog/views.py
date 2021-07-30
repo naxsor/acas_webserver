@@ -9,19 +9,23 @@ from django.views.generic import (
     UpdateView,
     DeleteView
 )
-from .models import Post
+from .models import Post, Slideshow, Image
 
 
 def home(request):
     context = {
-        'posts': Post.objects.all()
+        'slides': Slideshow.objects.all()
     }
     return render(request, 'blog/home.html', context)
 
+class StaffListView(ListView):
+    model = User
+    template_name = 'blog/staff.html'
+    context_object_name = 'users'
 
 class PostListView(ListView):
     model = Post
-    template_name = 'blog/home.html'  # <app>/<model>_<viewtype>.html
+    template_name = 'blog/blog.html'  # <app>/<model>_<viewtype>.html
     context_object_name = 'posts'
     ordering = ['-date_posted']
     paginate_by = 5

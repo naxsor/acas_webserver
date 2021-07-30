@@ -10,6 +10,7 @@ class Sensor(models.Model):
     data_table = models.CharField(db_column='data table', max_length=50, blank=True, null=True)  # Field renamed to remove unsuitable characters.
     available = models.BooleanField(blank=True, null=True)
     process = models.CharField(db_column='Process', max_length=50, blank=True, null=True)  # Field name made lowercase.
+    type = models.CharField(max_length=30, blank=True)
 
     def __str__(self):
         return f'{self.name} ({self.acronym})'
@@ -18,6 +19,10 @@ class Sensor(models.Model):
         managed = True
         db_table = 'sensor'
 
+class ACAS_part(models.Model):
+    name = models.CharField(max_length=50, blank=True, null=True)
+    acronym = models.CharField(max_length=50, blank=True, null=True)
+    type = models.CharField(max_length=30, blank=True)
 
 class File(models.Model):
     sensor = models.OneToOneField(Sensor, models.CASCADE, primary_key=True)
@@ -142,7 +147,7 @@ class Ccn(models.Model):
         managed = True
         db_table = 'sensor_ccn'
 
-class sp2_xr(models.Model):
+class uv_lif(models.Model):
     datetime = models.DateTimeField(db_column='Datetime', primary_key=True)  # Field name made lowercase.
     utc_offset = models.IntegerField(db_column='UTC Offset', blank=True, null=True)
     incand_part_conc = models.FloatField(db_column='Incandescence Particle Concentration', blank=True, null=True)
@@ -242,7 +247,7 @@ class sp2_xr(models.Model):
 
     class Meta:
         managed = True
-        db_table = 'sensor_sp2'
+        db_table = 'sensor_liis'
 
 class Clap(models.Model):
     datetime = models.DateTimeField(db_column='Datetime', primary_key=True)  # Field name made lowercase.
@@ -460,7 +465,7 @@ class Hygrometer(models.Model):
         db_table = 'sensor_hygrometer'
 
 
-class Uv_Lif(models.Model):
+class liis(models.Model):
     datetime = models.DateTimeField(db_column='Datetime', primary_key=True)  # Field name made lowercase.
     number_408_board_temperature = models.FloatField(db_column='408 Board Temperature', blank=True, null=True)  # Field name made lowercase. Field renamed to remove unsuitable characters. Field renamed because it wasn't a valid Python identifier.
     bandwidths_0 = models.FloatField(db_column='Bandwidths 0', blank=True, null=True)

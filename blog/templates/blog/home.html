@@ -1,41 +1,31 @@
 {% extends "blog/base.html" %}
 {% block content %}
-    {% for post in posts %}
-        <article class="media content-section">
-            <img class="rounded-circle article-img" src="{{ post.author.profile.image.url }}">
-            <div class="media-body">
-                <div class="article-metadata">
-                    <a class="mr-2" href="{% url 'user-posts' post.author.username %}">{{post.author.first_name}} {{post.author.last_name}}</a>
-                    <small class="text-muted">{{ post.author.profile.project }}</small>
-                    <small class="text-muted">{{ post.date_posted|date:"F d, Y" }}</small>
+{#<article class="media content-section">#}
+    <div id="carousel" class="carousel slide" data-ride="carousel">
+        <ol class="carousel-indicators">
+            {% for slide in slides %}
+                 <li data-target="carousel" data-slide-to="{{ forloop.counter0 }}" {% if forloop.counter0 == 1 %}class="active">{% endif %}</li>
+            {% endfor %}
+        </ol>
+        <div class="carousel-inner">
+            {% for slide in slides %}
+                <div class="carousel-item {% if forloop.counter == 1 %}active{% endif %}">
+                    <img class="rounded img-thumbnail img-fluid mx-auto d-block w-100" src="{{ slide.image.url }}">
+                    <div class="bg-trans carousel-caption d-none d-md-block">
+                        <h5 class="slide-title">{{ slide.title }}</h5>
+                        <p>{{ slide.content }}</p>
+                    </div>
                 </div>
-                <h2><a class="article-title" href="{% url 'post-detail' post.id %}">{{ post.title }}</a></h2>
-                {% if post.image.url != None %}
-                    <img class="rounded img-thumbnail img-fluid mx-auto d-block" src="{{ post.image.url }}">
-                {% endif %}
-                <p class="article-content">{{ post.content }}</p>
-            </div>
-        </article>
-    {% endfor %}
-    {% if is_paginated %}
-
-        {% if page_obj.has_previous %}
-            <a class="btn btn-outline-info mb-4" href="?page=1">First</a>
-            <a class="btn btn-outline-info mb-4" href="?page={{ page_obj.previous_page_number }}">Previous</a>
-        {% endif %}
-
-        {% for num in page_obj.paginator.page_range %}
-            {% if page_obj.number == num %}
-                <a class="btn btn-info mb-4" href="?page={{ num }}">{{ num }}</a>
-            {% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}
-                <a class="btn btn-outline-info mb-4" href="?page={{ num }}">{{ num }}</a>
-            {% endif %}
-        {% endfor %}
-
-        {% if page_obj.has_next %}
-            <a class="btn btn-outline-info mb-4" href="?page={{ page_obj.next_page_number }}">Next</a>
-            <a class="btn btn-outline-info mb-4" href="?page={{ page_obj.paginator.num_pages }}">Last</a>
-        {% endif %}
-
-    {% endif %}
+            {% endfor %}
+        </div>
+        <a class="carousel-control-prev" href="#carousel" role="button" data-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="sr-only">Previous</span>
+        </a>
+        <a class="carousel-control-next" href="#carousel" role="button" data-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="sr-only">Next</span>
+        </a>
+    </div>
+{#</article>#}
 {% endblock content %}

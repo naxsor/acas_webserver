@@ -1,5 +1,6 @@
 from django.shortcuts import render
 from sensors.models import Sensor
+from blog.models import Image
 from django.views.generic import (
     ListView,
     DetailView,
@@ -15,4 +16,6 @@ class StatusListView(ListView):
     context_object_name = 'posts'
 
 def sensors(request):
-    return render(request, 'sensors.html', {'title': 'Aerosol Sensors'})
+    image = Image.objects.get(title='about')
+    sensors = Sensor.objects.all()
+    return render(request, 'sensors.html', {'title': 'Sensors', 'image':image, 'sensors': sensors})
