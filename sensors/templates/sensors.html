@@ -6,10 +6,13 @@
             <img class="rounded img-fluid mx-auto d-block" src="{{ image.image.url }}">
         </div>
         <hr/>
-        <div class="content-section">
+
+
+        <div class="content-section" style="height: 350px">
             <div class="row">
                 <div class="col-3">
-                    <div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
+                    #Main Tabs
+                    <div class="nav flex-column nav-pills py-1" id="v-pills-tab" role="tablist" aria-orientation="vertical">
                         <a class="nav-link active" id="v-pills-sensor-tab" data-toggle="pill" href="#v-pills-sensor"
                            role="tab"
                            aria-controls="v-pills-sensor" aria-selected="true">Sensors</a>
@@ -24,8 +27,9 @@
                         <div class="tab-pane fade show active" id="v-pills-sensor" role="tabpanel"
                              aria-labelledby="v-pills-sensor-tab">
                             <div class="row">
+                                #Sensors tabs
                                 <div class="col-3">
-                                    <div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist"
+                                    <div class="nav flex-column nav-pills py-1" id="v-pills-tab" role="tablist"
                                          aria-orientation="vertical">
                                         <a class="nav-link active" id="v-pills-aerosol-tab" data-toggle="pill"
                                            href="#v-pills-aerosol" role="tab"
@@ -39,22 +43,331 @@
                                     <div class="tab-content" id="v-pills-tabContent">
                                         <div class="tab-pane fade show active" id="v-pills-aerosol" role="tabpanel"
                                              aria-labelledby="v-pills-aerosol-tab">
-                                            <ul>
-                                                {% for sensor in sensors %}
-                                                    {% if sensor.type == "Aerosol" %}
-                                                        <li>{{ sensor.name }}</li>
-                                                    {% endif %}
-                                                {% endfor %}
+                                            #Aerosol Sensors Nav
+                                            <ul class="nav nav-pills nav-fill">
+                                                <div class="container">
+                                                    {% for sensor in sensors %}
+                                                        {% if sensor.type == "Aerosol" %}
+                                                            <div class="row">
+                                                                <li class="nav-item p-1">
+                                                                    <a class="nav-link active" data-toggle="modal" href="#{{ sensor.id }}Modal">{{ sensor.name }}</a>
+                                                                </li>
+                                                            </div>
+                                                            <!-- Modal -->
+                                                            <div class="modal fade bd-example-modal-lg" id="{{ sensor.id }}Modal" tabindex="-1"
+                                                                 aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                                                <div class="modal-dialog modal-lg">
+                                                                    <div class="modal-content">
+                                                                        <div class="modal-header">
+                                                                            <h5 class="modal-title"
+                                                                                id="exampleModalLabel">{{ sensor.name }}</h5>
+                                                                            <button type="button" class="close"
+                                                                                    data-dismiss="modal"
+                                                                                    aria-label="Close">
+                                                                                <span aria-hidden="true">&times;</span>
+                                                                            </button>
+                                                                        </div>
+                                                                        <div class="modal-body">
+                                                                            <ul class="nav nav-pills py-1" id="myTab" role="tablist">
+                                                                                <li class="nav-item">
+                                                                                    <a class="nav-link active"
+                                                                                       id="info-tab-{{ sensor.id }}" data-toggle="tab"
+                                                                                       href="#info-{{ sensor.id }}" role="tab"
+                                                                                       aria-controls="info-{{ sensor.id }}"
+                                                                                       aria-selected="true">Info</a>
+                                                                                </li>
+                                                                                <li class="nav-item">
+                                                                                    <a class="nav-link" id="prop-mea-tab-{{ sensor.id }}"
+                                                                                       data-toggle="tab" href="#prop-mea-{{ sensor.id }}"
+                                                                                       role="tab"
+                                                                                       aria-controls="prop-mea-{{ sensor.id }}"
+                                                                                       aria-selected="false">Property Measured</a>
+                                                                                </li>
+                                                                                <li class="nav-item">
+                                                                                    <a class="nav-link" id="mea-prin-tab-{{ sensor.id }}"
+                                                                                       data-toggle="tab" href="#mea-prin-{{ sensor.id }}"
+                                                                                       role="tab"
+                                                                                       aria-controls="mea-prin-{{ sensor.id }}"
+                                                                                       aria-selected="false">Measurement Principle</a>
+                                                                                </li>
+
+                                                                                {% if sensor.image_diagram != 'default.jpg' %}
+                                                                                    <li class="nav-item">
+                                                                                        <a class="nav-link" id="diagram-tab-{{ sensor.id }}"
+                                                                                           data-toggle="tab" href="#diagram-{{ sensor.id }}"
+                                                                                           role="tab"
+                                                                                           aria-controls="diagram-{{ sensor.id }}"
+                                                                                           aria-selected="false">Diagram</a>
+                                                                                    </li>
+                                                                                {% endif %}
+                                                                                {% if sensor.image_plot != 'default.jpg' %}
+                                                                                <li class="nav-item">
+                                                                                    <a class="nav-link" id="plot-tab-{{ sensor.id }}"
+                                                                                       data-toggle="tab" href="#plot-{{ sensor.id }}"
+                                                                                       role="tab"
+                                                                                       aria-controls="plot-{{ sensor.id }}"
+                                                                                       aria-selected="false">Plot</a>
+                                                                                </li>
+                                                                                {% endif %}
+                                                                            </ul>
+                                                                            <div class="tab-content" id="myTabContent">
+                                                                                <div class="tab-pane show active"
+                                                                                     id="info-{{ sensor.id }}" role="tabpanel"
+                                                                                     aria-labelledby="info-tab-{{ sensor.id }}">
+                                                                                    <div class="row">
+                                                                                        <div class="col">
+                                                                                            {% if sensor.image.url != None %}
+                                                                                                <img class="rounded img-thumbnail" src="{{ sensor.image.url }}" alt="">
+                                                                                            {% endif %}
+                                                                                        </div>
+                                                                                        <div class="col-7">
+                                                                                            <p class="card-text mt-3">Sensor: {{ sensor.name }}</p>
+                                                                                            <p class="card-text mt-3">Company: {{ sensor.company }}</p>
+                                                                                            <p class="card-text mt-3">Model: {{ sensor.model }}</p>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </div>
+                                                                                <div class="tab-pane" id="mea-prin-{{ sensor.id }}"
+                                                                                     role="tabpanel"
+                                                                                     aria-labelledby="mea-prin-tab-{{ sensor.id }}">
+                                                                                    <div class="row">
+                                                                                        <div class="col">
+                                                                                            {% if sensor.image.url != None %}
+                                                                                                <img class="rounded img-thumbnail img-fluid mx-auto d-block" src="{{ sensor.image.url }}" alt="">
+                                                                                            {% endif %}
+                                                                                        </div>
+                                                                                        <div class="col-7">
+                                                                                            <p class="card-text mt-3">{{ sensor.measu_prin }}</p>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </div>
+                                                                                <div class="tab-pane" id="prop-mea-{{ sensor.id }}"
+                                                                                     role="tabpanel"
+                                                                                     aria-labelledby="prop-mea-tab-{{ sensor.id }}">
+                                                                                    <div class="row">
+                                                                                        <div class="col">
+                                                                                            {% if sensor.image.url != None %}
+                                                                                                <img class="rounded img-thumbnail img-fluid mx-auto d-block" src="{{ sensor.image.url }}" alt="">
+                                                                                            {% endif %}
+                                                                                        </div>
+                                                                                        <div class="col-7">
+                                                                                            <p class="card-text mt-3">{{ sensor.measu_prop }}</p>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </div>
+                                                                                <div class="tab-pane" id="diagram-{{ sensor.id }}"
+                                                                                     role="tabpanel"
+                                                                                     aria-labelledby="diagram-tab-{{ sensor.id }}">
+                                                                                    <div class="row">
+                                                                                            {% if sensor.image_diagram.url != None %}
+                                                                                                <img class="rounded img-thumbnail img-fluid mx-auto d-block" src="{{ sensor.image_diagram.url }}" alt="">
+                                                                                            {% endif %}
+                                                                                    </div>
+                                                                                    <div class="row">
+                                                                                        <ul>
+                                                                                            <li>
+                                                                                            <p class="card-text mt-3 p-4">{{ sensor.diagram_description }}</p>
+                                                                                            </li>
+                                                                                        </ul>
+                                                                                    </div>
+                                                                                </div>
+                                                                                <div class="tab-pane" id="plot-{{ sensor.id }}"
+                                                                                     role="tabpanel"
+                                                                                     aria-labelledby="plot-tab-{{ sensor.id }}">
+                                                                                    <div class="row">
+                                                                                            {% if sensor.image_diagram.url != None %}
+                                                                                                <img class="rounded img-thumbnail img-fluid mx-auto d-block" src="{{ sensor.image_plot.url }}" alt="">
+                                                                                            {% endif %}
+                                                                                    </div>
+                                                                                    <div class="row">
+                                                                                        <ul>
+                                                                                            <li>
+                                                                                            <p class="card-text mt-3 p-4">{{ sensor.plot_description }}</p>
+                                                                                            </li>
+                                                                                        </ul>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="modal-footer">
+                                                                            <button type="button"
+                                                                                    class="btn btn-secondary p-1"
+                                                                                    data-dismiss="modal">Close
+                                                                            </button>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+
+
+                                                        {% endif %}
+                                                    {% endfor %}
+                                                </div>
                                             </ul>
                                         </div>
                                         <div class="tab-pane fade" id="v-pills-cloud" role="tabpanel"
                                              aria-labelledby="v-pills-cloud-tab">
-                                            <ul>
-                                                {% for sensor in sensors %}
-                                                    {% if sensor.type == "Cloud" %}
-                                                        <li>{{ sensor.name }}</li>
-                                                    {% endif %}
-                                                {% endfor %}
+                                            #Cloud Sensor Nav
+                                            <ul class="nav nav-pills nav-fill">
+                                                <div class="container">
+                                                    {% for sensor in sensors %}
+                                                        {% if sensor.type == "Cloud" %}
+                                                                  <div class="row">
+                                                                <li class="nav-item p-1">
+                                                                    <a class="nav-link active" data-toggle="modal" href="#{{ sensor.id }}Modal">{{ sensor.name }}</a>
+                                                                </li>
+                                                            </div>
+                                                                                       <!-- Modal -->
+                                                            <div class="modal fade bd-example-modal-lg" id="{{ sensor.id }}Modal" tabindex="-1"
+                                                                 aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                                                <div class="modal-dialog modal-lg">
+                                                                    <div class="modal-content">
+                                                                        <div class="modal-header">
+                                                                            <h5 class="modal-title"
+                                                                                id="exampleModalLabel">{{ sensor.name }}</h5>
+                                                                            <button type="button" class="close"
+                                                                                    data-dismiss="modal"
+                                                                                    aria-label="Close">
+                                                                                <span aria-hidden="true">&times;</span>
+                                                                            </button>
+                                                                        </div>
+                                                                        <div class="modal-body">
+                                                                            <ul class="nav nav-pills py-1" id="myTab" role="tablist">
+                                                                                <li class="nav-item">
+                                                                                    <a class="nav-link active"
+                                                                                       id="info-tab-{{ sensor.id }}" data-toggle="tab"
+                                                                                       href="#info-{{ sensor.id }}" role="tab"
+                                                                                       aria-controls="info-{{ sensor.id }}"
+                                                                                       aria-selected="true">Info</a>
+                                                                                </li>
+                                                                                <li class="nav-item">
+                                                                                    <a class="nav-link" id="prop-mea-tab-{{ sensor.id }}"
+                                                                                       data-toggle="tab" href="#prop-mea-{{ sensor.id }}"
+                                                                                       role="tab"
+                                                                                       aria-controls="prop-mea-{{ sensor.id }}"
+                                                                                       aria-selected="false">Property Measured</a>
+                                                                                </li>
+                                                                                <li class="nav-item">
+                                                                                    <a class="nav-link" id="mea-prin-tab-{{ sensor.id }}"
+                                                                                       data-toggle="tab" href="#mea-prin-{{ sensor.id }}"
+                                                                                       role="tab"
+                                                                                       aria-controls="mea-prin-{{ sensor.id }}"
+                                                                                       aria-selected="false">Measurement Principle</a>
+                                                                                </li>
+                                                                                {% if sensor.image_diagram != 'default.jpg' %}
+                                                                                    <li class="nav-item">
+                                                                                        <a class="nav-link"
+                                                                                           id="diagram-tab-{{ sensor.id }}"
+                                                                                           data-toggle="tab"
+                                                                                           href="#diagram-{{ sensor.id }}"
+                                                                                           role="tab"
+                                                                                           aria-controls="diagram-{{ sensor.id }}"
+                                                                                           aria-selected="false">Diagram</a>
+                                                                                    </li>
+                                                                                {% endif %}
+                                                                                {% if sensor.image_plot != 'default.jpg' %}
+                                                                                    <li class="nav-item">
+                                                                                        <a class="nav-link"
+                                                                                           id="plot-tab-{{ sensor.id }}"
+                                                                                           data-toggle="tab"
+                                                                                           href="#plot-{{ sensor.id }}"
+                                                                                           role="tab"
+                                                                                           aria-controls="plot-{{ sensor.id }}"
+                                                                                           aria-selected="false">Plot</a>
+                                                                                    </li>
+                                                                                {% endif %}
+                                                                            </ul>
+                                                                            <div class="tab-content" id="myTabContent">
+                                                                                <div class="tab-pane show active"
+                                                                                     id="info-{{ sensor.id }}" role="tabpanel"
+                                                                                     aria-labelledby="info-tab-{{ sensor.id }}">
+                                                                                    <div class="row">
+                                                                                        <div class="col">
+                                                                                            {% if sensor.image.url != None %}
+                                                                                                <img class="rounded img-thumbnail" src="{{ sensor.image.url }}" alt="">
+                                                                                            {% endif %}
+                                                                                        </div>
+                                                                                        <div class="col-7">
+                                                                                            <p class="card-text mt-3">Sensor: {{ sensor.name }}</p>
+                                                                                            <p class="card-text mt-3">Company: {{ sensor.company }}</p>
+                                                                                            <p class="card-text mt-3">Model: {{ sensor.model }}</p>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </div>
+                                                                                <div class="tab-pane" id="mea-prin-{{ sensor.id }}"
+                                                                                     role="tabpanel"
+                                                                                     aria-labelledby="mea-prin-tab-{{ sensor.id }}">
+                                                                                    <div class="row">
+                                                                                        <div class="col">
+                                                                                            {% if sensor.image.url != None %}
+                                                                                                <img class="rounded img-thumbnail img-fluid mx-auto d-block" src="{{ sensor.image.url }}" alt="">
+                                                                                            {% endif %}
+                                                                                        </div>
+                                                                                        <div class="col-7">
+                                                                                            <p class="card-text mt-3">{{ sensor.measu_prin }}</p>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </div>
+                                                                                <div class="tab-pane" id="prop-mea-{{ sensor.id }}"
+                                                                                     role="tabpanel"
+                                                                                     aria-labelledby="prop-mea-tab-{{ sensor.id }}">
+                                                                                    <div class="row">
+                                                                                        <div class="col">
+                                                                                            {% if sensor.image.url != None %}
+                                                                                                <img class="rounded img-thumbnail img-fluid mx-auto d-block" src="{{ sensor.image.url }}" alt="">
+                                                                                            {% endif %}
+                                                                                        </div>
+                                                                                        <div class="col-7">
+                                                                                            <p class="card-text mt-3">{{ sensor.measu_prop }}</p>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </div>
+                                                                                <div class="tab-pane" id="diagram-{{ sensor.id }}"
+                                                                                     role="tabpanel"
+                                                                                     aria-labelledby="diagram-tab-{{ sensor.id }}">
+                                                                                    <div class="row">
+                                                                                            {% if sensor.image_diagram.url != None %}
+                                                                                                <img class="rounded img-thumbnail img-fluid mx-auto d-block" src="{{ sensor.image_diagram.url }}" alt="">
+                                                                                            {% endif %}
+                                                                                    </div>
+                                                                                    <div class="row">
+                                                                                        <ul>
+                                                                                            <li>
+                                                                                            <p class="card-text mt-3 p-4">{{ sensor.diagram_description }}</p>
+                                                                                            </li>
+                                                                                        </ul>
+                                                                                    </div>
+                                                                                </div>
+                                                                                <div class="tab-pane" id="plot-{{ sensor.id }}"
+                                                                                     role="tabpanel"
+                                                                                     aria-labelledby="plot-tab-{{ sensor.id }}">
+                                                                                    <div class="row">
+                                                                                            {% if sensor.image_diagram.url != None %}
+                                                                                                <img class="rounded img-thumbnail img-fluid mx-auto d-block" src="{{ sensor.image_plot.url }}" alt="">
+                                                                                            {% endif %}
+                                                                                    </div>
+                                                                                    <div class="row">
+                                                                                        <ul>
+                                                                                            <li>
+                                                                                            <p class="card-text mt-3 p-4">{{ sensor.plot_description }}</p>
+                                                                                            </li>
+                                                                                        </ul>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="modal-footer">
+                                                                            <button type="button"
+                                                                                    class="btn btn-secondary p-1"
+                                                                                    data-dismiss="modal">Close
+                                                                            </button>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        {% endif %}
+                                                    {% endfor %}
+                                                </div>
                                             </ul>
                                         </div>
                                     </div>
@@ -62,7 +375,166 @@
                             </div>
                         </div>
                         <div class="tab-pane fade" id="v-pills-inlets" role="tabpanel"
-                             aria-labelledby="v-pills-inlets-tab">Inlet
+                             aria-labelledby="v-pills-inlets-tab">
+                            #Main nav Inlet Nav
+                            <ul class="nav nav-pills nav-fill">
+                                <div class="container">
+                                    {% for part in parts %}
+                                        {% if part.type == "Inlet" %}
+                                            <div class="row">
+                                                <li class="nav-item p-1">
+                                                    <a class="nav-link active" data-toggle="modal" href="#{{ part.id }}Modal-part">{{ part.name }}</a>
+                                                </li>
+
+                                                <div class="modal fade bd-example-modal-lg" id="{{ part.id }}Modal-part" tabindex="-1"
+                                                     aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                                    <div class="modal-dialog modal-lg">
+                                                        <div class="modal-content">
+                                                            <div class="modal-header">
+                                                                <h5 class="modal-title"
+                                                                    id="exampleModalLabel">{{ part.name }}</h5>
+                                                                <button type="button" class="close"
+                                                                        data-dismiss="modal"
+                                                                        aria-label="Close">
+                                                                    <span aria-hidden="true">&times;</span>
+                                                                </button>
+                                                            </div>
+                                                            <div class="modal-body">
+                                                                <ul class="nav nav-pills py-1" id="myTab" role="tablist">
+                                                                    <li class="nav-item">
+                                                                        <a class="nav-link active"
+                                                                           id="info-tab-part-{{ part.id }}" data-toggle="tab"
+                                                                           href="#info-part-{{ part.id }}" role="tab"
+                                                                           aria-controls="info-part-{{ part.id }}"
+                                                                           aria-selected="true">Info</a>
+                                                                    </li>
+                                                                    <li class="nav-item">
+                                                                        <a class="nav-link" id="prop-mea-tab-part-{{ part.id }}"
+                                                                           data-toggle="tab" href="#prop-mea-part-{{ part.id }}"
+                                                                           role="tab"
+                                                                           aria-controls="prop-mea-part-{{ part.id }}"
+                                                                           aria-selected="false">Property Measured</a>
+                                                                    </li>
+                                                                    <li class="nav-item">
+                                                                        <a class="nav-link" id="mea-prin-tab-part-{{ part.id }}"
+                                                                           data-toggle="tab" href="#mea-prin-part-{{ part.id }}"
+                                                                           role="tab"
+                                                                           aria-controls="mea-prin-part-{{ part.id }}"
+                                                                           aria-selected="false">Measurement Principle</a>
+                                                                    </li>
+
+                                                                    {% if part.image_diagram != 'default.jpg' %}
+                                                                        <li class="nav-item">
+                                                                            <a class="nav-link" id="diagram-tab-part-{{ part.id }}"
+                                                                               data-toggle="tab" href="#diagram-part-{{ part.id }}"
+                                                                               role="tab"
+                                                                               aria-controls="diagram-part-{{ part.id }}"
+                                                                               aria-selected="false">Diagram</a>
+                                                                        </li>
+                                                                    {% endif %}
+                                                                    {% if part.image_plot != 'default.jpg' %}
+                                                                    <li class="nav-item">
+                                                                        <a class="nav-link" id="plot-tab-part-{{ part.id }}"
+                                                                           data-toggle="tab" href="#plot-part-{{ part.id }}"
+                                                                           role="tab"
+                                                                           aria-controls="plot-part-{{ part.id }}"
+                                                                           aria-selected="false">Plot</a>
+                                                                    </li>
+                                                                    {% endif %}
+                                                                </ul>
+                                                                <div class="tab-content" id="myTabContent">
+                                                                    <div class="tab-pane show active"
+                                                                         id="info-part-{{ part.id }}" role="tabpanel"
+                                                                         aria-labelledby="info-tab-part-{{ part.id }}">
+                                                                        <div class="row">
+                                                                            <div class="col">
+                                                                                {% if part.image.url != None %}
+                                                                                    <img class="rounded img-thumbnail" src="{{ part.image.url }}" alt="">
+                                                                                {% endif %}
+                                                                            </div>
+                                                                            <div class="col-7">
+                                                                                <p class="card-text mt-3">Sensor: {{ part.name }}</p>
+                                                                                <p class="card-text mt-3">Company: {{ part.company }}</p>
+                                                                                <p class="card-text mt-3">Model: {{ part.model }}</p>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="tab-pane" id="mea-prin-part-{{ part.id }}"
+                                                                         role="tabpanel"
+                                                                         aria-labelledby="mea-prin-tab-part{{ part.id }}">
+                                                                        <div class="row">
+                                                                            <div class="col">
+                                                                                {% if part.image.url != None %}
+                                                                                    <img class="rounded img-thumbnail img-fluid mx-auto d-block" src="{{ part.image.url }}" alt="">
+                                                                                {% endif %}
+                                                                            </div>
+                                                                            <div class="col-7">
+                                                                                <p class="card-text mt-3">{{ part.measu_prin }}</p>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="tab-pane" id="prop-mea-part-{{ part.id }}"
+                                                                         role="tabpanel"
+                                                                         aria-labelledby="prop-mea-tab-part-{{ part.id }}">
+                                                                        <div class="row">
+                                                                            <div class="col">
+                                                                                {% if part.image.url != None %}
+                                                                                    <img class="rounded img-thumbnail img-fluid mx-auto d-block" src="{{ part.image.url }}" alt="">
+                                                                                {% endif %}
+                                                                            </div>
+                                                                            <div class="col-7">
+                                                                                <p class="card-text mt-3">{{ part.measu_prop }}</p>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="tab-pane" id="diagram-part-{{ part.id }}"
+                                                                         role="tabpanel"
+                                                                         aria-labelledby="diagram-tab-part-{{ part.id }}">
+                                                                        <div class="row">
+                                                                                {% if part.image_diagram.url != None %}
+                                                                                    <img class="rounded img-thumbnail img-fluid mx-auto d-block" src="{{ part.image_diagram.url }}" alt="">
+                                                                                {% endif %}
+                                                                        </div>
+                                                                        <div class="row">
+                                                                            <ul>
+                                                                                <li>
+                                                                                <p class="card-text mt-3 p-4">{{ part.diagram_description }}</p>
+                                                                                </li>
+                                                                            </ul>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="tab-pane" id="plot-part-{{ part.id }}"
+                                                                         role="tabpanel"
+                                                                         aria-labelledby="plot-tab-part-{{ part.id }}">
+                                                                        <div class="row">
+                                                                                {% if part.image_diagram.url != None %}
+                                                                                    <img class="rounded img-thumbnail img-fluid mx-auto d-block" src="{{ part.image_plot.url }}" alt="">
+                                                                                {% endif %}
+                                                                        </div>
+                                                                        <div class="row">
+                                                                            <ul>
+                                                                                <li>
+                                                                                <p class="card-text mt-3 p-4">{{ part.plot_description }}</p>
+                                                                                </li>
+                                                                            </ul>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="modal-footer">
+                                                                <button type="button"
+                                                                        class="btn btn-secondary p-1"
+                                                                        data-dismiss="modal">Close
+                                                                </button>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        {% endif %}
+                                    {% endfor %}
+                                </div>
+                            </ul>
                         </div>
                         <div class="tab-pane fade" id="v-pills-adapts" role="tabpanel"
                              aria-labelledby="v-pills-adapts-tab">ADAPTS

@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from sensors.models import Sensor
+from sensors.models import Sensor, ACAS_part
 from blog.models import Image
 from django.views.generic import (
     ListView,
@@ -18,4 +18,5 @@ class StatusListView(ListView):
 def sensors(request):
     image = Image.objects.get(title='about')
     sensors = Sensor.objects.all()
-    return render(request, 'sensors.html', {'title': 'Sensors', 'image':image, 'sensors': sensors})
+    parts =  ACAS_part.objects.all()
+    return render(request, 'sensors.html', {'title': 'Sensors', 'image':image, 'sensors': sensors, 'parts':parts})
