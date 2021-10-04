@@ -11,7 +11,7 @@
         <div class="content-section" style="height: 350px">
             <div class="row">
                 <div class="col-3">
-                    #Main Tabs
+{#                    Main Tabs#}
                     <div class="nav flex-column nav-pills py-1" id="v-pills-tab" role="tablist" aria-orientation="vertical">
                         <a class="nav-link active" id="v-pills-sensor-tab" data-toggle="pill" href="#v-pills-sensor"
                            role="tab"
@@ -27,7 +27,7 @@
                         <div class="tab-pane fade show active" id="v-pills-sensor" role="tabpanel"
                              aria-labelledby="v-pills-sensor-tab">
                             <div class="row">
-                                #Sensors tabs
+{#                                #Sensors tabs#}
                                 <div class="col-3">
                                     <div class="nav flex-column nav-pills py-1" id="v-pills-tab" role="tablist"
                                          aria-orientation="vertical">
@@ -43,7 +43,7 @@
                                     <div class="tab-content" id="v-pills-tabContent">
                                         <div class="tab-pane fade show active" id="v-pills-aerosol" role="tabpanel"
                                              aria-labelledby="v-pills-aerosol-tab">
-                                            #Aerosol Sensors Nav
+{#                                            #Aerosol Sensors Nav#}
                                             <ul class="nav nav-pills nav-fill">
                                                 <div class="container">
                                                     {% for sensor in sensors %}
@@ -117,13 +117,13 @@
                                                                                     <div class="row">
                                                                                         <div class="col">
                                                                                             {% if sensor.image.url != None %}
-                                                                                                <img class="rounded img-thumbnail" src="{{ sensor.image.url }}" alt="">
+                                                                                                <img class="rounded img-thumbnail img-fluid mx-auto d-block mt-4" src="{{ sensor.image.url }}" alt="">
                                                                                             {% endif %}
                                                                                         </div>
                                                                                         <div class="col-7">
                                                                                             <p class="card-text mt-3">Sensor: {{ sensor.name }}</p>
-                                                                                            <p class="card-text mt-3">Company: {{ sensor.company }}</p>
                                                                                             <p class="card-text mt-3">Model: {{ sensor.model }}</p>
+                                                                                            <p class="card-text mt-3">Company: {{ sensor.company }}</p>
                                                                                         </div>
                                                                                     </div>
                                                                                 </div>
@@ -133,11 +133,11 @@
                                                                                     <div class="row">
                                                                                         <div class="col">
                                                                                             {% if sensor.image.url != None %}
-                                                                                                <img class="rounded img-thumbnail img-fluid mx-auto d-block" src="{{ sensor.image.url }}" alt="">
+                                                                                                <img class="rounded img-thumbnail img-fluid mx-auto d-block mt-4" src="{{ sensor.image.url }}" alt="">
                                                                                             {% endif %}
                                                                                         </div>
                                                                                         <div class="col-7">
-                                                                                            <p class="card-text mt-3">{{ sensor.measu_prin }}</p>
+                                                                                            <p class="card-text mt-3">{{ sensor.measu_prin | safe }}</p>
                                                                                         </div>
                                                                                     </div>
                                                                                 </div>
@@ -147,44 +147,34 @@
                                                                                     <div class="row">
                                                                                         <div class="col">
                                                                                             {% if sensor.image.url != None %}
-                                                                                                <img class="rounded img-thumbnail img-fluid mx-auto d-block" src="{{ sensor.image.url }}" alt="">
+                                                                                                <img class="rounded img-thumbnail img-fluid mx-auto d-block mt-4" src="{{ sensor.image.url }}" alt="">
                                                                                             {% endif %}
                                                                                         </div>
                                                                                         <div class="col-7">
-                                                                                            <p class="card-text mt-3">{{ sensor.measu_prop }}</p>
+                                                                                            <p class="card-text mt-3">{{ sensor.measu_prop | safe}}</p>
                                                                                         </div>
                                                                                     </div>
                                                                                 </div>
                                                                                 <div class="tab-pane" id="diagram-{{ sensor.id }}"
                                                                                      role="tabpanel"
                                                                                      aria-labelledby="diagram-tab-{{ sensor.id }}">
-                                                                                    <div class="row">
+                                                                                    <div class="container row">
                                                                                             {% if sensor.image_diagram.url != None %}
-                                                                                                <img class="rounded img-thumbnail img-fluid mx-auto d-block" src="{{ sensor.image_diagram.url }}" alt="">
+                                                                                                <img class="rounded img-thumbnail img-fluid mx-auto d-block mt-4" src="{{ sensor.image_diagram.url }}" alt="">
                                                                                             {% endif %}
-                                                                                    </div>
-                                                                                    <div class="row">
-                                                                                        <ul>
-                                                                                            <li>
-                                                                                            <p class="card-text mt-3 p-4">{{ sensor.diagram_description }}</p>
-                                                                                            </li>
-                                                                                        </ul>
+                                                                                            <p class="card-text p-2"><i>{{ sensor.diagram_description | safe }}</i></p>
                                                                                     </div>
                                                                                 </div>
                                                                                 <div class="tab-pane" id="plot-{{ sensor.id }}"
                                                                                      role="tabpanel"
                                                                                      aria-labelledby="plot-tab-{{ sensor.id }}">
-                                                                                    <div class="row">
+                                                                                    <div class="container row">
+
                                                                                             {% if sensor.image_diagram.url != None %}
-                                                                                                <img class="rounded img-thumbnail img-fluid mx-auto d-block" src="{{ sensor.image_plot.url }}" alt="">
+                                                                                                <img class="rounded img-thumbnail img-fluid mx-auto d-block mt-4" src="{{ sensor.image_plot.url }}" alt="">
                                                                                             {% endif %}
-                                                                                    </div>
-                                                                                    <div class="row">
-                                                                                        <ul>
-                                                                                            <li>
-                                                                                            <p class="card-text mt-3 p-4">{{ sensor.plot_description }}</p>
-                                                                                            </li>
-                                                                                        </ul>
+                                                                                            <p class="card-text p-2"><i>{{ sensor.plot_description | safe }}</i></p>
+
                                                                                     </div>
                                                                                 </div>
                                                                             </div>
@@ -207,7 +197,7 @@
                                         </div>
                                         <div class="tab-pane fade" id="v-pills-cloud" role="tabpanel"
                                              aria-labelledby="v-pills-cloud-tab">
-                                            #Cloud Sensor Nav
+{#                                            #Cloud Sensor Nav#}
                                             <ul class="nav nav-pills nav-fill">
                                                 <div class="container">
                                                     {% for sensor in sensors %}
@@ -284,7 +274,7 @@
                                                                                     <div class="row">
                                                                                         <div class="col">
                                                                                             {% if sensor.image.url != None %}
-                                                                                                <img class="rounded img-thumbnail" src="{{ sensor.image.url }}" alt="">
+                                                                                                <img class="rounded img-thumbnail img-fluid mx-auto d-block mt-4" src="{{ sensor.image.url }}" alt="">
                                                                                             {% endif %}
                                                                                         </div>
                                                                                         <div class="col-7">
@@ -300,11 +290,11 @@
                                                                                     <div class="row">
                                                                                         <div class="col">
                                                                                             {% if sensor.image.url != None %}
-                                                                                                <img class="rounded img-thumbnail img-fluid mx-auto d-block" src="{{ sensor.image.url }}" alt="">
+                                                                                                <img class="rounded img-thumbnail img-fluid mx-auto d-block mt-4" src="{{ sensor.image.url }}" alt="">
                                                                                             {% endif %}
                                                                                         </div>
                                                                                         <div class="col-7">
-                                                                                            <p class="card-text mt-3">{{ sensor.measu_prin }}</p>
+                                                                                            <p class="card-text mt-3">{{ sensor.measu_prin | safe}}</p>
                                                                                         </div>
                                                                                     </div>
                                                                                 </div>
@@ -314,11 +304,11 @@
                                                                                     <div class="row">
                                                                                         <div class="col">
                                                                                             {% if sensor.image.url != None %}
-                                                                                                <img class="rounded img-thumbnail img-fluid mx-auto d-block" src="{{ sensor.image.url }}" alt="">
+                                                                                                <img class="rounded img-thumbnail img-fluid mx-auto d-block mt-4" src="{{ sensor.image.url }}" alt="">
                                                                                             {% endif %}
                                                                                         </div>
                                                                                         <div class="col-7">
-                                                                                            <p class="card-text mt-3">{{ sensor.measu_prop }}</p>
+                                                                                            <p class="card-text mt-3">{{ sensor.measu_prop | safe }}</p>
                                                                                         </div>
                                                                                     </div>
                                                                                 </div>
@@ -327,15 +317,9 @@
                                                                                      aria-labelledby="diagram-tab-{{ sensor.id }}">
                                                                                     <div class="row">
                                                                                             {% if sensor.image_diagram.url != None %}
-                                                                                                <img class="rounded img-thumbnail img-fluid mx-auto d-block" src="{{ sensor.image_diagram.url }}" alt="">
+                                                                                                <img class="rounded img-thumbnail img-fluid mx-auto d-block mt-4" src="{{ sensor.image_diagram.url }}" alt="">
                                                                                             {% endif %}
-                                                                                    </div>
-                                                                                    <div class="row">
-                                                                                        <ul>
-                                                                                            <li>
-                                                                                            <p class="card-text mt-3 p-4">{{ sensor.diagram_description }}</p>
-                                                                                            </li>
-                                                                                        </ul>
+                                                                                        <p class="card-text p-2"><i>{{ sensor.diagram_description | safe }}</i></p>
                                                                                     </div>
                                                                                 </div>
                                                                                 <div class="tab-pane" id="plot-{{ sensor.id }}"
@@ -343,15 +327,9 @@
                                                                                      aria-labelledby="plot-tab-{{ sensor.id }}">
                                                                                     <div class="row">
                                                                                             {% if sensor.image_diagram.url != None %}
-                                                                                                <img class="rounded img-thumbnail img-fluid mx-auto d-block" src="{{ sensor.image_plot.url }}" alt="">
+                                                                                                <img class="rounded img-thumbnail img-fluid mx-auto d-block mt-4" src="{{ sensor.image_plot.url }}" alt="">
                                                                                             {% endif %}
-                                                                                    </div>
-                                                                                    <div class="row">
-                                                                                        <ul>
-                                                                                            <li>
-                                                                                            <p class="card-text mt-3 p-4">{{ sensor.plot_description }}</p>
-                                                                                            </li>
-                                                                                        </ul>
+                                                                                        <p class="card-text p-2"><i>{{ sensor.plot_description | safe }}</i></p>
                                                                                     </div>
                                                                                 </div>
                                                                             </div>
@@ -376,7 +354,7 @@
                         </div>
                         <div class="tab-pane fade" id="v-pills-inlets" role="tabpanel"
                              aria-labelledby="v-pills-inlets-tab">
-                            #Main nav Inlet Nav
+{#                            #Main nav Inlet Nav#}
                             <ul class="nav nav-pills nav-fill">
                                 <div class="container">
                                     {% for part in parts %}
@@ -449,7 +427,7 @@
                                                                         <div class="row">
                                                                             <div class="col">
                                                                                 {% if part.image.url != None %}
-                                                                                    <img class="rounded img-thumbnail" src="{{ part.image.url }}" alt="">
+                                                                                    <img class="rounded img-thumbnail img-fluid mx-auto d-block mt-4" src="{{ part.image.url }}" alt="">
                                                                                 {% endif %}
                                                                             </div>
                                                                             <div class="col-7">
@@ -465,11 +443,11 @@
                                                                         <div class="row">
                                                                             <div class="col">
                                                                                 {% if part.image.url != None %}
-                                                                                    <img class="rounded img-thumbnail img-fluid mx-auto d-block" src="{{ part.image.url }}" alt="">
+                                                                                    <img class="rounded img-thumbnail img-fluid mx-auto d-block mt-4" src="{{ part.image.url }}" alt="">
                                                                                 {% endif %}
                                                                             </div>
                                                                             <div class="col-7">
-                                                                                <p class="card-text mt-3">{{ part.measu_prin }}</p>
+                                                                                <p class="card-text mt-3">{{ part.measu_prin | safe }}</p>
                                                                             </div>
                                                                         </div>
                                                                     </div>
@@ -479,44 +457,32 @@
                                                                         <div class="row">
                                                                             <div class="col">
                                                                                 {% if part.image.url != None %}
-                                                                                    <img class="rounded img-thumbnail img-fluid mx-auto d-block" src="{{ part.image.url }}" alt="">
+                                                                                    <img class="rounded img-thumbnail img-fluid mx-auto d-block  mt-4" src="{{ part.image.url }}" alt="">
                                                                                 {% endif %}
                                                                             </div>
                                                                             <div class="col-7">
-                                                                                <p class="card-text mt-3">{{ part.measu_prop }}</p>
+                                                                                <p class="card-text mt-3">{{ part.measu_prop | safe }}</p>
                                                                             </div>
                                                                         </div>
                                                                     </div>
                                                                     <div class="tab-pane" id="diagram-part-{{ part.id }}"
                                                                          role="tabpanel"
                                                                          aria-labelledby="diagram-tab-part-{{ part.id }}">
-                                                                        <div class="row">
+                                                                        <div class="container">
                                                                                 {% if part.image_diagram.url != None %}
-                                                                                    <img class="rounded img-thumbnail img-fluid mx-auto d-block" src="{{ part.image_diagram.url }}" alt="">
+                                                                                    <img class="rounded img-thumbnail img-fluid mx-auto d-block mt-4" src="{{ part.image_diagram.url }}" alt="">
                                                                                 {% endif %}
-                                                                        </div>
-                                                                        <div class="row">
-                                                                            <ul>
-                                                                                <li>
-                                                                                <p class="card-text mt-3 p-4">{{ part.diagram_description }}</p>
-                                                                                </li>
-                                                                            </ul>
+                                                                                <p class="card-text p-2"><i>{{part.diagram_description | safe }}</i></p>
                                                                         </div>
                                                                     </div>
                                                                     <div class="tab-pane" id="plot-part-{{ part.id }}"
                                                                          role="tabpanel"
                                                                          aria-labelledby="plot-tab-part-{{ part.id }}">
-                                                                        <div class="row">
+                                                                        <div class="container">
                                                                                 {% if part.image_diagram.url != None %}
-                                                                                    <img class="rounded img-thumbnail img-fluid mx-auto d-block" src="{{ part.image_plot.url }}" alt="">
+                                                                                    <img class="rounded img-thumbnail img-fluid mx-auto d-block  mt-4" src="{{ part.image_plot.url }}" alt="">
                                                                                 {% endif %}
-                                                                        </div>
-                                                                        <div class="row">
-                                                                            <ul>
-                                                                                <li>
-                                                                                <p class="card-text mt-3 p-4">{{ part.plot_description }}</p>
-                                                                                </li>
-                                                                            </ul>
+                                                                                <p class="card-text p-2"><i>{{ part.plot_description | safe }}</i></p>
                                                                         </div>
                                                                     </div>
                                                                 </div>
@@ -537,7 +503,7 @@
                             </ul>
                         </div>
                         <div class="tab-pane fade" id="v-pills-adapts" role="tabpanel"
-                             aria-labelledby="v-pills-adapts-tab">ADAPTS
+                             aria-labelledby="v-pills-adapts-tab"><h1>About</h1></hr>{{ adapts.content | safe }}
                         </div>
                     </div>
                 </div>

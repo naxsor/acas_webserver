@@ -74,7 +74,7 @@ class PostUpdateView(PermissionRequiredMixin, LoginRequiredMixin, UserPassesTest
 
 class PostDeleteView(PermissionRequiredMixin, LoginRequiredMixin, UserPassesTestMixin, DeleteView):
     model = Post
-    success_url = '/'
+    success_url = '/blog/'
     permission_required = 'blog.delete_post'
 
     def test_func(self):

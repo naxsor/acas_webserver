@@ -1,10 +1,12 @@
 from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
+from .models import content
 
 # Create your views here.
 def app_about(request):
-    return render(request, 'app_about.html', {'title': 'ADAPTS About'})
+    about = content.objects.get(place='about')
+    return render(request, 'app_about.html', {'title': 'ADAPTS About', 'about': about})
 
 @login_required
 def app_download(request):

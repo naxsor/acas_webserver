@@ -1,6 +1,7 @@
 
 # Create your models here.
 from django.db import models
+from tinymce.models import HTMLField
 
 # Create your models here.
 class Sensor(models.Model):
@@ -9,8 +10,8 @@ class Sensor(models.Model):
     company = models.CharField(max_length=50, blank=True, null=True)
     model = models.CharField(max_length=50, blank=True, null=True)
     acronym = models.CharField(max_length=50, blank=True, null=True)
-    measu_prop = models.TextField(verbose_name='Property Measured', null=True, blank=True)
-    measu_prin = models.TextField(verbose_name='Measurement principle', null=True, blank=True)
+    measu_prop = HTMLField(verbose_name='Property Measured', null=True, blank=True)
+    measu_prin = HTMLField(verbose_name='Measurement principle', null=True, blank=True)
     data_table = models.CharField(db_column='data table', max_length=50, blank=True, null=True)  # Field renamed to remove unsuitable characters.
     available = models.BooleanField(blank=True, null=True)
     process = models.CharField(db_column='Process', max_length=50, blank=True, null=True)  # Field name made lowercase.
@@ -35,8 +36,8 @@ class ACAS_part(models.Model):
     type = models.CharField(max_length=30, blank=True)
     company = models.CharField(max_length=50, blank=True, null=True)
     model = models.CharField(max_length=50, blank=True, null=True)
-    measu_prop = models.TextField(verbose_name='Property Measured', null=True, blank=True)
-    measu_prin = models.TextField(verbose_name='Measurement principle', null=True, blank=True)
+    measu_prop =  HTMLField(verbose_name='Property Measured', null=True, blank=True)
+    measu_prin =  HTMLField(verbose_name='Measurement principle', null=True, blank=True)
     image = models.ImageField(default='default.jpg', upload_to='sensor_images', null=True, blank=True)
     image_description = models.TextField(verbose_name='Image Description', null=True, blank=True)
     image_diagram = models.ImageField(default='default.jpg', upload_to='diagram_example', null=True, blank=True)

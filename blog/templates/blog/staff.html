@@ -1,20 +1,25 @@
 {% extends "blog/base.html" %}
 {% block content %}
+    <div class="card flex-row flex-wrap mb-2">
+        <div class="container"><h1>Meet Our Staff</h1></p>
+        Meet the people that have made the developement of the Aerosol and cloud Analysis System posible.</hr></p></div>
+
+    </div>
     {% for user in users %}
         {% if user.is_staff and not user.is_superuser %}
            <div class="card flex-row flex-wrap mt-2">
-                <div class="card-header border-0">
+                <div class="col-4 card-header border-0">
                     <img class="rounded img-thumbnail img-fluid mx-auto d-block" src="{{ user.profile.image.url }}" alt="">
                 </div>
-                <div class="card-block px-2">
+                <div class="col card-block px-2">
                     <h4 class="card-title mt-3"><a href="{% url 'user-posts' user.username %}">{{ user.first_name }} {{ user.last_name }}</a></h4>
-                    <p class="card-text mt-3">Position: {{ user.profile.position }}</p>
+                    <p class="card-text mt-3"><b>Position</b>: {{ user.profile.position }}</p>
+                    <p class="card-text mt-3"><b>Email</b>: {{ user.email }}</p>
                     <h5 class="card-title mt-3">About Me</h5>
                     <p class="card-text mt-3">{{ user.profile.about }}</p>
                 </div>
                 <div class="w-100"></div>
                 <div class="card-footer w-100 text-muted">
-                    FOOTER
                 </div>
             </div>
         {% endif %}

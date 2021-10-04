@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     'storages',
     'bootstrap4',
     'bootstrap_datepicker_plus',
+    'tinymce',
 ]
 
 MIDDLEWARE = [
@@ -170,16 +171,42 @@ EMAIL_USE_TLS = True
 EMAIL_HOST_USER = 'lemanuel.colon@upr.edu'
 EMAIL_HOST_PASSWORD = 'htaqfxtjvmnxjfca'
 
-#AWS_S3_REGION_NAME = 'us-east-1'
-#AWS_STORAGE_BUCKET_NAME = os.environ.get('AWS_STORAGE_BUCKET_NAME')
-#AWS_ACCESS_KEY_ID = os.environ.get('AWS_ACCESS_KEY_ID')
-#AWS_SECRET_ACCESS_KEY = os.environ.get('AWS_SECRET_ACCESS_KEY')
+TINYMCE_DEFAULT_CONFIG = {
+    "height": 400, #texteditor height
+    'cleanup_on_startup': True,
+    'custom_undo_redo_levels': 20,
+    'selector': 'textarea',
+    'theme': 'silver',
+    'plugins': '''
+            textcolor save link image media preview codesample contextmenu
+            table code lists fullscreen  insertdatetime  nonbreaking
+            contextmenu directionality searchreplace wordcount visualblocks
+            visualchars code fullscreen autolink lists  charmap print  hr
+            anchor pagebreak
+            ''',
+    'toolbar1': '''
+            fullscreen preview | bold italic underline |
+            fontsizeselect  | forecolor backcolor | alignleft alignright |
+            aligncenter alignjustify | indent outdent | bullist numlist table |
+            | link image media | codesample | visualblocks visualchars |
+            charmap hr |  code |
+            ''',
+    'contextmenu': 'formats | link image',
+    'menubar': True,
+    'statusbar': True,
+    'font_formats': ""
+}
 
-#AWS_S3_FILE_OVERWRITE = False
-#AWS_DEFAULT_ACL = None
-#
-#DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
-#S3_USE_SIGV4 = True
+# AWS_S3_REGION_NAME = 'us-east-1'
+# AWS_STORAGE_BUCKET_NAME = os.environ.get('AWS_STORAGE_BUCKET_NAME')
+# AWS_ACCESS_KEY_ID = os.environ.get('AWS_ACCESS_KEY_ID')
+# AWS_SECRET_ACCESS_KEY = os.environ.get('AWS_SECRET_ACCESS_KEY')
+
+# AWS_S3_FILE_OVERWRITE = False
+# AWS_DEFAULT_ACL = None
+
+DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
+# S3_USE_SIGV4 = True
 
 #django_heroku.settings(locals())
 
