@@ -33,20 +33,22 @@ ALLOWED_HOSTS = [
 ]
 # Application definition
 INSTALLED_APPS = [
+    'django.contrib.contenttypes',
     'blog.apps.BlogConfig',
     'users.apps.UsersConfig',
     'sensors.apps.SensorsConfig',
     'project.apps.ProjectConfig',
+    'app.apps.AppConfig',
     'crispy_forms',
     'django.contrib.admin',
     'django.contrib.auth',
-    'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'storages',
     'bootstrap4',
     'bootstrap_datepicker_plus',
+    'tinymce',
 ]
 
 MIDDLEWARE = [
