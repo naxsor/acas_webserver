@@ -1,6 +1,7 @@
 from django.shortcuts import render, get_object_or_404
-from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
+from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin, PermissionRequiredMixin
 from django.contrib.auth.models import User
+from sensors.models import Sensor
 from django.views.generic import (
     ListView,
     DetailView,
@@ -8,23 +9,26 @@ from django.views.generic import (
     UpdateView,
     DeleteView
 )
-from .models import Post
+from .models import Post, Slideshow, Image
 
 
 def home(request):
     context = {
-        'posts': Post.objects.all()
+        'slides': Slideshow.objects.all()
     }
     return render(request, 'blog/home.html', context)
 
+class StaffListView(ListView):
+    model = User
+    template_name = 'blog/staff.html'
+    context_object_name = 'users'
 
 class PostListView(ListView):
     model = Post
-    template_name = 'blog/home.html'  # <app>/<model>_<viewtype>.html
+    template_name = 'blog/blog.html'  # <app>/<model>_<viewtype>.html
     context_object_name = 'posts'
     ordering = ['-date_posted']
     paginate_by = 5
-
 
 class UserPostListView(ListView):
     model = Post
@@ -40,19 +44,23 @@ class UserPostListView(ListView):
 class PostDetailView(DetailView):
     model = Post
 
-
-class PostCreateView(LoginRequiredMixin, CreateView):
+class PostCreateView(PermissionRequiredMixin, LoginRequiredMixin, CreateView):
+    permission_required = 'blog.add_post'
     model = Post
-    fields = ['title', 'content']
+    fields = ['title', 'content', 'image']
+
 
     def form_valid(self, form):
+        # if self.request.method == 'POST':
         form.instance.author = self.request.user
+        form.save()
         return super().form_valid(form)
 
 
-class PostUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
+class PostUpdateView(PermissionRequiredMixin, LoginRequiredMixin, UserPassesTestMixin, UpdateView):
+    permission_required = 'blog.change_post'
     model = Post
-    fields = ['title', 'content']
+    fields = ['title', 'content', 'image']
 
     def form_valid(self, form):
         form.instance.author = self.request.user
@@ -64,9 +72,10 @@ class PostUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
             return True
         return False
 
-class PostDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
+class PostDeleteView(PermissionRequiredMixin, LoginRequiredMixin, UserPassesTestMixin, DeleteView):
     model = Post
-    success_url = '/'
+    success_url = '/blog/'
+    permission_required = 'blog.delete_post'
 
     def test_func(self):
         post = self.get_object()

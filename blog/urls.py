@@ -1,11 +1,13 @@
 from django.urls import path
 from .views import (
+    home,
     PostListView,
     PostDetailView,
     PostCreateView,
     PostUpdateView,
     PostDeleteView,
     UserPostListView,
+    StaffListView,
 )
 from project.views import (
     ProjectDetailView,
@@ -25,10 +27,13 @@ from sensors.views import (
 )
 from . import views
 from django.contrib import admin
+from django.conf.urls.static import static
+from django.conf import settings
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', PostListView.as_view(), name='blog-home'),
+    path('', home,name='blog-home'),
+    path('blog/', PostListView.as_view(), name='blog-blog'),
     path('user/<str:username>', UserPostListView.as_view(), name='user-posts'),
     path('post/<int:pk>/', PostDetailView.as_view(), name='post-detail'),
     path('post/new/', PostCreateView.as_view(), name='post-create'),
@@ -37,6 +42,7 @@ urlpatterns = [
     path('about/acas', views.about, name='blog-about'),
     path('about/calendar/', views.calendar, name='blog-calendar'),
     path('about/sensors/', sensors, name='blog-sensors'),
+    path('about/staff/', StaffListView.as_view(), name='blog-staff'),
     path('project/', ProjectListView.as_view(), name='project-list'),
     path('project/<int:pk>/', ProjectDetailView.as_view(), name='project-detail'),
     path('project/request/', ProjectRequestView.as_view(), name='project-request'),
@@ -45,7 +51,7 @@ urlpatterns = [
     path('adapts/about', app_about, name='app-about'),
     path('adapts/download', app_download, name='app-download'),
 
-]
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 admin.site.site_header = 'ACAS Administration'
 admin.site.site_title = 'ACAS Administration'

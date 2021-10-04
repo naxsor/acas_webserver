@@ -1,15 +1,27 @@
 
 # Create your models here.
 from django.db import models
+from tinymce.models import HTMLField
 
 # Create your models here.
 class Sensor(models.Model):
     id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=50, blank=True, null=True)
+    company = models.CharField(max_length=50, blank=True, null=True)
+    model = models.CharField(max_length=50, blank=True, null=True)
     acronym = models.CharField(max_length=50, blank=True, null=True)
+    measu_prop = HTMLField(verbose_name='Property Measured', null=True, blank=True)
+    measu_prin = HTMLField(verbose_name='Measurement principle', null=True, blank=True)
     data_table = models.CharField(db_column='data table', max_length=50, blank=True, null=True)  # Field renamed to remove unsuitable characters.
     available = models.BooleanField(blank=True, null=True)
     process = models.CharField(db_column='Process', max_length=50, blank=True, null=True)  # Field name made lowercase.
+    type = models.CharField(max_length=30, blank=True)
+    image = models.ImageField(default='default.jpg', upload_to='sensor_images', null=True, blank=True)
+    image_description = models.TextField(verbose_name='Image Description', null=True, blank=True)
+    image_diagram = models.ImageField(default='default.jpg', upload_to='diagram_example', null=True, blank=True)
+    diagram_description = models.TextField(verbose_name='Diagram Description', null=True, blank=True)
+    image_plot = models.ImageField(default='default.jpg', upload_to='plot_example', null=True, blank=True)
+    plot_description = models.TextField(verbose_name='Plot Description', null=True, blank=True)
 
     def __str__(self):
         return f'{self.name} ({self.acronym})'
@@ -17,6 +29,27 @@ class Sensor(models.Model):
     class Meta:
         managed = True
         db_table = 'sensor'
+
+class ACAS_part(models.Model):
+    name = models.CharField(max_length=50, blank=True, null=True)
+    acronym = models.CharField(max_length=50, blank=True, null=True)
+    type = models.CharField(max_length=30, blank=True)
+    company = models.CharField(max_length=50, blank=True, null=True)
+    model = models.CharField(max_length=50, blank=True, null=True)
+    measu_prop =  HTMLField(verbose_name='Property Measured', null=True, blank=True)
+    measu_prin =  HTMLField(verbose_name='Measurement principle', null=True, blank=True)
+    image = models.ImageField(default='default.jpg', upload_to='sensor_images', null=True, blank=True)
+    image_description = models.TextField(verbose_name='Image Description', null=True, blank=True)
+    image_diagram = models.ImageField(default='default.jpg', upload_to='diagram_example', null=True, blank=True)
+    diagram_description = models.TextField(verbose_name='Diagram Description', null=True, blank=True)
+    image_plot = models.ImageField(default='default.jpg', upload_to='plot_example', null=True, blank=True)
+    plot_description = models.TextField(verbose_name='Plot Description', null=True, blank=True)
+
+    def __str__(self):
+        return f'{self.name} ({self.acronym})'
+
+    class Meta:
+        verbose_name = 'System Part'
 
 
 class File(models.Model):
@@ -26,7 +59,6 @@ class File(models.Model):
     class Meta:
         managed = True
         db_table = 'files'
-
 
 class Inlet_Switcher_State(models.Model):
     datetime = models.DateTimeField(db_column='Datetime', primary_key=True)  # Field name made lowercase.
@@ -38,7 +70,6 @@ class Inlet_Switcher_State(models.Model):
     class Meta:
         managed = True
         db_table = 'inlet_switcher_state'
-
 
 class Primary_Variables(models.Model):
     id = models.AutoField(primary_key=True)
@@ -57,7 +88,6 @@ class Primary_Variables(models.Model):
         verbose_name = 'Variable'
         ordering = [models.F('sensor').asc(nulls_last=True)]
 
-
 class Process(models.Model):
     id = models.AutoField(primary_key=True)
     sensor = models.ForeignKey(Sensor, on_delete=models.CASCADE, db_column='Sensor id', blank=True, null=True, related_name='+')  # Field name made lowercase. Field renamed to remove unsuitable characters.
@@ -67,7 +97,6 @@ class Process(models.Model):
     class Meta:
         managed = True
         db_table = 'process'
-
 
 class Log(models.Model):
     id = models.AutoField(primary_key=True)
@@ -82,8 +111,6 @@ class Log(models.Model):
     class Meta:
         managed = True
         db_table = 'sensor_log'
-
-
 # Create your models here.
 class Ccn(models.Model):
     datetime = models.DateTimeField(db_column='Datetime', primary_key=True)  # Field name made lowercase.
@@ -142,7 +169,7 @@ class Ccn(models.Model):
         managed = True
         db_table = 'sensor_ccn'
 
-class sp2_xr(models.Model):
+class uv_lif(models.Model):
     datetime = models.DateTimeField(db_column='Datetime', primary_key=True)  # Field name made lowercase.
     utc_offset = models.IntegerField(db_column='UTC Offset', blank=True, null=True)
     incand_part_conc = models.FloatField(db_column='Incandescence Particle Concentration', blank=True, null=True)
@@ -242,7 +269,7 @@ class sp2_xr(models.Model):
 
     class Meta:
         managed = True
-        db_table = 'sensor_sp2'
+        db_table = 'sensor_liis'
 
 class Clap(models.Model):
     datetime = models.DateTimeField(db_column='Datetime', primary_key=True)  # Field name made lowercase.
@@ -299,7 +326,6 @@ class Clap(models.Model):
     class Meta:
         managed = True
         db_table = 'sensor_clap'
-
 
 class Dma(models.Model):
     datetime = models.DateTimeField(db_column='Datetime', primary_key=True)  # Field name made lowercase.
@@ -448,7 +474,6 @@ class Dma(models.Model):
         db_table = 'sensor_dma'
         unique_together = (('datetime', 'start_datetime', 'end_datetime'),)
 
-
 class Hygrometer(models.Model):
     datetime = models.DateTimeField(db_column='Datetime', primary_key=True)  # Field name made lowercase.
     water_vapor_content = models.FloatField(db_column='Water Vapor Content', blank=True, null=True)  # Field name made lowercase. Field renamed to remove unsuitable characters.
@@ -459,8 +484,7 @@ class Hygrometer(models.Model):
         managed = True
         db_table = 'sensor_hygrometer'
 
-
-class Uv_Lif(models.Model):
+class liis(models.Model):
     datetime = models.DateTimeField(db_column='Datetime', primary_key=True)  # Field name made lowercase.
     number_408_board_temperature = models.FloatField(db_column='408 Board Temperature', blank=True, null=True)  # Field name made lowercase. Field renamed to remove unsuitable characters. Field renamed because it wasn't a valid Python identifier.
     bandwidths_0 = models.FloatField(db_column='Bandwidths 0', blank=True, null=True)
@@ -520,7 +544,6 @@ class Uv_Lif(models.Model):
         managed = True
         db_table = 'sensor_uv_lif'
 
-
 class SensorCpd3Clap(models.Model):
     datetime = models.DateTimeField(db_column='Datetime', primary_key=True)  # Field name made lowercase.
     transmittance = models.FloatField(db_column='Transmittance', blank=True, null=True)  # Field name made lowercase.
@@ -531,7 +554,6 @@ class SensorCpd3Clap(models.Model):
         managed = True
         db_table = 'sensor_cpd3_clap'
 
-
 class SensorCpd3Cpc(models.Model):
     datetime = models.DateTimeField(db_column='Datetime', primary_key=True)  # Field name made lowercase.
     condensation_nuclei_concentration = models.FloatField(db_column='Condensation nuclei concentration', blank=True, null=True)  # Field name made lowercase. Field renamed to remove unsuitable characters.
@@ -540,7 +562,6 @@ class SensorCpd3Cpc(models.Model):
         managed = True
         db_table = 'sensor_cpd3_cpc'
 
-
 class SensorCpd3Neph(models.Model):
     datetime = models.DateTimeField(db_column='Datetime', primary_key=True)  # Field name made lowercase.
     aerosol_light_scattering_coefficient = models.FloatField(db_column='Aerosol light scattering coefficient', blank=True, null=True)  # Field name made lowercase. Field renamed to remove unsuitable characters.
@@ -548,7 +569,6 @@ class SensorCpd3Neph(models.Model):
     class Meta:
         managed = True
         db_table = 'sensor_cpd3_neph'
-
 
 class SensorCpd3PwdVaisala(models.Model):
     datetime = models.DateTimeField(db_column='Datetime', primary_key=True)  # Field name made lowercase.
@@ -562,7 +582,6 @@ class SensorCpd3PwdVaisala(models.Model):
         managed = True
         db_table = 'sensor_cpd3_pwd_vaisala'
 
-
 class SensorCpd3WmtVaisala(models.Model):
     datetime = models.DateTimeField(db_column='Datetime', primary_key=True)  # Field name made lowercase.
     wind_direction = models.FloatField(db_column='Wind Direction', blank=True, null=True)  # Field name made lowercase. Field renamed to remove unsuitable characters.
@@ -571,7 +590,6 @@ class SensorCpd3WmtVaisala(models.Model):
     class Meta:
         managed = True
         db_table = 'sensor_cpd3_wmt_vaisala'
-
 
 class SensorCpd3WxtVaisala(models.Model):
     datetime = models.DateTimeField(db_column='Datetime', primary_key=True)  # Field name made lowercase.

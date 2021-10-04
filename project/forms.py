@@ -9,7 +9,7 @@ DateInput = partial(forms.DateInput, {'class': 'datepicker'})
 class ProjectRequestForm(forms.ModelForm):
     class Meta:
         model = Project
-        fields = ['project_name', 'research_objective', 'principal_investigator', 'project_tentative_start_date', 'project_duration', 'request_date', 'request_by']
+        fields = ['project_name', 'research_objective', 'principal_investigator', 'project_tentative_start_date', 'project_duration', 'request_date']
         # widgets = {
         #     'project_tentative_start_date': DatePickerInput(),  # default date-format %m/%d/%Y will be used
         #          # specify date-frmat
