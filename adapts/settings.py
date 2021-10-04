@@ -12,6 +12,10 @@ https://docs.djangoproject.com/en/3.1/ref/settings/
 
 from pathlib import Path
 import os
+import json
+
+with open('config.json') as config_file:
+	config = json.load(config_file)
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -99,20 +103,21 @@ DATABASE_APPS_MAPPING = {'sensors': 'sensor_db'}
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'acas',
-        'USER': 'postgres',
-        'PASSWORD': 'acas2020',
-        'HOST': '127.0.0.1',
-        'PORT': '5432',
+        'NAME': config.get('db_name'),
+        'USER': config.get('db_username'),
+        'PASSWORD': config.get('db_password'),
+        'HOST': config.get('db_ip'),
+        'PORT': config.get('db_port')
     },
     'sensor_db': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'sensor_db',
-        'USER': 'postgres',
-        'PASSWORD': 'acas2020',
-        'HOST': '127.0.0.1',
-        'PORT': '5432',
+	    'ENGINE': 'django.db.backends.postgresql',
+        'NAME': config.get('db_sensor_name'),
+        'USER': config.get('db_sensor_username'),
+        'PASSWORD': config.get('db_sensor_password'),
+        'HOST': config.get('db_sensor_ip'),
+        'PORT': config.get('db_sensor_sport'),
     }
+
 }
 
 # Password validation
@@ -197,16 +202,16 @@ TINYMCE_DEFAULT_CONFIG = {
     'font_formats': ""
 }
 
-# AWS_S3_REGION_NAME = 'us-east-1'
-# AWS_STORAGE_BUCKET_NAME = os.environ.get('AWS_STORAGE_BUCKET_NAME')
-# AWS_ACCESS_KEY_ID = os.environ.get('AWS_ACCESS_KEY_ID')
-# AWS_SECRET_ACCESS_KEY = os.environ.get('AWS_SECRET_ACCESS_KEY')
+AWS_S3_REGION_NAME = 'us-east-2'
+AWS_STORAGE_BUCKET_NAME = config.get('AWS_STORAGE_BUCKET_NAME')
+AWS_ACCESS_KEY_ID = config.get('AWS_ACCESS_KEY_ID')
+AWS_SECRET_ACCESS_KEY = config.get('AWS_SECRET_ACCESS_KEY')
 
-# AWS_S3_FILE_OVERWRITE = False
-# AWS_DEFAULT_ACL = None
+AWS_S3_FILE_OVERWRITE = False
+AWS_DEFAULT_ACL = None
 
 DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
-# S3_USE_SIGV4 = True
+S3_USE_SIGV4 = True
 
 #django_heroku.settings(locals())
 
