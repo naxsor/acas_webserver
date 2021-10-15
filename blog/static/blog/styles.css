@@ -79,7 +79,6 @@ body {
   margin: 0;
   background: #e2e2e2;
   color: #333333;
-  margin-top: 5rem;
   font-family: var(--bs-body-font-family);
   font-size: var(--bs-body-font-size);
   font-weight: var(--bs-body-font-weight);
@@ -6003,7 +6002,8 @@ textarea.form-control-lg {
   content: "";
 }
 
-.carousel-item {
+.carousel-item{
+  top:-100px;
   position: relative;
   display: none;
   float: left;
@@ -6012,7 +6012,11 @@ textarea.form-control-lg {
   -webkit-backface-visibility: hidden;
           backface-visibility: hidden;
   transition: transform 0.6s ease-in-out;
+  max-height: 477px;
+  min-width: auto;
+  filter: brightness(50%);
 }
+
 @media (prefers-reduced-motion: reduce) {
   .carousel-item {
     transition: none;
@@ -6026,15 +6030,7 @@ textarea.form-control-lg {
 }
 
 /* rtl:begin:ignore */
-.carousel-item-next:not(.carousel-item-start),
-.active.carousel-item-end {
-  transform: translateX(100%);
-}
 
-.carousel-item-prev:not(.carousel-item-end),
-.active.carousel-item-start {
-  transform: translateX(-100%);
-}
 
 /* rtl:end:ignore */
 .carousel-fade .carousel-item {
@@ -11306,4 +11302,29 @@ a.article-title:hover {
     width: 65px;
     margin-right: 16px;
 
+}
+
+.main-text
+{
+    position: absolute;
+    top: 25%;
+    width: 50%;
+    color: #FFF;
+}
+.btn-min-block
+{
+    min-width: 170px;
+    line-height: 26px;
+}
+.btn-clear
+{
+    color: #FFF;
+    background-color: transparent;
+    border-color: #FFF;
+    margin-right: 15px;
+}
+.btn-clear:hover
+{
+    color: #000;
+    background-color: #FFF;
 }

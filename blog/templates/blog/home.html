@@ -18,77 +18,11 @@
     </head>
     <body>
         <!-- Responsive navbar-->
-        <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-            <div class="container">
-                <a class="navbar-brand" href="#!">ACAS</a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
-                <div class="collapse navbar-collapse" id="navbarToggle">
-                    <div class="navbar-nav mr-auto">
-                        <a class="nav-item nav-link" href="{% url 'blog-home' %}">Home</a>
-                        <a class="nav-item nav-link" href="{% url 'blog-blog' %}">Blog</a>
-                        <div class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                              About Us
-                            </a>
-                                <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                                    <a class="dropdown-item" href="{% url 'blog-about' %}">About</a>
-                                    <a class="dropdown-item" href="{% url 'blog-calendar' %}">Calendar</a>
-                                    <a class="dropdown-item" href="{% url 'blog-staff' %}">Staff</a>
-                                    <a class="dropdown-item" href="{% url 'blog-sensors' %}">Sensors</a>
-                                </div>
-                        </div>
-                        <div class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                              Projects
-                            </a>
-                                <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                                  <a class="dropdown-item" href="{% url 'project-list' %}">List</a>
-                                  <a class="dropdown-item" href="{% url 'project-request' %}">Request</a>
-                                </div>
-                        </div>
-                        <div class="dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                          ADAPTS
-                        </a>
-                            <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                              <a class="dropdown-item" href="{% url 'app-about' %}">About</a>
-                              <a class="dropdown-item" href="{% url 'app-download' %}">Download</a>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- Navbar Right Side -->
-                    <div class="navbar-nav">
-                        {% if user.is_authenticated %}
-                            {% if perms.blog.add_post == True %}
-                                <a class="nav-item nav-link" href="{% url 'post-create' %}">New Post</a>
-                            {% endif %}
-                        <a class="nav-item nav-link" href="{% url 'profile' %}">Profile</a>
-                        <a class="nav-item nav-link" href="{% url 'logout' %}">Logout</a>
-                        {% else %}
-                        <a class="nav-item nav-link" href="{% url 'login' %}">Login</a>
-                        <a class="nav-item nav-link" href="{% url 'register' %}">Register</a>
-                        {% endif %}
-                    </div>
-                </div>
+        {% include "blog/nav_bar.html" %}
 
-            </div>
-        </nav>
         <!-- Header-->
-        <header class="bg-dark py-5">
-            <div class="container px-5">
-                <div class="row gx-5 justify-content-center">
-                    <div class="col-lg-6">
-                        <div class="text-center my-5">
-                            <h1 class="display-5 fw-bolder text-white mb-2">Aerosol and Cloud Analysis System</h1>
-                            <p class="lead text-white-50 mb-4">The Aerosol and Cloud Analysis System (ACAS) is a tightly integrated suite of aerosol and cloud that will be used as a research and teaching tool.</p>
-                            <div class="d-grid gap-3 d-sm-flex justify-content-sm-center">
-{#                                <a class="btn btn-primary btn-lg px-4 me-sm-3" href="#features">Get Started</a>#}
-                                <a class="btn btn-outline-light btn-lg px-4" href="{% url 'blog-about' %}">Learn More</a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+        <header class="bg-dark">
+            {% include "blog/slideshow.html" %}
         </header>
         <!-- Features section-->
         <section class="py-5 border-bottom" id="features">
@@ -197,7 +131,9 @@
             <div class="container px-5"><p class="m-0 text-center text-white">Copyright &copy; Your Website 2021</p></div>
         </footer>
         <!-- Bootstrap core JS-->
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js"></script>
+        <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
         <!-- Core theme JS-->
         <script src="js/scripts.js"></script>
         <!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *-->

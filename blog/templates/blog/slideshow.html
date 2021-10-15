@@ -1,0 +1,43 @@
+<div class="row">
+    <div class="col-md-12">
+        <div id="carousel" class="carousel slide" data-ride="carousel">
+            <ol class="carousel-indicators">
+                {% for slide in slides %}
+                    <li data-target="carousel" data-slide-to="{{ forloop.counter0 }}"
+                        {% if forloop.counter0 == 1 %}class="active">{% endif %}</li>
+                {% endfor %}
+            </ol>
+            <div class="carousel-inner">
+                {% for slide in slides %}
+                    <div class="carousel-item {% if forloop.counter == 1 %}active{% endif %}">
+                        <img class="img-fluid mx-auto d-block w-100" src="{{ slide.image.url }}">
+                    </div>
+                {% endfor %}
+            </div>
+            <div class="container px-5">
+                <div class="row gx-5 justify-content-center">
+                    <div class="main-text hidden-xs">
+                        <div class="col-md-12 text-center">
+                            <h1 class="display-5 fw-bolder text-white mb-2">Aerosol and Cloud Analysis System</h1>
+                            <p class="lead text-white-50 mb-4">The Aerosol and Cloud Analysis System (ACAS) is a tightly
+                                integrated suite of aerosol and cloud that will be used as a research and teaching
+                                tool.</p>
+                            <div class="d-grid gap-3 d-sm-flex justify-content-sm-center">
+{#                                <a class="btn btn-primary btn-lg px-4 me-sm-3" href="#features">Get Started</a>#}
+                                <a class="btn btn-clear btn-sm btn-min-block" href="{% url 'blog-about' %}">Learn More</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <a class="carousel-control-prev" href="#carousel" role="button" data-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="sr-only">Previous</span>
+            </a>
+            <a class="carousel-control-next" href="#carousel" role="button" data-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="sr-only">Next</span>
+            </a>
+        </div>
+    </div>
+</div>
