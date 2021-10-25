@@ -199,7 +199,8 @@ TINYMCE_DEFAULT_CONFIG = {
     'contextmenu': 'formats | link image',
     'menubar': True,
     'statusbar': True,
-    'font_formats': ""
+    'font_formats': "",
+    'images_upload_url':MEDIA_URL,
 }
 
 AWS_S3_REGION_NAME = 'us-east-2'
@@ -214,5 +215,4 @@ DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
 S3_USE_SIGV4 = True
 
 #django_heroku.settings(locals())
-
 
