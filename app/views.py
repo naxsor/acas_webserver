@@ -5,8 +5,8 @@ from .models import content
 
 # Create your views here.
 def app_about(request):
-    about = content.objects.get(place='about')
-    return render(request, 'app_about.html', {'title': 'ADAPTS About', 'about': about})
+    about = content.objects.get(place='About ADAPTS')
+    return render(request, 'app_about.html', {'about': about})
 
 @login_required
 def app_download(request):

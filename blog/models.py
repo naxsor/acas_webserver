@@ -38,3 +38,6 @@ class Slideshow(models.Model):
 class Image(models.Model):
     title = models.CharField(max_length=25)
     image = models.ImageField(upload_to='blog_images/')
+
+    def __str__(self):
+        return self.title

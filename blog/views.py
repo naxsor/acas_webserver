@@ -9,13 +9,14 @@ from django.views.generic import (
     UpdateView,
     DeleteView
 )
-from .models import Post, Slideshow
+from .models import Post, Slideshow, Image
 from app.models import content
 
 def home(request):
     context = {
         'slides': Slideshow.objects.all(),
-        'content' : content.objects.get(place='Location Info Homepage')
+        'content' : content.objects.get(place='Location Info Homepage'),
+        'geopicture' : Image.objects.get(title='ACAS Geopicture'),
     }
     return render(request, 'blog/home.html', context)
 
