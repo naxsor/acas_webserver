@@ -10,6 +10,7 @@ class Sensor(models.Model):
     company = models.CharField(max_length=50, blank=True, null=True)
     model = models.CharField(max_length=50, blank=True, null=True)
     acronym = models.CharField(max_length=50, blank=True, null=True)
+    info = HTMLField(verbose_name='Information', null=True, blank=True)
     measu_prop = HTMLField(verbose_name='Property Measured', null=True, blank=True)
     measu_prin = HTMLField(verbose_name='Measurement principle', null=True, blank=True)
     data_table = models.CharField(db_column='data table', max_length=50, blank=True, null=True)  # Field renamed to remove unsuitable characters.
@@ -51,6 +52,16 @@ class ACAS_part(models.Model):
     class Meta:
         verbose_name = 'System Part'
 
+class Reference(models.Model):
+    sensor = models.ForeignKey(Sensor, models.CASCADE)
+    reference = models.CharField(max_length=200, blank=True, null=True)
+
+    class Meta:
+        managed = True
+        db_table = 'references'
+
+    def __str__(self):
+        return f'{self.sensor} ({self.pk})'
 
 class File(models.Model):
     sensor = models.OneToOneField(Sensor, models.CASCADE, primary_key=True)
@@ -169,7 +180,7 @@ class Ccn(models.Model):
         managed = True
         db_table = 'sensor_ccn'
 
-class uv_lif(models.Model):
+class liis(models.Model):
     datetime = models.DateTimeField(db_column='Datetime', primary_key=True)  # Field name made lowercase.
     utc_offset = models.IntegerField(db_column='UTC Offset', blank=True, null=True)
     incand_part_conc = models.FloatField(db_column='Incandescence Particle Concentration', blank=True, null=True)
@@ -484,7 +495,7 @@ class Hygrometer(models.Model):
         managed = True
         db_table = 'sensor_hygrometer'
 
-class liis(models.Model):
+class uv_lif(models.Model): #WIBS NEO
     datetime = models.DateTimeField(db_column='Datetime', primary_key=True)  # Field name made lowercase.
     number_408_board_temperature = models.FloatField(db_column='408 Board Temperature', blank=True, null=True)  # Field name made lowercase. Field renamed to remove unsuitable characters. Field renamed because it wasn't a valid Python identifier.
     bandwidths_0 = models.FloatField(db_column='Bandwidths 0', blank=True, null=True)

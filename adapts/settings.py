@@ -199,7 +199,7 @@ TINYMCE_DEFAULT_CONFIG = {
     'contextmenu': 'formats | link image',
     'menubar': True,
     'statusbar': True,
-    'font_formats': "",
+    'font_formats': "Sans Serif=sans-serif;",
     'images_upload_url':MEDIA_URL,
 }
 

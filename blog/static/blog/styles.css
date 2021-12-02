@@ -1,4 +1,4 @@
-@charset "UTF-8";
+   @charset "UTF-8";
 /*!
 * Start Bootstrap - Business Frontpage v5.0.4 (https://startbootstrap.com/template/business-frontpage)
 * Copyright 2013-2021 Start Bootstrap
@@ -61,6 +61,11 @@
   --bs-body-line-height: 1.5;
   --bs-body-color: #212529;
   --bs-body-bg: #fff;
+}
+
+html *
+{
+   font-family: Sans-Serif !important;
 }
 
 *,
@@ -597,7 +602,7 @@ progress {
   color: #6c757d;
 }
 .blockquote-footer::before {
-  content: "— ";
+  content: "— ";
 }
 
 .img-fluid {
@@ -678,12 +683,22 @@ progress {
 }
 .row > * {
   flex-shrink: 0;
-  width: 100%;
+  /*width: 100%;*/
   max-width: 100%;
   padding-right: calc(var(--bs-gutter-x) * .5);
   padding-left: calc(var(--bs-gutter-x) * .5);
   margin-top: var(--bs-gutter-y);
 }
+
+.row-2 > * {
+  flex-shrink: 0;
+  /*width: 100%;*/
+  max-width: 100%;
+  padding-right: calc(var(--bs-gutter-x) * .5);
+  padding-left: calc(var(--bs-gutter-x) * .5);
+  margin-top: var(--bs-gutter-y);
+}
+
 
 .col {
   flex: 1 0 0%;
@@ -6003,7 +6018,7 @@ textarea.form-control-lg {
 }
 
 .carousel-item{
-  top:-200px;
+  top:-100px;
   position: relative;
   display: none;
   float: left;
@@ -11327,4 +11342,26 @@ a.article-title:hover {
 {
     color: #000;
     background-color: #FFF;
+}
+
+/*ADDED FROM CUSTOM*/
+.content-section {
+    background: #ffffff;
+    padding: 10px 20px;
+    border: 1px solid #dddddd;
+    border-radius: 5px;
+    margin-bottom: 20px;
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+
+}
+
+.footer {
+  position: static;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  background-color: #858585;
+  color: white;
+  box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+  text-align: center;
 }
