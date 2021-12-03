@@ -1,31 +1,8 @@
 {% extends "blog/base.html" %}
 {% block content %}
      <div class="content-section">
+         <img class="rounded img-thumbnail img-fluid mx-auto d-block my-2" style="width: 75%" src="{{ content.image.url }}">
         <h2>Aerosol and Cloud Analysis System</h2>
-        <hr/>
-        <h4>Objectives</h4>
-        <p class="text-justify">
-        The Aerosol and Cloud Analysis System (ACAS) is a tightly integrated suite of aerosol and cloud that will be
-        used as a research and teaching tool to:
-        <ul>
-        <li>Study the formation of clouds from aerosols.</li>
-        <li>Investigate how aerosol properties change when they are processed by clouds.</li>
-        <li>Instruct students on aerosol and cloud instrumentation.</li>
-        <li>Aid in teaching aerosol and cloud physics at the undergraduate and graduate level.</li>
-        <li>Support visiting scientist who bring their own instruments.</li>
-        </ul>
-        <hr/>
-        <h4>Science Addressed</h4>
-        <ul>
-            <li><b>CCN Closure Studies</b>: Reconciliation of concentration of CCN vs Supersaturation measured directly with those
-            predicted from aerosol size and chemistry</li>
-            <li><b>Cloud Micro-Physics vs Aerosol Properties</b>: Cloud size distributions and LWC as they relate to aerosol size
-            chemistry</li>
-            <li><b>Cloud Model Validation</b>: Reconciliation of the formation and evolution of cloud micro-physical properties measure
-            and simulated.</li>
-            <li><b>Cloud Chemistry</b>: Cloud water chemicals Analysis and cloud droplet residual analysis. The former using off-line analysis,
-            the latter in real-time.</li>
-        </ul>
-        </p>
+        {{ content.content | safe }}
      </div>
 {% endblock content %}

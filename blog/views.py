@@ -87,7 +87,8 @@ class PostDeleteView(PermissionRequiredMixin, LoginRequiredMixin, UserPassesTest
 
 
 def about(request):
-    return render(request, 'blog/about.html', {'title': 'About'})
+    content1 = content.objects.get(place='about')
+    return render(request, 'blog/about.html', {'title': 'About', 'content':content1})
 
 def calendar(request):
     return render(request, 'blog/calendar.html', {'title': 'Calendar'})

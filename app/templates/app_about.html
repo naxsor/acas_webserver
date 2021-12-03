@@ -1,10 +1,10 @@
 {% extends "blog/base.html" %}
 {% block content %}
      <div class="content-section">
+        <img class="rounded img-thumbnail img-fluid mx-auto d-block my-4" src="{{ about.image.url }}" alt="">
         <h2>{{ about.title }}</h2>
         <hr/>
          <p class="text-justify">
-             <img class="rounded img-thumbnail img-fluid mx-auto d-block" src="{{ about.image.url }}" alt="">
              {{ about.content | safe }}
          </p>
      </div>

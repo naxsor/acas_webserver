@@ -1,22 +1,22 @@
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
     <div class="container">
-        <a class="navbar-brand" href="{% url 'blog-home' %}">ACAS</a>
+        <a class="navbar-brand" href="{% url 'blog-home' %}">Home</a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
                 aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span
                 class="navbar-toggler-icon"></span></button>
         <div class="collapse navbar-collapse" id="navbarToggle">
             <div class="navbar-nav mr-auto">
-                <a class="nav-item nav-link" href="{% url 'blog-blog' %}">Blog</a>
+                <a class="nav-item nav-link" href="{% url 'blog-blog' %}">News</a>
                 <div class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown"
                        aria-haspopup="true" aria-expanded="false">
-                        About Us
+                        About ACAS
                     </a>
                     <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
                         <a class="dropdown-item" href="{% url 'blog-about' %}">About</a>
-                        <a class="dropdown-item" href="{% url 'blog-calendar' %}">Calendar</a>
                         <a class="dropdown-item" href="{% url 'blog-staff' %}">Staff</a>
                         <a class="dropdown-item" href="{% url 'blog-sensors' %}">Sensors</a>
+                        <a class="dropdown-item" href="{% url 'blog-calendar' %}">Calendar</a>
                     </div>
                 </div>
                 <div class="nav-item dropdown">

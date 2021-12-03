@@ -7,7 +7,7 @@
     </div>
     {% for user in users %}
         {% if user.is_staff and not user.is_superuser %}
-           <div class="card flex-row flex-wrap mt-2">
+           <div class="card flex-row flex-wrap my-4">
                 <div class="col-4 card-header border-0">
                     <img class="rounded img-thumbnail img-fluid mx-auto d-block" src="{{ user.profile.image.url }}" alt="">
                 </div>
