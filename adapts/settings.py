@@ -48,7 +48,8 @@ INSTALLED_APPS = [
     'storages',
     'bootstrap4',
     'bootstrap_datepicker_plus',
-    'tinymce',
+    'ckeditor',
+    'ckeditor_uploader',
 ]
 
 MIDDLEWARE = [
@@ -180,9 +181,24 @@ AWS_S3_REGION_NAME = 'us-east-2'
 AWS_STORAGE_BUCKET_NAME = config.get('AWS_STORAGE_BUCKET_NAME')
 AWS_ACCESS_KEY_ID = config.get('AWS_ACCESS_KEY_ID')
 AWS_SECRET_ACCESS_KEY = config.get('AWS_SECRET_ACCESS_KEY')
-
+AWS_QUERYSTRING_AUTH = False
 AWS_S3_FILE_OVERWRITE = False
 AWS_DEFAULT_ACL = None
 
 DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
+
+CKEDITOR_BASEPATH = "/static/ckeditor/ckeditor/"
+CKEDITOR_UPLOAD_PATH = "uploads/"
+CKEDITOR_FILENAME_GENERATOR = 'adapts.utils.get_filename'
+
+CKEDITOR_CONFIGS = {
+    'default': {
+        'toolbar': 'full',
+        'height': '400',
+        'width': 'full',
+        'removePlugins': 'stylesheetparser',
+    },
+}
+
+
 

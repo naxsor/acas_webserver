@@ -24,6 +24,7 @@ from users import views as user_views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('ckeditor/', include('ckeditor_uploader.urls')),
     path('register/', user_views.register, name='register'),
     path('profile/', user_views.profile, name='profile'),
     path('user-log-post/', user_views.user_log_post, name='user-log'),
@@ -51,7 +52,7 @@ urlpatterns = [
          ),
          name='password_reset_complete'),
     path('', include('blog.urls')),
-    path('tinymce/', include('tinymce.urls')),
+
 ]
 
 if settings.DEBUG:
