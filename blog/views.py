@@ -49,7 +49,7 @@ class PostDetailView(DetailView):
 class PostCreateView(PermissionRequiredMixin, LoginRequiredMixin, CreateView):
     permission_required = 'blog.add_post'
     model = Post
-    fields = ['title', 'content', 'image']
+    fields = ['title', 'content']
 
 
     def form_valid(self, form):
@@ -62,7 +62,7 @@ class PostCreateView(PermissionRequiredMixin, LoginRequiredMixin, CreateView):
 class PostUpdateView(PermissionRequiredMixin, LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     permission_required = 'blog.change_post'
     model = Post
-    fields = ['title', 'content', 'image']
+    fields = ['title', 'content']
 
     def form_valid(self, form):
         form.instance.author = self.request.user

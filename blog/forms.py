@@ -8,4 +8,4 @@ from bootstrap_datepicker_plus import DatePickerInput
 class PostForm(forms.ModelForm):
     class Meta:
         model = Post
-        fields = ['title', 'image', 'content', 'date_posted', 'author']
+        fields = ['title', 'content', 'date_posted', 'author']
