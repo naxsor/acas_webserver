@@ -2,9 +2,10 @@
 {% extends "blog/base.html" %}
 {% load bootstrap4 %}
 {% load crispy_forms_tags %}
+{% bootstrap_css %}
+{% bootstrap_javascript %}
 
 {% block content %}
-    {% bootstrap_javascript jquery='full' %}
     <div class="content-section">
         <form method="POST">
             {% csrf_token %}
