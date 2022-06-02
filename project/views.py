@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from bootstrap_datepicker_plus import DatePickerInput
+from bootstrap_datepicker_plus.widgets import DatePickerInput
 from .models import Project
 from django import forms
 from adapts.settings import EMAIL_HOST_USER

@@ -137,3 +137,4 @@ dmypy.json
 # Cython debug symbols
 cython_debug/
 /app/migrations/0004_alter_content_content.py
+/static/
