@@ -2,9 +2,9 @@
 {% extends "blog/base.html" %}
 {% load bootstrap4 %}
 {% load crispy_forms_tags %}
+
 {% block content %}
     {% bootstrap_javascript jquery='full' %}
-    {{ form.media }}
     <div class="content-section">
         <form method="POST">
             {% csrf_token %}
@@ -13,6 +13,7 @@
                 <small class="text-muted">{{"Is required that this request is done by the principal investigator or the person in charge of the project"}}</small>
                 {{ form |crispy }}
                 {% bootstrap_javascript jquery='full' %}
+                {{ form.media }}
             </fieldset>
             <div class="form-group">
                 <button class="btn btn-outline-info" type="submit">Request</button>
