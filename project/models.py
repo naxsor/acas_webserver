@@ -2,11 +2,13 @@ from django.db import models
 from django.urls import reverse
 from django.contrib.auth.models import User
 from django.utils import timezone
+from ckeditor_uploader.fields import RichTextUploadingField
+
 
 # Create your models here.
 class Project(models.Model):
     project_name = models.CharField(max_length=50)
-    research_objective = models.TextField()
+    research_objective = RichTextUploadingField()
     principal_investigator = models.ForeignKey(User, on_delete=models.CASCADE)
     project_tentative_start_date = models.DateField()
     project_duration = models.CharField(max_length=50)
