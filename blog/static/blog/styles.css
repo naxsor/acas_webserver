@@ -681,6 +681,13 @@ progress {
   margin-right: calc(var(--bs-gutter-x) * -.5);
   margin-left: calc(var(--bs-gutter-x) * -.5);
 }
+
+@media (max-width: 575.98px) {
+  .row {
+    --bs-gutter-x: 0rem;
+  }
+}
+
 .row > * {
   flex-shrink: 0;
   /*width: 100%;*/
@@ -11364,7 +11371,7 @@ a.article-title:hover {
     color: #FFF;
     background-color: transparent;
     border-color: #FFF;
-    margin-right: 15px;
+    margin-right: 0px;
 }
 .btn-clear:hover
 {
