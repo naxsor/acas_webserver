@@ -6013,6 +6013,17 @@ textarea.form-control-lg {
   width: 100%;
   overflow: hidden;
 }
+
+@media (max-width: 575.98px) {
+  .carousel-inner {
+    position: relative;
+    width: 100%;
+    overflow: hidden;
+    height: 260px;
+}
+}
+
+
 .carousel-inner::after {
   display: block;
   clear: both;
@@ -6020,8 +6031,9 @@ textarea.form-control-lg {
 }
 
 .carousel-item{
-  top:-100px;
+  /*top:-100px;*/
   position: relative;
+  object-fit:cover;
   display: none;
   float: left;
   width: 100%;
@@ -11327,6 +11339,20 @@ a.article-title:hover {
     top: 25%;
     width: 50%;
     color: #FFF;
+}
+
+@media (max-width: 575.98px) {
+  .main-text {
+    position: absolute;
+    top: 12%;
+    width: 100%;
+    color: #FFF;
+    heigh: 75%;
+  }
+
+  .second-text{
+    display: none;
+  }
 }
 .btn-min-block
 {
