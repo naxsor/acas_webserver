@@ -304,6 +304,8 @@ figure {
 
 img,
 svg {
+  max-width: 100%;
+  height: auto !important;
   vertical-align: middle;
 }
 
@@ -11340,6 +11342,15 @@ a.article-title:hover {
 
 }
 
+
+@media (max-width: 575.98px) {
+  .article-img {
+    height: 45px;
+    width: 45px;
+    margin-right: 10px;
+  }
+}
+
 .main-text
 {
     position: absolute;
@@ -11359,6 +11370,16 @@ a.article-title:hover {
 
   .second-text{
     display: none;
+  }
+}
+
+@media (max-width: 1127px) {
+  .main-text {
+    position: absolute;
+    top: 25%;
+    width: 75%;
+    color: #FFF;
+    heigh: 75%;
   }
 }
 .btn-min-block
