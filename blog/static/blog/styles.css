@@ -11359,6 +11359,16 @@ a.article-title:hover {
     color: #FFF;
 }
 
+@media (max-width: 1127px) {
+  .main-text {
+    position: absolute;
+    top: 25%;
+    width: 75%;
+    color: #FFF;
+    heigh: 75%;
+  }
+}
+
 @media (max-width: 575.98px) {
   .main-text {
     position: absolute;
@@ -11373,15 +11383,7 @@ a.article-title:hover {
   }
 }
 
-@media (max-width: 1127px) {
-  .main-text {
-    position: absolute;
-    top: 25%;
-    width: 75%;
-    color: #FFF;
-    heigh: 75%;
-  }
-}
+
 .btn-min-block
 {
     min-width: 170px;
