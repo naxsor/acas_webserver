@@ -6022,7 +6022,14 @@ textarea.form-control-lg {
   width: 100%;
   overflow: hidden;
 }
-
+@media (max-width: 677px) {
+  .carousel-inner {
+    position: relative;
+    width: 100%;
+    overflow: hidden;
+    height: 410px;
+}
+}
 @media (max-width: 575.98px) {
   .carousel-inner {
     position: relative;
@@ -6031,6 +6038,8 @@ textarea.form-control-lg {
     height: 260px;
 }
 }
+
+
 
 
 .carousel-inner::after {
@@ -11362,10 +11371,9 @@ a.article-title:hover {
 @media (max-width: 1127px) {
   .main-text {
     position: absolute;
-    top: 25%;
-    width: 75%;
+    top: 15%;
+    width: 80%;
     color: #FFF;
-    heigh: 75%;
   }
 }
 
