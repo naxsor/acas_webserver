@@ -29,7 +29,7 @@ SECRET_KEY = config['SECRET_KEY']
 DEBUG = True
 
 ALLOWED_HOSTS = [
-   'acas.uprrp.edu',
+    'acas.uprrp.edu',
     '127.0.0.1'
 ]
 # Application definition
