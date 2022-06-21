@@ -99,11 +99,11 @@ WSGI_APPLICATION = 'adapts.wsgi.application'
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases
 
 
-DATABASE_ROUTERS = ['users.models.AuthRouter', 'sensors.models.Router']
+DATABASE_ROUTERS = ['blog.router.FailoverRouter']
 DATABASE_APPS_MAPPING = {'sensors': 'sensor_db'}
 
 DATABASES = {
-    'default': {
+    'default_write': { #ADAPTS COMPUTER - ACAS DATABASE
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': config.get('db_name'),
         'USER': config.get('db_username'),
@@ -111,15 +111,30 @@ DATABASES = {
         'HOST': config.get('db_ip'),
         'PORT': config.get('db_port')
     },
-    'sensor_db': {
+    'sensor_db_write': { #ADAPTS COMPUTER - SENSOR DATABASE
 	    'ENGINE': 'django.db.backends.postgresql',
         'NAME': config.get('db_sensor_name'),
         'USER': config.get('db_sensor_username'),
         'PASSWORD': config.get('db_sensor_password'),
         'HOST': config.get('db_sensor_ip'),
         'PORT': config.get('db_sensor_sport'),
+    },
+    'default': { #WEBSERVER COMPUTER  - ACAS DATABASE
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': config.get('db_name'),
+        'USER': config.get('db_username'),
+        'PASSWORD': config.get('db_password'),
+        'HOST': "136.145.86.32",
+        'PORT': config.get('db_port')
+    },
+    'sensor_db': { #WEBSERVER COMPUTER - SENSOR DATABASE
+	    'ENGINE': 'django.db.backends.postgresql',
+        'NAME': config.get('db_sensor_name'),
+        'USER': config.get('db_sensor_username'),
+        'PASSWORD': config.get('db_sensor_password'),
+        'HOST': "136.145.86.32",
+        'PORT': config.get('db_sensor_sport'),
     }
-
 }
 
 # Password validation
