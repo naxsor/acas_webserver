@@ -124,7 +124,7 @@ DATABASES = {
         'NAME': config.get('db_name'),
         'USER': config.get('db_username'),
         'PASSWORD': config.get('db_password'),
-        'HOST': "136.145.86.32",
+        'HOST':config.get('db_ip_failover'),
         'PORT': config.get('db_port')
     },
     'sensor_db': { #WEBSERVER COMPUTER - SENSOR DATABASE
@@ -132,7 +132,7 @@ DATABASES = {
         'NAME': config.get('db_sensor_name'),
         'USER': config.get('db_sensor_username'),
         'PASSWORD': config.get('db_sensor_password'),
-        'HOST': "136.145.86.32",
+        'HOST': config.get('db_ip_failover'),
         'PORT': config.get('db_sensor_sport'),
     }
 }
