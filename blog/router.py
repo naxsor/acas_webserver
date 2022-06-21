@@ -11,7 +11,7 @@ def test_connection_to_db(database_name):
         s = socket.create_connection((db_definition['HOST'], db_definition['PORT']), 3)
         s.close()
         return True
-    except (AttributeError, socket.timeout, OSError) as e:
+    except (AttributeError, socket.timeout, OSError, OperationalError) as e:
         return False
 
 
