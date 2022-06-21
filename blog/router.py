@@ -1,7 +1,9 @@
 import os
 
+import django.db
 from django.conf import settings
 import socket
+from django.db import OperationalError
 
 def test_connection_to_db(database_name):
     try:

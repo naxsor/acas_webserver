@@ -26,7 +26,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = config['SECRET_KEY']
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = [
     'acas.uprrp.edu',
@@ -116,7 +116,7 @@ DATABASES = {
         'NAME': config.get('db_sensor_name'),
         'USER': config.get('db_sensor_username'),
         'PASSWORD': config.get('db_sensor_password'),
-        'HOST': config.get('db_sensor_ip'),
+        'HOST': config.get('db_ip'),
         'PORT': config.get('db_sensor_sport'),
     },
     'default': { #WEBSERVER COMPUTER  - ACAS DATABASE
