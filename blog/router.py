@@ -20,6 +20,12 @@ class FailoverRouter(object):
 
     def db_for_read(self, model, **hints):
         if model._meta.app_label == "sensors":
+            return 'sensor_db'
+        else:
+            return 'default'
+
+    def db_for_read_2(self, model, **hints):
+        if model._meta.app_label == "sensors":
             if test_connection_to_db('sensor_db_write'):
                 return 'sensor_db_write'
             return 'sensor_db'
@@ -38,6 +44,19 @@ class FailoverRouter(object):
             if test_connection_to_db('default_write'):
                 return 'default_write'
             return None
+
+    def allow_relation(self, obj1, obj2, **hints):
+        """
+        Allow relations if a model in the auth or contenttypes apps is
+        involved.
+        """
+        db_set = {'sensor_db', 'default', 'sensor_db_write', 'default_write'}
+        if (
+                obj1._meta.app_label in db_set or
+                obj2._meta.app_label in db_set
+        ):
+            return True
+        return None
 
     def allow_syncdb(self, db, app_label, model_name=None, **hints):
         "Make sure only the default db allows syncdb"
