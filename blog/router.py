@@ -8,7 +8,7 @@ from django.db import OperationalError
 def test_connection_to_db(database_name):
     try:
         db_definition = getattr(settings, 'DATABASES')[database_name]
-        s = socket.create_connection((db_definition['HOST'], db_definition['PORT']), 3)
+        s = socket.create_connection((db_definition['HOST'], db_definition['PORT']), 1)
         s.close()
         return True
     except (AttributeError, socket.timeout, OSError, OperationalError) as e:

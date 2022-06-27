@@ -13,3 +13,5 @@ def process(request):
             "bcp":bcp_status.status, "cpd3":cpd3_status.status, "liis":liis_status.status, "tdlh":tdlh_status.status,
             "bam":bam_status.status}
     return {'sensors':sensors}
+
+
