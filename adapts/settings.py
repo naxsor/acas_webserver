@@ -51,6 +51,7 @@ INSTALLED_APPS = [
     'bootstrap_datepicker_plus',
     'ckeditor',
     'ckeditor_uploader',
+    'django_plotly_dash.apps.DjangoPlotlyDashConfig',
 ]
 
 MIDDLEWARE = [
