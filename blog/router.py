@@ -45,21 +45,24 @@ class FailoverRouter(object):
                 return 'default_write'
             return None
 
-    def allow_relation(self, obj1, obj2, **hints):
-        """
-        Allow relations if a model in the auth or contenttypes apps is
-        involved.
-        """
-        db_set = {'sensor_db', 'default', 'sensor_db_write', 'default_write'}
-        if (
-                obj1._meta.app_label in db_set or
-                obj2._meta.app_label in db_set
-        ):
-            return True
-        return None
+    # def allow_relation(self, obj1, obj2, **hints):
+    #     """
+    #     Allow relations if a model in the auth or contenttypes apps is
+    #     involved.
+    #     """
+    #     db_set = {'sensor_db', 'default', 'sensor_db_write', 'default_write'}
+    #     if obj1._meta.app_label in db_set or obj2._meta.app_label in db_set:
+    #         return True
+    #     return False
 
     def allow_syncdb(self, db, app_label, model_name=None, **hints):
         "Make sure only the default db allows syncdb"
         if app_label == 'sensors':
             return db == 'sensor_db'
         return db == 'default'
+
+    def allow_migrate(self, db, app_label, model_name=None, **hints):
+        "Make sure only the default db allows syncdb"
+        if app_label == 'sensors':
+            return db == 'sensor_db_write'
+        return db == 'default_write'

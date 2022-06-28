@@ -618,4 +618,123 @@ class SensorCpd3WxtVaisala(models.Model):
         managed = True
         db_table = 'sensor_cpd3_wxt_vaisala'
 
+class sensor_bam(models.Model):
+    datetime = models.DateTimeField(db_column='Datetime', primary_key=True)  # Field name made lowercase.
+    concentration = models.FloatField(db_column='Concentration', blank=True, null=True)
+    flow = models.FloatField(db_column='Floe', blank=True, null=True)
+    avg_ambient_temperature = models.FloatField(db_column='Average Ambient Temperature', blank=True, null=True)
+    pressure = models.FloatField(db_column='Pressure', blank=True, null=True)
+    relative_humidity = models.FloatField(db_column='Relative Humidity', blank=True, null=True)
+    reference = models.FloatField(db_column='Reference', blank=True, null=True)
+    errors = models.FloatField(db_column='Errors', blank=True, null=True)
+
+    class Meta:
+        managed = True
+        db_table = 'sensor_bam'
+
+class sensor_bcp(models.Model):
+    datetime = models.DateTimeField(db_column='Datetime', primary_key=True)  # Field name made lowercase.
+    end_senconds = models.FloatField(db_column='End Seconds', blank=True, null=True)
+    status = models.IntegerField(db_column='Status', blank=True, null=True)
+    unused = models.IntegerField(db_column='Unused', blank=True, null=True)
+    unused_1 = models.IntegerField(db_column='Unused.1', blank=True, null=True)
+    avg_transit = models.IntegerField(db_column='Average Transit', blank=True, null=True)
+    dt_bandwidth = models.IntegerField(db_column='DT Bandwidth', blank=True, null=True)
+    dynamic_threshold = models.IntegerField(db_column='Dynamic Threshold', blank=True, null=True)
+    over_range = models.IntegerField(db_column='Over Range', blank=True, null=True)
+    first_stage_monitor = models.FloatField(db_column='First Stage Monitor', blank=True, null=True)
+    baseline_monitor = models.FloatField(db_column='Baseline Monitor', blank=True, null=True)
+    unused_2 = models.IntegerField(db_column='Unused.2', blank=True, null=True)
+    optic_block_temp = models.FloatField(db_column='Optic Block Temperature', blank=True, null=True)
+    sizer_baseline = models.FloatField(db_column='Sizer Baseline', blank=True, null=True)
+    qualifier_baseline = models.FloatField(db_column='Qualifier Baseline', blank=True, null=True)
+    v_monitor = models.FloatField(db_column='5V Monitor', blank=True, null=True)
+    control_board_temp = models.FloatField(db_column='Control Board Temperature', blank=True, null=True)
+    spare_1 = models.FloatField(db_column='Spare 1', blank=True, null=True)
+    spare_2 = models.FloatField(db_column='Spare 2', blank=True, null=True)
+    spare_3 = models.FloatField(db_column='Spare 3', blank=True, null=True)
+    spare_4 = models.FloatField(db_column='Spare 4', blank=True, null=True)
+    spare_5 = models.FloatField(db_column='Spare 5', blank=True, null=True)
+    spare_6 = models.FloatField(db_column='Spare 6', blank=True, null=True)
+    spare_7 = models.FloatField(db_column='Spare 7', blank=True, null=True)
+    spare_8 = models.FloatField(db_column='Spare 8', blank=True, null=True)
+    num_concentration = models.FloatField(db_column='Number Concentration', blank=True, null=True)
+    lwc = models.FloatField(db_column='LWC', blank=True, null=True)
+    mvd = models.FloatField(db_column='MVD', blank=True, null=True)
+    ed = models.FloatField(db_column='ED', blank=True, null=True)
+    applied_pas= models.FloatField(db_column='Applied PAS', blank=True, null=True)
+    bin_1 = models.FloatField(db_column='Bin 1', blank=True, null=True)
+    bin_2 = models.FloatField(db_column='Bin 2', blank=True, null=True)
+    bin_3 = models.FloatField(db_column='Bin 3', blank=True, null=True)
+    bin_4 = models.FloatField(db_column='Bin 4', blank=True, null=True)
+    bin_5 = models.FloatField(db_column='Bin 5', blank=True, null=True)
+    bin_6 = models.FloatField(db_column='Bin 6', blank=True, null=True)
+    bin_7 = models.FloatField(db_column='Bin 7', blank=True, null=True)
+    bin_8 = models.FloatField(db_column='Bin 8', blank=True, null=True)
+    bin_9 = models.FloatField(db_column='Bin 9', blank=True, null=True)
+    bin_10 = models.FloatField(db_column='Bin 10', blank=True, null=True)
+    bin_11 = models.FloatField(db_column='Bin 11', blank=True, null=True)
+    bin_12 = models.FloatField(db_column='Bin 12', blank=True, null=True)
+    bin_13 = models.FloatField(db_column='Bin 13', blank=True, null=True)
+    bin_14 = models.FloatField(db_column='Bin 14', blank=True, null=True)
+    bin_15 = models.FloatField(db_column='Bin 15', blank=True, null=True)
+    bin_16 = models.FloatField(db_column='Bin 16', blank=True, null=True)
+    bin_17 = models.FloatField(db_column='Bin 17', blank=True, null=True)
+    bin_18 = models.FloatField(db_column='Bin 18', blank=True, null=True)
+    bin_19 = models.FloatField(db_column='Bin 19', blank=True, null=True)
+    bin_20 = models.FloatField(db_column='Bin 20', blank=True, null=True)
+    bin_21 = models.FloatField(db_column='Bin 21', blank=True, null=True)
+    bin_22 = models.FloatField(db_column='Bin 22', blank=True, null=True)
+    bin_23 = models.FloatField(db_column='Bin 23', blank=True, null=True)
+    bin_24 = models.FloatField(db_column='Bin 24', blank=True, null=True)
+    bin_25 = models.FloatField(db_column='Bin 25', blank=True, null=True)
+    bin_26 = models.FloatField(db_column='Bin 26', blank=True, null=True)
+    bin_27 = models.FloatField(db_column='Bin 27', blank=True, null=True)
+    bin_28 = models.FloatField(db_column='Bin 28', blank=True, null=True)
+    bin_29 = models.FloatField(db_column='Bin 29', blank=True, null=True)
+    bin_30 = models.FloatField(db_column='Bin 30', blank=True, null=True)
+    inverse_bin_1 = models.FloatField(db_column='Inverse Bin 1', blank=True, null=True)
+    inverse_bin_2 = models.FloatField(db_column='Inverse Bin 2', blank=True, null=True)
+    inverse_bin_3 = models.FloatField(db_column='Inverse Bin 3', blank=True, null=True)
+    inverse_bin_4 = models.FloatField(db_column='Inverse Bin 4', blank=True, null=True)
+    inverse_bin_5 = models.FloatField(db_column='Inverse Bin 5', blank=True, null=True)
+    inverse_bin_6 = models.FloatField(db_column='Inverse Bin 6', blank=True, null=True)
+    inverse_bin_7 = models.FloatField(db_column='Inverse Bin 7', blank=True, null=True)
+    inverse_bin_8 = models.FloatField(db_column='Inverse Bin 8', blank=True, null=True)
+    inverse_bin_9 = models.FloatField(db_column='Inverse Bin 9', blank=True, null=True)
+    inverse_bin_10 = models.FloatField(db_column='Inverse Bin 10', blank=True, null=True)
+    inverse_bin_11 = models.FloatField(db_column='Inverse Bin 11', blank=True, null=True)
+    inverse_bin_12 = models.FloatField(db_column='Inverse Bin 12', blank=True, null=True)
+    inverse_bin_13 = models.FloatField(db_column='Inverse Bin 13', blank=True, null=True)
+    inverse_bin_14 = models.FloatField(db_column='Inverse Bin 14', blank=True, null=True)
+    inverse_bin_15 = models.FloatField(db_column='Inverse Bin 15', blank=True, null=True)
+    inverse_bin_16 = models.FloatField(db_column='Inverse Bin 16', blank=True, null=True)
+    inverse_bin_17 = models.FloatField(db_column='Inverse Bin 17', blank=True, null=True)
+    inverse_bin_18 = models.FloatField(db_column='Inverse Bin 18', blank=True, null=True)
+    inverse_bin_19 = models.FloatField(db_column='Inverse Bin 19', blank=True, null=True)
+    inverse_bin_20 = models.FloatField(db_column='Inverse Bin 20', blank=True, null=True)
+    inverse_bin_21 = models.FloatField(db_column='Inverse Bin 21', blank=True, null=True)
+    inverse_bin_22 = models.FloatField(db_column='Inverse Bin 22', blank=True, null=True)
+    inverse_bin_23 = models.FloatField(db_column='Inverse Bin 23', blank=True, null=True)
+    inverse_bin_24 = models.FloatField(db_column='Inverse Bin 24', blank=True, null=True)
+    inverse_bin_25 = models.FloatField(db_column='Inverse Bin 25', blank=True, null=True)
+    inverse_bin_26 = models.FloatField(db_column='Inverse Bin 26', blank=True, null=True)
+    inverse_bin_27 = models.FloatField(db_column='Inverse Bin 27', blank=True, null=True)
+    inverse_bin_28 = models.FloatField(db_column='Inverse Bin 28', blank=True, null=True)
+    inverse_bin_29 = models.FloatField(db_column='Inverse Bin 29', blank=True, null=True)
+    inverse_bin_30 = models.FloatField(db_column='Inverse Bin 30', blank=True, null=True)
+
+    class Meta:
+        managed = True
+        db_table = 'sensor_bcp'
+
+class size_growth(models.Model):
+    datetime = models.DateTimeField(db_column='Datetime', primary_key=True)  # Field name made lowercase.
+    size = models.IntegerField(db_column='size')
+
+
+    class Meta:
+        managed = True
+        db_table = 'size_growth'
+
 
