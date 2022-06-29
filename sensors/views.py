@@ -22,4 +22,4 @@ def sensors(request):
     parts = ACAS_part.objects.all()
     reference = Reference.objects.all()
     adapts = content.objects.get(place='About ADAPTS')
-    return render(request, 'sensors.html', {'title': 'Sensors', 'image':image, 'sensors': sensors, 'parts':parts, 'adapts':adapts, 'references':reference})
+    return render(request, 'sensors.html', {'title': 'Sensors', 'image':image, 'sensors_list': sensors, 'parts':parts, 'adapts':adapts, 'references':reference})

@@ -6,10 +6,9 @@
             <img class="rounded img-fluid mx-auto d-block" src="{{ image.image.url }}">
         </div>
         <hr/>
-        <div class="content-section" style="height: 400px">
+        <div class="content-section" style="height: 100%">
             <div class="row">
                 <div class="col-3">
-{#                    Main Tabs#}
                     <div class="nav flex-column nav-pills py-1" id="v-pills-tab" role="tablist" aria-orientation="vertical">
                         <a class="nav-link active" id="v-pills-sensor-tab" data-toggle="pill" href="#v-pills-sensor"
                            role="tab"
@@ -47,7 +46,7 @@
 {#                                            #Aerosol Sensors Nav#}
                                             <ul class="nav nav-pills nav-fill">
                                                 <div class="container">
-                                                    {% for sensor in sensors %}
+                                                    {% for sensor in sensors_list %}
                                                         {% if sensor.type == "Aerosol" %}
                                                             <div class="row">
                                                                 <li class="nav-item p-1">
@@ -243,7 +242,7 @@
 {#                                            #Cloud Sensor Nav#}
                                             <ul class="nav nav-pills nav-fill">
                                                 <div class="container">
-                                                    {% for sensor in sensors %}
+                                                    {% for sensor in sensors_list %}
                                                         {% if sensor.type == "Cloud" %}
                                                                   <div class="row">
                                                                 <li class="nav-item p-1">
@@ -431,7 +430,7 @@
 {#                                            #Cloud Sensor Nav#}
                                             <ul class="nav nav-pills nav-fill">
                                                 <div class="container">
-                                                    {% for sensor in sensors %}
+                                                    {% for sensor in sensors_list %}
                                                         {% if sensor.type == "Meteorology" %}
                                                                   <div class="row">
                                                                 <li class="nav-item p-1">
@@ -784,34 +783,5 @@
                 </div>
             </div>
         </div>
-        {#        <h4>Aerosol Sensors</h4>#}
-        {#        <p class="text-justify">#}
-        {#        <ul>#}
-        {#            <li><b>CLAP</b>: Measure the light absorption coefficient.</li>#}
-        {#            <li><b>Cloud Condensation Nuclei</b> (CCN): Cloud Condensation Nuclei spectrometer from Droplet Measurements#}
-        {#                Technologies.#}
-        {#            </li>#}
-        {#            <li><b>CSS</b>: Aerodyne Aerosol Specification Monitor that measure ion mass.</li>#}
-        {#            <li><b>LIIS</b>: Wideband Integrated Bio-aerosol Spectrometer that detects primarily biological.</li>#}
-        {#            <li><b>DMA</b>: Brechtel Engineering Scanning Electro-Mobility Sizer that provides size distributions.</li>#}
-        {#            <li><b>UV-IFS</b>: Single Particle Soot Photometer (SP2) from DM2 that measures refractory black carbon.#}
-        {#            </li>#}
-        {#        </ul>#}
-        {#        <hr/>#}
-        {#        <h4>Cloud Sensors</h4>#}
-        {#        <p class="text-justify">#}
-        {#        <ul>#}
-        {#            <li><b>Cloud Droplet Sensor</b> (CDS): DMT backscattering cloud probe (BCP) that produces a droplet size#}
-        {#                distribution#}
-        {#                from 5 ~ 75 um.#}
-        {#            </li>#}
-        {#            <li><b>Liquid Water Content</b> (LWC): Liquid water content is measured with a DMT heated-wire sensors#}
-        {#                (LWC-300).#}
-        {#            </li>#}
-        {#            <li><b>Hygrometer</b> (TDLH): The TDLH will be used to measure the water vapor that is produced by measuring#}
-        {#                the cloud droplets being evaporated in the CVI.#}
-        {#            </li>#}
-        {#        </ul>#}
-        {#        </p>#}
     </div>
 {% endblock content %}

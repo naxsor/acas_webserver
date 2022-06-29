@@ -11436,3 +11436,34 @@ a.article-title:hover {
   width: 100px;
   height: 100px;
 }
+
+.footer_logo {
+  position: relative;
+  top: 45px;
+}
+
+@media (max-width: 1438px) {
+.footer_logo {
+  top: 25px
+}
+}
+
+@media (max-width: 1078px) {
+.footer_logo {
+  top: 12px
+}
+}
+
+@media (max-width: 835px) {
+.footer_logo {
+  top: 5px
+}
+}
+
+@media (max-width: 575.98px) {
+.footer_logo {
+
+  top: 0px
+}
+}
+
