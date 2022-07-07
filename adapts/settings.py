@@ -11,7 +11,7 @@ from pathlib import Path
 import os
 import json
 
-with open('/etc/config.json') as config_file:
+with open('C:/Users/ACAS/Documents/config.json') as config_file:
 	config = json.load(config_file)
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -52,6 +52,8 @@ INSTALLED_APPS = [
     'ckeditor',
     'ckeditor_uploader',
     'django_plotly_dash.apps.DjangoPlotlyDashConfig',
+    # 'channels',
+    # 'channels_redis'
 ]
 
 MIDDLEWARE = [
@@ -64,6 +66,7 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'adapts.middleware.TimezoneMiddleware',
+    'django_plotly_dash.middleware.BaseMiddleware',
 ]
 
 AUTHENTICATION_BACKENDS = [
@@ -121,7 +124,7 @@ DATABASES = {
         'USER': config.get('db_sensor_username'),
         'PASSWORD': config.get('db_sensor_password'),
         'HOST': config.get('db_ip'),
-        'PORT': config.get('db_sensor_sport'),
+        'PORT': config.get('db_sensor_port'),
     },
     'default': { #WEBSERVER COMPUTER  - ACAS DATABASE
         'ENGINE': 'django.db.backends.postgresql',
@@ -223,6 +226,16 @@ CKEDITOR_CONFIGS = {
 DEFAULT_AUTO_FIELD = 'django.db.models.AutoField'
 
 X_FRAME_OPTIONS = 'SAMEORIGIN'
+
+# CHANNEL_LAYERS = {
+#    'default': { 'BACKEND': 'channels_redis.core.RedisChannelLayer',
+#                 'CONFIG': {
+#                            'hosts': [('127.0.0.1', 6379),],
+#                           }
+#               }
+# }
+
+ASGI_APPLICATION = "adapts.asgi.application"
 
 
 

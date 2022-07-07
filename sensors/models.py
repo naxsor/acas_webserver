@@ -182,12 +182,12 @@ class Ccn(models.Model):
         db_table = 'sensor_ccn'
 
 class liis(models.Model):
-    datetime = models.DateTimeField(db_column='Datetime', primary_key=True)  # Field name made lowercase.
+    datetime = models.DateTimeField(db_column='Datetime')  # Field name made lowercase.
     utc_offset = models.IntegerField(db_column='UTC Offset', blank=True, null=True)
     incand_part_conc = models.FloatField(db_column='Incandescence Particle Concentration', blank=True, null=True)
     scatt_part_conc = models.FloatField(db_column='Scattering Particle Concentration', blank=True, null=True)
     incand_mass_conc = models.FloatField(db_column='Incandescence Mass Concentration', blank=True, null=True)
-    incand_mass_conc = models.FloatField(db_column='Total Mass per Second', blank=True, null=True)
+    total_mass_concentratio = models.FloatField(db_column='Total Mass per Second', blank=True, null=True)
     scatt_bin_1 = models.FloatField(db_column='Scatter Bin 1', blank=True, null=True)
     scatt_bin_2 = models.FloatField(db_column='Scatter Bin 2', blank=True, null=True)
     scatt_bin_3 = models.FloatField(db_column='Scatter Bin 3', blank=True, null=True)
@@ -233,12 +233,12 @@ class liis(models.Model):
     dual_qual_scatt_incand_part = models.FloatField(db_column='Dual Qualified Scatter and Incandescence Particles', blank=True, null=True)
     qualified_scatt_part = models.FloatField(db_column='Qualified Scatter Only Particles', blank=True, null=True)
     qualifies_incand_part = models.FloatField(db_column='Qualified Incandescence OnlyParticles', blank=True, null=True)
-    sheath_flow_read_vccm = models.FloatField(db_column='Sheath Flow Controller Read (v)', blank=True, null=True)
-    sheath_flow_read_sccm = models.FloatField(db_column='Sheath Flow Controller Read (s)', blank=True, null=True)
+    sheath_flow_read_vccm = models.FloatField(db_column='Sheath Flow Controller Read [v]', blank=True, null=True)
+    sheath_flow_read_sccm = models.FloatField(db_column='Sheath Flow Controller Read [s]', blank=True, null=True)
     sheath_flow_press = models.FloatField(db_column='Sheath Flow Controller Pressure', blank=True, null=True)
     sheath_flow_temp = models.FloatField(db_column='Sheath Flow Controller Temperature', blank=True, null=True)
-    sample_flow_read_vccm = models.FloatField(db_column='Sample Flow Controller Read (v)', blank=True, null=True)
-    sample_flow_read_sccm = models.FloatField(db_column='Sample Flow Controller Read (s)', blank=True, null=True)
+    sample_flow_read_vccm = models.FloatField(db_column='Sample Flow Controller Read [v]', blank=True, null=True)
+    sample_flow_read_sccm = models.FloatField(db_column='Sample Flow Controller Read [s]', blank=True, null=True)
     sample_flow_press = models.FloatField(db_column='Sample Flow Controller Pressure', blank=True, null=True)
     sample_flow_temp = models.FloatField(db_column='Sample Flow Controller Temperature', blank=True, null=True)
     laser_tec_temp = models.FloatField(db_column='Laser TEC Temperature', blank=True, null=True)

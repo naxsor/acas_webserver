@@ -23,7 +23,8 @@ from app.views import (
 )
 
 from sensors.views import (
-    sensors
+    sensors,
+    data
 )
 from . import views
 from django.contrib import admin
@@ -50,6 +51,7 @@ urlpatterns = [
     path('project/<int:pk>/update/', ProjectUpdateView.as_view(), name='project-update'),
     path('adapts/about', app_about, name='app-about'),
     path('adapts/download', app_download, name='app-download'),
+    path('adapts/data', data, name='app-data'),
 
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
