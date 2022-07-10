@@ -45,7 +45,7 @@ class variables:
 
 app = DjangoDash('SimpleExample', external_stylesheets=[dbc.themes.BOOTSTRAP])
 
-with open('C:/Users/ACAS/Documents/config.json') as config_file:
+with open('/etc/config.json') as config_file:
 	config = json.load(config_file)
 
 conn = psycopg2.connect(dbname=config.get('db_sensor_name'), user=config.get('db_sensor_username'), password=config.get('db_sensor_password'), host=config.get('db_ip_failover'), port=config.get('db_sensor_port'))
@@ -77,29 +77,41 @@ for i in data:
     X.append(i[0])
     Y.append(i[1])
 
-app.layout = html.Div(id='parent', children=
-    [
-        html.H5(id='H5', children='Sensor:'),
-        dcc.Dropdown(id='dropdown',
-                     options=sensor_list,
-                     value=2,
-                ),
-        html.Br(),
-        html.H5(id='H5-2', children='Parameter:'),
-        dcc.Dropdown(id='dropdown_2',
-                     options=[],
-                     value=0,
-                ),
-        html.Br(),
+app.layout = dbc.Container(
+    children=[
+        html.Div(
+            id='parent',
+            children=[
+                html.H5(id='H5', children='Sensor:'),
+                dcc.Dropdown(id='dropdown',
+                             options=sensor_list,
+                             value=2,
+                        ),
+                html.Br(),
+                html.H5(id='H5-2', children='Parameter:'),
+                dcc.Dropdown(id='dropdown_2',
+                             options=[],
+                             value=0,
+                        ),
+                html.Br(),
 
-        dcc.Graph(id='live-graph', animate=True),
-        dcc.Interval(
-            id='graph-update',
-            interval=1000,
-            n_intervals=0
-        ),
+                dcc.Graph(id='live-graph', animate=True),
+                dcc.Interval(
+                    id='graph-update',
+                    interval=1000,
+                    n_intervals=0
+                ),
+            ],
+
+        )
     ],
+    fluid=True,
+    style={"height":'100%'},
 )
+
+
+
+
 
 # @app.callback(
 #     Output('live-graph', 'figure'),

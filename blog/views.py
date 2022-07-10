@@ -16,7 +16,6 @@ def home(request):
     context = {
         'slides': Slideshow.objects.all(),
         'content' : content.objects.get(place='Location Info Homepage'),
-        'geopicture' : Image.objects.get(title='ACAS Geopicture'),
     }
     return render(request, 'blog/home.html', context)
 
