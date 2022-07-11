@@ -60,7 +60,7 @@ class variables:
 
 app = DjangoDash('SimpleExample', external_stylesheets=[dbc.themes.BOOTSTRAP, 'https://acas.uprrp.edu/static/blog/plot.css'])
 
-with open('/etc/config.json') as config_file:
+with open('C:/Users/ACAS/Documents/config.json') as config_file:
 	config = json.load(config_file)
 
 conn = psycopg2.connect(dbname=config.get('db_sensor_name'), user=config.get('db_sensor_username'), password=config.get('db_sensor_password'), host=config.get('db_ip_failover'), port=config.get('db_sensor_port'))
@@ -110,7 +110,7 @@ app.layout = dbc.Container(
                         ),
                 html.Br(),
 
-                dcc.Graph(id='live-graph', animate=True),
+                dcc.Graph(id='live-graph'),
                 dcc.Interval(
                     id='graph-update',
                     interval=1000,
@@ -245,8 +245,8 @@ def parameter_callback(input_value, n):
 
             return {'data': [data],
                     'layout': go.Layout(autosize=True, xaxis=dict(range=[min_x, max_x], title='Datetime'),
-                                        yaxis=dict(range=[min_y, max_y], title=variable.get_parameter()),
-                                        title=variable.get_sensor())}
+                                        yaxis=dict(range=[min_y, max_y], title=go.layout.yaxis.Title(text=variable.get_parameter())),
+                                        title=variable.get_sensor(), transition={'duration': 500, 'easing':'cubic-in-out'})}
 
 
     elif variable.get_flag() == False:
