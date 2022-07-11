@@ -1,4 +1,5 @@
 import dash
+import pandas
 from dash.dependencies import Output, Input
 from dash import html
 from dash import dcc
@@ -17,7 +18,21 @@ class variables:
         self.datatable = None
         self.val = 3
         self.flag = False
-        self.parameter = '"Water Vapor Content"'
+        self.parameter = 'Water Vapor Content'
+        self.sensor = 'Tunable Diode Laser Hygrometer'
+        self.df = None
+
+    def get_df(self):
+        return self.df
+
+    def set_df(self, df):
+        self.df = df
+
+    def get_sensor(self):
+        return self.sensor
+
+    def set_sensor(self, sensor):
+        self.sensor = sensor
 
     def get_datatable(self):
         return self.datatable
@@ -43,14 +58,14 @@ class variables:
     def set_value(self, value):
         self.val = value
 
-app = DjangoDash('SimpleExample', external_stylesheets=[dbc.themes.BOOTSTRAP])
+app = DjangoDash('SimpleExample', external_stylesheets=[dbc.themes.BOOTSTRAP, 'https://acas.uprrp.edu/static/blog/plot.css'])
 
 with open('/etc/config.json') as config_file:
 	config = json.load(config_file)
 
 conn = psycopg2.connect(dbname=config.get('db_sensor_name'), user=config.get('db_sensor_username'), password=config.get('db_sensor_password'), host=config.get('db_ip_failover'), port=config.get('db_sensor_port'))
 cursor = conn.cursor()
-sql = 'SELECT * FROM public.sensor WHERE "id" > 0 AND "available" = TRUE'
+sql = 'SELECT sensor.id, sensor.name FROM public.sensor JOIN process p on sensor.id = p."Sensor id" WHERE p."status" = ' + "'RECORDING'"
 cursor.execute(sql)
 sensors = cursor.fetchall()
 
@@ -99,8 +114,10 @@ app.layout = dbc.Container(
                 dcc.Interval(
                     id='graph-update',
                     interval=1000,
-                    n_intervals=0
+                    n_intervals=0,
+                    disabled=False,
                 ),
+                html.Button(children='Start', id='button', className='btn btn-outline-info', n_clicks=1)
             ],
 
         )
@@ -108,9 +125,6 @@ app.layout = dbc.Container(
     fluid=True,
     style={"height":'100%'},
 )
-
-
-
 
 
 # @app.callback(
@@ -146,9 +160,22 @@ app.layout = dbc.Container(
 #     return {'data': [data],
 #             'layout' : go.Layout(autosize=True, xaxis=dict(range=[mi,ma]),yaxis = dict(range = [min(Y)-min(Y)*0.01,max(Y)+max(Y)*0.01]),)}
 
+@app.callback([Output('graph-update','disabled'), Output('button','children')],
+              [Input('button', 'n_clicks')])
+def update_callback(n_clicks):
+    if (n_clicks % 2) == 0:
+        return True, 'Start'
+    else:
+        return False, 'Stop'
+
 @app.callback([Output('dropdown_2','options'), Output('dropdown_2','value')],
               [Input('dropdown', 'value')])
 def sensor_callback(input_value):
+    sql = 'SELECT "name" From public.sensor WHERE id =' + str(input_value)
+    cursor.execute(sql)
+    sensors = cursor.fetchall()
+    variable.set_sensor(sensors[0][0])
+
     sql = 'SELECT * FROM public.primary_variables WHERE "Sensor id" = ' + str(input_value) + ' AND "Available" = TRUE'
     cursor.execute(sql)
     sensors = cursor.fetchall()
@@ -159,10 +186,6 @@ def sensor_callback(input_value):
     variable.set_value(sensors[-1][0])
     variable.set_flag(True)
     return parameter_list, variable.get_value()
-
-# @app.callback(Output('live-graph','figure'), [Input('dropdown_2', 'value')])
-# def Flag_callback():
-#     set_flag(True)
 
 @app.callback(Output('live-graph','figure'),
               [Input('dropdown_2', 'value'), Input('graph-update', 'n_intervals')])
@@ -184,15 +207,11 @@ def parameter_callback(input_value, n):
         datatable = data[0][1]
         parameter = data[0][2]
 
-        aph = '"'
-        parameter = aph + parameter + aph
-        datatable = aph + datatable + aph
-
         variable.set_parameter(parameter)
         variable.set_datatable(datatable)
         variable.set_flag(False)
 
-        sql = 'SELECT "Datetime",' + variable.get_parameter() + ' FROM ' + datatable + ' WHERE "Datetime" > ' + date + ' AND ' + variable.get_parameter() + ' IS NOT NULL ORDER BY "Datetime" DESC LIMIT 1000'
+        sql = 'SELECT "Datetime","' + variable.get_parameter() + '" FROM "' + datatable + '" WHERE "Datetime" > ' + date + ' AND "' + variable.get_parameter() + '" IS NOT NULL ORDER BY "Datetime" DESC'
 
         cursor.execute(sql)
         data = cursor.fetchall()
@@ -201,6 +220,11 @@ def parameter_callback(input_value, n):
         for i in data:
             X.append(i[0])
             Y.append(i[1])
+
+        # df = pandas.DataFrame()
+        # df['Datetime'] = pandas.Series(X)
+        # df[variable.get_parameter()] = pandas.Series(Y)
+        # variable.set_df(df)
 
         data = plotly.graph_objs.Scatter(
             x=list(X),
@@ -220,35 +244,51 @@ def parameter_callback(input_value, n):
             max_y = max(Y) + max(Y) * 0.01
 
             return {'data': [data],
-                    'layout': go.Layout(autosize=True, xaxis=dict(range=[min_x, max_x]),
-                                        yaxis=dict(range=[min_y, max_y]), )}
+                    'layout': go.Layout(autosize=True, xaxis=dict(range=[min_x, max_x], title='Datetime'),
+                                        yaxis=dict(range=[min_y, max_y], title=variable.get_parameter()),
+                                        title=variable.get_sensor())}
+
 
     elif variable.get_flag() == False:
-        x = X[-1].__str__()
-        y = "'"
-        x = y + x + y
-        sql = 'SELECT "Datetime",' + variable.get_parameter() + ' FROM ' + variable.get_datatable() + ' WHERE "Datetime" > ' + x + ' AND ' + variable.get_parameter() + ' IS NOT NULL ORDER BY "Datetime" ASC'
-        cursor.execute(sql)
-        data = cursor.fetchall()
+        try:
+            x = X[-1].__str__()
+            y = "'"
+            x = y + x + y
+            sql = 'SELECT "Datetime","' + variable.get_parameter() + '" FROM "' + variable.get_datatable() + '" WHERE "Datetime" > ' + x + ' AND "' + variable.get_parameter() + '" IS NOT NULL ORDER BY "Datetime" ASC'
+            cursor.execute(sql)
+            data = cursor.fetchall()
 
-        for i in data:
-            X.append(i[0])
-            Y.append(i[1])
+            for i in data:
+                X.append(i[0])
+                Y.append(i[1])
 
-        data = plotly.graph_objs.Scatter(
-            x=list(X),
-            y=list(Y),
-            name='Scatter',
-            mode='lines+markers'
-        )
+            # df_1 = pandas.DataFrame()
+            # df_1['Datetime'] = pandas.Series(X)
+            # df_1[variable.get_parameter()] = pandas.Series(Y)
+            # df = variable.get_df()
+            # df = pandas.concat([df, df_1])
+            # variable.set_df(df)
 
-        min_x = min(X)
-        sec = max(X) - min(X)
-        min_x = min_x - timedelta(seconds=sec.total_seconds() * 0.03)
+            data = plotly.graph_objs.Scatter(
+                x=list(X),
+                y=list(Y),
+                name='Scatter',
+                mode='lines+markers'
+            )
 
-        max_x = max(X)
-        max_x = max_x + timedelta(seconds=sec.total_seconds() * 0.03)
+            min_x = min(X)
+            sec = max(X) - min(X)
+            min_x = min_x - timedelta(seconds=sec.total_seconds() * 0.03)
 
-        return {'data': [data],
-                'layout': go.Layout(autosize=True, xaxis=dict(range=[min_x, max_x]),
-                                    yaxis=dict(range=[min(Y) - min(Y) * 0.01, max(Y) + max(Y) * 0.01]), )}
+            max_x = max(X)
+            max_x = max_x + timedelta(seconds=sec.total_seconds() * 0.03)
+
+            min_y = min(Y) - min(Y) * 0.01
+            max_y = max(Y) + max(Y) * 0.01
+
+            return {'data': [data],
+                    'layout': go.Layout(autosize=True, xaxis=dict(range=[min_x, max_x], title='Datetime'),
+                                        yaxis=dict(range=[min_y, max_y], title=variable.get_parameter()),
+                                        title=variable.get_sensor())}
+        except IndexError:
+            variable.set_flag(True)
