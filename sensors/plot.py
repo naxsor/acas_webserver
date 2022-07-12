@@ -5,13 +5,38 @@ from dash import html
 from dash import dcc
 import dash_bootstrap_components as dbc
 import plotly
+import numpy as np
 import random
 import plotly.graph_objs as go
 from collections import deque
 from django_plotly_dash import DjangoDash
 import psycopg2
 import json
+import time
+import pandas as pd
 from datetime import datetime, timedelta
+
+
+def unixTimeMillis(dt):
+    ''' Convert datetime to unix timestamp '''
+    return int(time.mktime(dt.timetuple()))
+
+def unixToDatetime(unix):
+    ''' Convert unix timestamp to datetime. '''
+    return pd.to_datetime(unix,unit='s')
+
+def getMarks(start, end, range, Nth=100):
+    ''' Returns the marks for labeling.
+        Every Nth value will be used.
+    '''
+
+    result = {}
+    for i, date in enumerate(range):
+        if(i%Nth == 1):
+            # Append value to dict
+            result[unixTimeMillis(date)] = str(date.strftime('%Y-%m-%d'))
+
+    return result
 
 class variables:
     def __init__(self):
@@ -20,6 +45,7 @@ class variables:
         self.flag = False
         self.parameter = 'Water Vapor Content'
         self.sensor = 'Tunable Diode Laser Hygrometer'
+        self.datatable = 'sensor_hygrometer'
         self.df = None
 
     def get_df(self):
@@ -58,7 +84,7 @@ class variables:
     def set_value(self, value):
         self.val = value
 
-app = DjangoDash('SimpleExample', external_stylesheets=[dbc.themes.BOOTSTRAP, 'https://acas.uprrp.edu/static/blog/plot.css'])
+app = DjangoDash('SimpleExample', external_stylesheets=[dbc.themes.BOOTSTRAP, 'https://acas.uprrp.edu/static/blog/plot.css', 'https://codepen.io/chriddyp/pen/bWLwgP.css'])
 
 with open('/etc/config.json') as config_file:
 	config = json.load(config_file)
@@ -84,6 +110,14 @@ data = cursor.fetchall()
 
 variable = variables()
 variable.set_flag(True)
+
+sql = 'SELECT MIN("Datetime"), MAX("Datetime") FROM ' + variable.get_datatable()
+cursor.execute(sql)
+dates = cursor.fetchall()
+#
+# range = pandas.date_range(dates[0][0], dates[0][1], freq='T')
+# dataframe = pandas.DataFrame(data=range, columns=['datetime'])
+# dataframe['epoch_dt'] = dataframe['datetime'].astype(np.int64)
 
 X = deque(maxlen=1000)
 Y = deque(maxlen=1000)
@@ -117,7 +151,20 @@ app.layout = dbc.Container(
                     n_intervals=0,
                     disabled=False,
                 ),
-                html.Button(children='Start', id='button', className='btn btn-outline-info', n_clicks=1)
+                # dcc.RangeSlider(
+                #     id='year_slider',
+                #     min=unixTimeMillis(range.min()),
+                #     max=unixTimeMillis(range.max()),
+                #     value=[unixTimeMillis(range.min()),
+                #            unixTimeMillis(range.max())],
+                #     marks=getMarks(range.min(),
+                #                    range.max(), range),
+                #     # tooltip={"placement": "top", "always_visible": True},
+                #     step=200,
+                # ),
+                html.Br(),
+                html.Button(children='Start', id='button', className='btn btn-outline-info', n_clicks=1),
+
             ],
 
         )
@@ -171,10 +218,15 @@ def update_callback(n_clicks):
 @app.callback([Output('dropdown_2','options'), Output('dropdown_2','value')],
               [Input('dropdown', 'value')])
 def sensor_callback(input_value):
-    sql = 'SELECT "name" From public.sensor WHERE id =' + str(input_value)
+    sql = 'SELECT "name", "data table" From public.sensor WHERE id =' + str(input_value)
     cursor.execute(sql)
     sensors = cursor.fetchall()
     variable.set_sensor(sensors[0][0])
+    variable.set_datatable(sensors[0][1])
+
+    # sql = 'SELECT MIN("Datetime"), MAX("Datetime") FROM ' + variable.get_datatable()
+    # cursor.execute(sql)
+    # dates = cursor.fetchall()
 
     sql = 'SELECT * FROM public.primary_variables WHERE "Sensor id" = ' + str(input_value) + ' AND "Available" = TRUE'
     cursor.execute(sql)
@@ -194,63 +246,63 @@ def parameter_callback(input_value, n):
     date = date.__str__()
     aph = "'"
     date = aph + date + aph
+    try:
+        if variable.get_flag() == True or variable.get_value() != input_value:
+            variable.set_value(input_value)
+            X.clear()
+            Y.clear()
+            sql = 'SELECT primary_variables."id" "id", "data table", "Variable Name" FROM public.primary_variables JOIN public.sensor s on primary_variables."Sensor id" = s.id WHERE primary_variables."id" = ' + str(input_value)
 
-    if variable.get_flag() == True or variable.get_value() != input_value:
-        variable.set_value(input_value)
-        X.clear()
-        Y.clear()
-        sql = 'SELECT primary_variables."id" "id", "data table", "Variable Name" FROM public.primary_variables JOIN public.sensor s on primary_variables."Sensor id" = s.id WHERE primary_variables."id" = ' + str(input_value)
+            cursor.execute(sql)
+            data = cursor.fetchall()
 
-        cursor.execute(sql)
-        data = cursor.fetchall()
+            datatable = data[0][1]
+            parameter = data[0][2]
 
-        datatable = data[0][1]
-        parameter = data[0][2]
+            variable.set_parameter(parameter)
+            variable.set_datatable(datatable)
+            variable.set_flag(False)
 
-        variable.set_parameter(parameter)
-        variable.set_datatable(datatable)
-        variable.set_flag(False)
+            sql = 'SELECT "Datetime","' + variable.get_parameter() + '" FROM "' + datatable + '" WHERE "Datetime" > ' + date + ' AND "' + variable.get_parameter() + '" IS NOT NULL ORDER BY "Datetime" DESC'
 
-        sql = 'SELECT "Datetime","' + variable.get_parameter() + '" FROM "' + datatable + '" WHERE "Datetime" > ' + date + ' AND "' + variable.get_parameter() + '" IS NOT NULL ORDER BY "Datetime" DESC'
+            cursor.execute(sql)
+            data = cursor.fetchall()
+            data.reverse()
 
-        cursor.execute(sql)
-        data = cursor.fetchall()
-        data.reverse()
+            for i in data:
+                X.append(i[0])
+                Y.append(i[1])
 
-        for i in data:
-            X.append(i[0])
-            Y.append(i[1])
+            # df = pandas.DataFrame()
+            # df['Datetime'] = pandas.Series(X)
+            # df[variable.get_parameter()] = pandas.Series(Y)
+            # variable.set_df(df)
 
-        # df = pandas.DataFrame()
-        # df['Datetime'] = pandas.Series(X)
-        # df[variable.get_parameter()] = pandas.Series(Y)
-        # variable.set_df(df)
+            data = plotly.graph_objs.Scatter(
+                x=list(X),
+                y=list(Y),
+                name='Scatter',
+                mode='lines+markers'
+            )
 
-        data = plotly.graph_objs.Scatter(
-            x=list(X),
-            y=list(Y),
-            name='Scatter',
-            mode='lines+markers'
-        )
+            if len(X) != 0:
+                min_x = min(X)
+                sec = max(X) - min(X)
+                min_x = min_x - timedelta(seconds=sec.total_seconds() * 0.03)
+                max_x = max(X)
+                max_x = max_x + timedelta(seconds=sec.total_seconds() * 0.03)
 
-        if len(X) != 0:
-            min_x = min(X)
-            sec = max(X) - min(X)
-            min_x = min_x - timedelta(seconds=sec.total_seconds() * 0.03)
-            max_x = max(X)
-            max_x = max_x + timedelta(seconds=sec.total_seconds() * 0.03)
+                min_y = min(Y) - min(Y) * 0.03
+                max_y = max(Y) + max(Y) * 0.03
 
-            min_y = min(Y) - min(Y) * 0.01
-            max_y = max(Y) + max(Y) * 0.01
-
-            return {'data': [data],
-                    'layout': go.Layout(autosize=True, xaxis=dict(range=[min_x, max_x], title='Datetime'),
-                                        yaxis=dict(range=[min_y, max_y], title=go.layout.yaxis.Title(text=variable.get_parameter())),
-                                        title=variable.get_sensor(), transition={'duration': 500, 'easing':'cubic-in-out'})}
+                return {'data': [data],
+                        'layout': go.Layout(autosize=True, xaxis=dict(range=[min_x, max_x], title='Datetime'),
+                                            yaxis=dict(range=[min_y, max_y], title=go.layout.yaxis.Title(text=variable.get_parameter())),
+                                            title=variable.get_sensor(), transition={'duration': 500, 'easing':'cubic-in-out'})}
 
 
-    elif variable.get_flag() == False:
-        try:
+        elif variable.get_flag() == False:
+
             x = X[-1].__str__()
             y = "'"
             x = y + x + y
@@ -283,12 +335,12 @@ def parameter_callback(input_value, n):
             max_x = max(X)
             max_x = max_x + timedelta(seconds=sec.total_seconds() * 0.03)
 
-            min_y = min(Y) - min(Y) * 0.01
-            max_y = max(Y) + max(Y) * 0.01
+            min_y = min(Y) - min(Y) * 0.03
+            max_y = max(Y) + max(Y) * 0.03
 
             return {'data': [data],
                     'layout': go.Layout(autosize=True, xaxis=dict(range=[min_x, max_x], title='Datetime'),
                                         yaxis=dict(range=[min_y, max_y], title=variable.get_parameter()),
                                         title=variable.get_sensor())}
-        except IndexError:
-            variable.set_flag(True)
+    except IndexError:
+        variable.set_flag(True)
