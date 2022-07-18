@@ -373,7 +373,7 @@ def parameter_callback(input_value, value):
                                     yaxis=dict(range=[min_y, max_y],
                                                title=go.layout.yaxis.Title(text=variable.get_parameter() + ' (' + variable.get_unit() + ')')),
                                     title=variable.get_sensor(),
-                                    transition={'duration': 500, 'easing': 'cubic-in-out'}, hovermode='x')}
+                                    transition={'duration': 500, 'easing': 'cubic-in-out'}, hovermode='x', margin=go.layout.Margin(l=45, r=0, b=45, t=25))}
 
     # try:
     #     if variable.get_flag() == True or variable.get_value() != input_value and input_value != None:

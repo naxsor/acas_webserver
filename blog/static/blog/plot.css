@@ -101,6 +101,15 @@
 /*  color: #999;*/
 /*}*/
 
-/*.rc-slider-mark-text{*/
-/*  color: #666;*/
-/*}*/
+@media (max-width: 990px) {
+  .rc-slider-mark-text {
+    /*color: #666;*/
+    top: 40px;
+    rotate: 45deg;
+  }
+}
+
+.container-fluid{
+  padding-left: 0px;
+  padding-right: 8px;
+}
