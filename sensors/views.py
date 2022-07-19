@@ -16,7 +16,7 @@ from django.urls import reverse
 import pandas as pd
 from plotly.offline import plot
 import plotly.graph_objs as go
-from .plot import *
+from sensors.data_plot import *
 
 # Create your views here.
 class StatusListView(ListView):
