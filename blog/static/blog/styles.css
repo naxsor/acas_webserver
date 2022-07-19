@@ -11467,4 +11467,13 @@ a.article-title:hover {
 }
 }
 
+.embed-responsive{
+  height: 450px;
+}
+
+@media (max-width: 525px) {
+  .embed-responsive {
+    height: 1350px;
+  }
+}
 
