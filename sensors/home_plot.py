@@ -131,7 +131,7 @@ with open('/etc/config.json') as config_file:
 conn = psycopg2.connect(dbname=config.get('db_sensor_name'), user=config.get('db_sensor_username'),
                         password=config.get('db_sensor_password'), host=config.get('db_ip_failover'),
                         port=config.get('db_sensor_port'))
-cursor = conn.cursor()
+# cursor = conn.cursor()
 hygrometer = variables()
 hygrometer_1 = variables()
 hygrometer_2 = variables()
@@ -157,11 +157,11 @@ app.layout = dbc.Container(
                 ),
                 html.Div(
                     className='four columns',
-                    id='parent',
+                    id='parent-1',
                     children=[
                         dcc.Graph(id='live-graph-1'),
                         dcc.Interval(
-                            id='graph-update',
+                            id='graph-update-1',
                             interval=1000,
                             n_intervals=0,
                         ),
@@ -170,11 +170,11 @@ app.layout = dbc.Container(
                 ),
                 html.Div(
                     className='four columns',
-                    id='parent',
+                    id='parent-2',
                     children=[
                         dcc.Graph(id='live-graph-2'),
                         dcc.Interval(
-                            id='graph-update',
+                            id='graph-update-2',
                             interval=1000,
                             n_intervals=0,
                         ),
@@ -197,97 +197,53 @@ def parameter_callback(n, data):
     aph = "'"
     date = aph + date.__str__() + aph
     avg = "Minute"
-
+    cursor = conn.cursor()
     for i in plots:
         if data == i[0]:
             variable = i[1]
             id = i[2]
 
-    try:
-        if variable.get_flag() == True:
-            variable.get_x().clear()
-            variable.get_y().clear()
-            sql = 'SELECT primary_variables."id" "id", "data table", "Variable Name" FROM public.primary_variables JOIN public.sensor s on primary_variables."Sensor id" = s.id WHERE primary_variables."id" = ' + id
+    # try:
+    if variable.get_flag() == True:
+        variable.get_x().clear()
+        variable.get_y().clear()
+        sql = 'SELECT primary_variables."id" "id", "data table", "Variable Name" FROM public.primary_variables JOIN public.sensor s on primary_variables."Sensor id" = s.id WHERE primary_variables."id" = ' + id
 
-            cursor.execute(sql)
-            data = cursor.fetchall()
+        cursor.execute(sql)
+        data = cursor.fetchall()
 
-            variable.set_parameter(data[0][2])
-            variable.set_datatable(data[0][1])
-            variable.set_flag(False)
+        variable.set_parameter(data[0][2])
+        variable.set_datatable(data[0][1])
+        variable.set_flag(False)
 
-            sql = 'SELECT "Datetime","' + variable.get_parameter() + '" FROM "' + variable.get_datatable() + '" WHERE "Datetime" > ' + date + ' AND "' + variable.get_parameter() + '" IS NOT NULL ORDER BY "Datetime" DESC'
+        sql = 'SELECT "Datetime","' + variable.get_parameter() + '" FROM "' + variable.get_datatable() + '" WHERE "Datetime" > ' + date + ' AND "' + variable.get_parameter() + '" IS NOT NULL ORDER BY "Datetime" DESC'
 
-            cursor.execute(sql)
-            data = cursor.fetchall()
-            data.reverse()
+        cursor.execute(sql)
+        data = cursor.fetchall()
+        data.reverse()
 
-            for i in data:
-                variable.get_x().append(i[0])
-                variable.get_y().append(i[1])
+        for i in data:
+            variable.get_x().append(i[0])
+            variable.get_y().append(i[1])
 
-            df = pandas.DataFrame()
-            df['Datetime'] = pandas.DatetimeIndex(variable.get_x())
-            # df['Datetime'] = pd.to_datetime(df['Datetime'])
-            df[variable.get_parameter()] = pandas.Series(variable.get_y())
-            df = dataframe_avarager(df, avg)
-            variable.set_df(df)
+        df = pandas.DataFrame()
+        df['Datetime'] = pandas.DatetimeIndex(variable.get_x())
+        # df['Datetime'] = pd.to_datetime(df['Datetime'])
+        df[variable.get_parameter()] = pandas.Series(variable.get_y())
+        df = dataframe_avarager(df, avg)
+        variable.set_df(df)
 
-            data = plotly.graph_objs.Scatter(
-                x=list(df['Datetime']),
-                y=list(df[variable.get_parameter()]),
-                name='Scatter',
-                mode='lines+markers'
-            )
+        data = plotly.graph_objs.Scatter(
+            x=list(df['Datetime']),
+            y=list(df[variable.get_parameter()]),
+            name='Scatter',
+            mode='lines+markers'
+        )
 
-            if len(df['Datetime']) != 0:
-                min_x = min(df['Datetime'])
-                sec = max(df['Datetime']) - min(df['Datetime'])
-                min_x = min_x - timedelta(seconds=sec.total_seconds() * 0.03)
-                max_x = max(df['Datetime'])
-                max_x = max_x + timedelta(seconds=sec.total_seconds() * 0.03)
-
-                min_y = min(df[variable.get_parameter()]) - min(df[variable.get_parameter()]) * 0.03
-                max_y = max(df[variable.get_parameter()]) + max(df[variable.get_parameter()]) * 0.03
-
-                return {'data': [data],
-                        'layout': go.Layout(autosize=True, xaxis=dict(range=[min_x, max_x], title='Datetime'),
-                                            yaxis=dict(range=[min_y, max_y], title=go.layout.yaxis.Title(text=variable.get_parameter())),
-                                            title=variable.get_sensor(), transition={'duration': 500, 'easing': 'cubic-in-out'})}
-        elif variable.get_flag() == False:
-
-            latest_date = variable.get_x()[-1].__str__()
-            aph = "'"
-            latest_date = aph + latest_date + aph
-
-            sql = 'SELECT "Datetime","' + variable.get_parameter() + '" FROM "' + variable.get_datatable() + '" WHERE "Datetime" > ' + latest_date + ' AND "' + variable.get_parameter() + '" IS NOT NULL ORDER BY "Datetime" ASC'
-            cursor.execute(sql)
-            data = cursor.fetchall()
-
-            for i in data:
-                variable.get_x().append(i[0])
-                variable.get_y().append(i[1])
-
-            df_1 = pandas.DataFrame()
-            df_1['Datetime'] = pandas.DatetimeIndex(variable.get_x())
-            # df_1['Datetime'] = pd.to_datetime(df_1['Datetime'])
-            df_1[variable.get_parameter()] = pandas.Series(variable.get_y())
-            df = variable.get_df()
-            df = pandas.concat([df, df_1])
-            df = dataframe_avarager(df, avg)
-            variable.set_df(df)
-
-            data = plotly.graph_objs.Scatter(
-                x=list(df['Datetime']),
-                y=list(df[variable.get_parameter()]),
-                name='Scatter',
-                mode='lines+markers'
-            )
-
+        if len(df['Datetime']) != 0:
             min_x = min(df['Datetime'])
             sec = max(df['Datetime']) - min(df['Datetime'])
             min_x = min_x - timedelta(seconds=sec.total_seconds() * 0.03)
-
             max_x = max(df['Datetime'])
             max_x = max_x + timedelta(seconds=sec.total_seconds() * 0.03)
 
@@ -296,225 +252,115 @@ def parameter_callback(n, data):
 
             return {'data': [data],
                     'layout': go.Layout(autosize=True, xaxis=dict(range=[min_x, max_x], title='Datetime'),
-                                        yaxis=dict(range=[min_y, max_y], title=variable.get_parameter()),
-                                        title=variable.get_sensor())}
-    except (IndexError, KeyError, psycopg2.ProgrammingError) as e:
-        variable.set_flag(True)
+                                        yaxis=dict(range=[min_y, max_y], title=go.layout.yaxis.Title(text=variable.get_parameter())),
+                                        title=variable.get_sensor(), transition={'duration': 500, 'easing': 'cubic-in-out'})}
+    elif variable.get_flag() == False:
 
-@app.callback(
-    Output('live-graph-2', 'figure'),
-    [Input('graph-update', 'n_intervals'), Input('memory-2', 'data')]
-)
-def parameter_callback_2(n, data):
-    date = datetime.now() - timedelta(hours=1)
-    aph = "'"
-    date = aph + date.__str__() + aph
-    avg = "Minute"
+        latest_date = variable.get_x()[-1].__str__()
+        delta = max(variable.get_x()) - timedelta(hours=1)
+        aph = "'"
+        latest_date = aph + latest_date + aph
 
-    for i in plots:
-        if data == i[0]:
-            variable = i[1]
-            id = i[2]
+        sql = 'SELECT "Datetime","' + variable.get_parameter() + '" FROM "' + variable.get_datatable() + '" WHERE "Datetime" > ' + latest_date + ' AND "' + variable.get_parameter() + '" IS NOT NULL ORDER BY "Datetime" ASC'
+        cursor.execute(sql)
+        data = cursor.fetchall()
 
-    try:
-        if variable.get_flag() == True:
-            variable.get_x().clear()
-            variable.get_y().clear()
-            sql = 'SELECT primary_variables."id" "id", "data table", "Variable Name" FROM public.primary_variables JOIN public.sensor s on primary_variables."Sensor id" = s.id WHERE primary_variables."id" = ' + id
+        for i in data:
+            variable.get_x().append(i[0])
+            variable.get_y().append(i[1])
 
-            cursor.execute(sql)
-            data = cursor.fetchall()
+        df_1 = pandas.DataFrame()
+        df_1['Datetime'] = pandas.DatetimeIndex(variable.get_x())
+        # df_1['Datetime'] = pd.to_datetime(df_1['Datetime'])
+        df_1[variable.get_parameter()] = pandas.Series(variable.get_y())
+        df = variable.get_df()
+        df = pandas.concat([df, df_1])
+        df = dataframe_avarager(df, avg)
+        df = df.loc[df['Datetime'] > delta]
+        variable.set_df(df)
 
-            variable.set_parameter(data[0][2])
-            variable.set_datatable(data[0][1])
-            variable.set_flag(False)
+        data = plotly.graph_objs.Scatter(
+            x=list(df['Datetime']),
+            y=list(df[variable.get_parameter()]),
+            name='Scatter',
+            mode='lines+markers'
+        )
 
-            sql = 'SELECT "Datetime","' + variable.get_parameter() + '" FROM "' + variable.get_datatable() + '" WHERE "Datetime" > ' + date + ' AND "' + variable.get_parameter() + '" IS NOT NULL ORDER BY "Datetime" DESC'
+        min_x = min(df['Datetime'])
+        sec = max(df['Datetime']) - min(df['Datetime'])
+        min_x = min_x - timedelta(seconds=sec.total_seconds() * 0.03)
 
-            cursor.execute(sql)
-            data = cursor.fetchall()
-            data.reverse()
+        max_x = max(df['Datetime'])
+        max_x = max_x + timedelta(seconds=sec.total_seconds() * 0.03)
 
-            for i in data:
-                variable.get_x().append(i[0])
-                variable.get_y().append(i[1])
+        min_y = min(df[variable.get_parameter()]) - min(df[variable.get_parameter()]) * 0.03
+        max_y = max(df[variable.get_parameter()]) + max(df[variable.get_parameter()]) * 0.03
 
-            df = pandas.DataFrame()
-            df['Datetime'] = pandas.DatetimeIndex(variable.get_x())
-            # df['Datetime'] = pd.to_datetime(df['Datetime'])
-            df[variable.get_parameter()] = pandas.Series(variable.get_y())
-            df = dataframe_avarager(df, avg)
-            variable.set_df(df)
-
-            data = plotly.graph_objs.Scatter(
-                x=list(df['Datetime']),
-                y=list(df[variable.get_parameter()]),
-                name='Scatter',
-                mode='lines+markers'
-            )
-
-            if len(df['Datetime']) != 0:
-                min_x = min(df['Datetime'])
-                sec = max(df['Datetime']) - min(df['Datetime'])
-                min_x = min_x - timedelta(seconds=sec.total_seconds() * 0.03)
-                max_x = max(df['Datetime'])
-                max_x = max_x + timedelta(seconds=sec.total_seconds() * 0.03)
-
-                min_y = min(df[variable.get_parameter()]) - min(df[variable.get_parameter()]) * 0.03
-                max_y = max(df[variable.get_parameter()]) + max(df[variable.get_parameter()]) * 0.03
-
-                return {'data': [data],
-                        'layout': go.Layout(autosize=True, xaxis=dict(range=[min_x, max_x], title='Datetime'),
-                                            yaxis=dict(range=[min_y, max_y], title=go.layout.yaxis.Title(text=variable.get_parameter())),
-                                            title=variable.get_sensor(), transition={'duration': 500, 'easing': 'cubic-in-out'})}
-        elif variable.get_flag() == False:
-
-            latest_date = variable.get_x()[-1].__str__()
-            aph = "'"
-            latest_date = aph + latest_date + aph
-
-            sql = 'SELECT "Datetime","' + variable.get_parameter() + '" FROM "' + variable.get_datatable() + '" WHERE "Datetime" > ' + latest_date + ' AND "' + variable.get_parameter() + '" IS NOT NULL ORDER BY "Datetime" ASC'
-            cursor.execute(sql)
-            data = cursor.fetchall()
-
-            for i in data:
-                variable.get_x().append(i[0])
-                variable.get_y().append(i[1])
-
-            df_1 = pandas.DataFrame()
-            df_1['Datetime'] = pandas.DatetimeIndex(variable.get_x())
-            # df_1['Datetime'] = pd.to_datetime(df_1['Datetime'])
-            df_1[variable.get_parameter()] = pandas.Series(variable.get_y())
-            df = variable.get_df()
-            df = pandas.concat([df, df_1])
-            df = dataframe_avarager(df, avg)
-            variable.set_df(df)
-
-            data = plotly.graph_objs.Scatter(
-                x=list(df['Datetime']),
-                y=list(df[variable.get_parameter()]),
-                name='Scatter',
-                mode='lines+markers'
-            )
-
-            min_x = min(df['Datetime'])
-            sec = max(df['Datetime']) - min(df['Datetime'])
-            min_x = min_x - timedelta(seconds=sec.total_seconds() * 0.03)
-
-            max_x = max(df['Datetime'])
-            max_x = max_x + timedelta(seconds=sec.total_seconds() * 0.03)
-
-            min_y = min(df[variable.get_parameter()]) - min(df[variable.get_parameter()]) * 0.03
-            max_y = max(df[variable.get_parameter()]) + max(df[variable.get_parameter()]) * 0.03
-
-            return {'data': [data],
-                    'layout': go.Layout(autosize=True, xaxis=dict(range=[min_x, max_x], title='Datetime'),
-                                        yaxis=dict(range=[min_y, max_y], title=variable.get_parameter()),
-                                        title=variable.get_sensor())}
-    except (IndexError,KeyError, psycopg2.ProgrammingError) as e:
-
-        variable.set_flag(True)
+        return {'data': [data],
+                'layout': go.Layout(autosize=True, xaxis=dict(range=[min_x, max_x], title='Datetime'),
+                                    yaxis=dict(range=[min_y, max_y], title=variable.get_parameter()),
+                                    title=variable.get_sensor())}
+    cursor.close()
+    # except (IndexError, psycopg2.ProgrammingError, psycopg2.errors.InFailedSqlTransaction) as e:
+    #     variable.set_flag(True)
 
 @app.callback(
     Output('live-graph-1', 'figure'),
-    [Input('graph-update', 'n_intervals'), Input('memory-1', 'data')]
+    [Input('graph-update-1', 'n_intervals'), Input('memory-1', 'data')]
 )
 def parameter_callback_1(n, data):
     date = datetime.now() - timedelta(hours=1)
     aph = "'"
     date = aph + date.__str__() + aph
     avg = "Minute"
-
+    cursor = conn.cursor()
     for i in plots:
         if data == i[0]:
             variable = i[1]
             id = i[2]
+            break
 
-    try:
-        if variable.get_flag() == True:
-            variable.get_x().clear()
-            variable.get_y().clear()
-            sql = 'SELECT primary_variables."id" "id", "data table", "Variable Name" FROM public.primary_variables JOIN public.sensor s on primary_variables."Sensor id" = s.id WHERE primary_variables."id" = ' + id
+    # try:
+    if variable.get_flag() == True:
+        variable.get_x().clear()
+        variable.get_y().clear()
+        sql = 'SELECT primary_variables."id" "id", "data table", "Variable Name" FROM public.primary_variables JOIN public.sensor s on primary_variables."Sensor id" = s.id WHERE primary_variables."id" = ' + id
 
-            cursor.execute(sql)
-            data = cursor.fetchall()
+        cursor.execute(sql)
+        data = cursor.fetchall()
 
-            variable.set_parameter(data[0][2])
-            variable.set_datatable(data[0][1])
-            variable.set_flag(False)
+        variable.set_parameter(data[0][2])
+        variable.set_datatable(data[0][1])
+        variable.set_flag(False)
 
-            sql = 'SELECT "Datetime","' + variable.get_parameter() + '" FROM "' + variable.get_datatable() + '" WHERE "Datetime" > ' + date + ' AND "' + variable.get_parameter() + '" IS NOT NULL ORDER BY "Datetime" DESC'
+        sql = 'SELECT "Datetime","' + variable.get_parameter() + '" FROM "' + variable.get_datatable() + '" WHERE "Datetime" > ' + date + ' AND "' + variable.get_parameter() + '" IS NOT NULL ORDER BY "Datetime" DESC'
 
-            cursor.execute(sql)
-            data = cursor.fetchall()
-            data.reverse()
+        cursor.execute(sql)
+        data = cursor.fetchall()
+        data.reverse()
 
-            for i in data:
-                variable.get_x().append(i[0])
-                variable.get_y().append(i[1])
+        for i in data:
+            variable.get_x().append(i[0])
+            variable.get_y().append(i[1])
 
-            df = pandas.DataFrame()
-            df['Datetime'] = pandas.DatetimeIndex(variable.get_x())
-            # df['Datetime'] = pd.to_datetime(df['Datetime'])
-            df[variable.get_parameter()] = pandas.Series(variable.get_y())
-            df = dataframe_avarager(df, avg)
-            variable.set_df(df)
+        df = pandas.DataFrame()
+        df['Datetime'] = pandas.DatetimeIndex(variable.get_x())
+        # df['Datetime'] = pd.to_datetime(df['Datetime'])
+        df[variable.get_parameter()] = pandas.Series(variable.get_y())
+        df = dataframe_avarager(df, avg)
+        variable.set_df(df)
 
-            data = plotly.graph_objs.Scatter(
-                x=list(df['Datetime']),
-                y=list(df[variable.get_parameter()]),
-                name='Scatter',
-                mode='lines+markers'
-            )
+        data = plotly.graph_objs.Scatter(
+            x=list(df['Datetime']),
+            y=list(df[variable.get_parameter()]),
+            name='Scatter',
+            mode='lines+markers'
+        )
 
-            if len(df['Datetime']) != 0:
-                min_x = min(df['Datetime'])
-                sec = max(df['Datetime']) - min(df['Datetime'])
-                min_x = min_x - timedelta(seconds=sec.total_seconds() * 0.03)
-                max_x = max(df['Datetime'])
-                max_x = max_x + timedelta(seconds=sec.total_seconds() * 0.03)
-
-                min_y = min(df[variable.get_parameter()]) - min(df[variable.get_parameter()]) * 0.03
-                max_y = max(df[variable.get_parameter()]) + max(df[variable.get_parameter()]) * 0.03
-
-                return {'data': [data],
-                        'layout': go.Layout(autosize=True, xaxis=dict(range=[min_x, max_x], title='Datetime'),
-                                            yaxis=dict(range=[min_y, max_y], title=go.layout.yaxis.Title(text=variable.get_parameter())),
-                                            title=variable.get_sensor(), transition={'duration': 500, 'easing': 'cubic-in-out'})}
-        elif variable.get_flag() == False:
-
-            latest_date = variable.get_x()[-1].__str__()
-            aph = "'"
-            latest_date = aph + latest_date + aph
-
-            sql = 'SELECT "Datetime","' + variable.get_parameter() + '" FROM "' + variable.get_datatable() + '" WHERE "Datetime" > ' + latest_date + ' AND "' + variable.get_parameter() + '" IS NOT NULL ORDER BY "Datetime" ASC'
-            cursor.execute(sql)
-            data = cursor.fetchall()
-
-            for i in data:
-                variable.get_x().append(i[0])
-                variable.get_y().append(i[1])
-
-            df_1 = pandas.DataFrame()
-            df_1['Datetime'] = pandas.DatetimeIndex(variable.get_x())
-            # df_1['Datetime'] = pd.to_datetime(df_1['Datetime'])
-            df_1[variable.get_parameter()] = pandas.Series(variable.get_y())
-            df = variable.get_df()
-            df = pandas.concat([df, df_1])
-            df = dataframe_avarager(df, avg)
-            variable.set_df(df)
-
-            data = plotly.graph_objs.Scatter(
-                x=list(df['Datetime']),
-                y=list(df[variable.get_parameter()]),
-                name='Scatter',
-                mode='lines+markers'
-            )
-
+        if len(df['Datetime']) != 0:
             min_x = min(df['Datetime'])
             sec = max(df['Datetime']) - min(df['Datetime'])
             min_x = min_x - timedelta(seconds=sec.total_seconds() * 0.03)
-
             max_x = max(df['Datetime'])
             max_x = max_x + timedelta(seconds=sec.total_seconds() * 0.03)
 
@@ -523,7 +369,170 @@ def parameter_callback_1(n, data):
 
             return {'data': [data],
                     'layout': go.Layout(autosize=True, xaxis=dict(range=[min_x, max_x], title='Datetime'),
-                                        yaxis=dict(range=[min_y, max_y], title=variable.get_parameter()),
-                                        title=variable.get_sensor())}
-    except (KeyError, psycopg2.ProgrammingError, IndexError) as e:
-        variable.set_flag(True)
+                                        yaxis=dict(range=[min_y, max_y], title=go.layout.yaxis.Title(text=variable.get_parameter())),
+                                        title=variable.get_sensor(), transition={'duration': 500, 'easing': 'cubic-in-out'})}
+    elif variable.get_flag() == False:
+
+        latest_date = variable.get_x()[-1].__str__()
+        delta = max(variable.get_x()) - timedelta(hours=1)
+        aph = "'"
+        latest_date = aph + latest_date + aph
+
+        sql = 'SELECT "Datetime","' + variable.get_parameter() + '" FROM "' + variable.get_datatable() + '" WHERE "Datetime" > ' + latest_date + ' AND "' + variable.get_parameter() + '" IS NOT NULL ORDER BY "Datetime" ASC'
+        cursor.execute(sql)
+        data = cursor.fetchall()
+
+        for i in data:
+            variable.get_x().append(i[0])
+            variable.get_y().append(i[1])
+
+        df_1 = pandas.DataFrame()
+        df_1['Datetime'] = pandas.DatetimeIndex(variable.get_x())
+        # df_1['Datetime'] = pd.to_datetime(df_1['Datetime'])
+        df_1[variable.get_parameter()] = pandas.Series(variable.get_y())
+        df = variable.get_df()
+        df = pandas.concat([df, df_1])
+        df = df.loc[df['Datetime'] > delta]
+        df = dataframe_avarager(df, avg)
+        variable.set_df(df)
+
+        data = plotly.graph_objs.Scatter(
+            x=list(df['Datetime']),
+            y=list(df[variable.get_parameter()]),
+            name='Scatter',
+            mode='lines+markers'
+        )
+
+        min_x = min(df['Datetime'])
+        sec = max(df['Datetime']) - min(df['Datetime'])
+        min_x = min_x - timedelta(seconds=sec.total_seconds() * 0.03)
+
+        max_x = max(df['Datetime'])
+        max_x = max_x + timedelta(seconds=sec.total_seconds() * 0.03)
+
+        min_y = min(df[variable.get_parameter()]) - min(df[variable.get_parameter()]) * 0.03
+        max_y = max(df[variable.get_parameter()]) + max(df[variable.get_parameter()]) * 0.03
+
+        return {'data': [data],
+                'layout': go.Layout(autosize=True, xaxis=dict(range=[min_x, max_x], title='Datetime'),
+                                    yaxis=dict(range=[min_y, max_y], title=variable.get_parameter()),
+                                    title=variable.get_sensor())}
+    # except (IndexError, psycopg2.ProgrammingError, psycopg2.errors.InFailedSqlTransaction) as e:
+    #     variable.set_flag(True)
+    cursor.close()
+
+@app.callback(
+    Output('live-graph-2', 'figure'),
+    [Input('graph-update-2', 'n_intervals'), Input('memory-2', 'data')]
+)
+def parameter_callback_2(n, data):
+    date = datetime.now() - timedelta(hours=1)
+    aph = "'"
+    date = aph + date.__str__() + aph
+    avg = "Minute"
+    cursor = conn.cursor()
+    for i in plots:
+        if data == i[0]:
+            variable = i[1]
+            id = i[2]
+
+    # try:
+    if variable.get_flag() == True:
+        variable.get_x().clear()
+        variable.get_y().clear()
+        sql = 'SELECT primary_variables."id" "id", "data table", "Variable Name" FROM public.primary_variables JOIN public.sensor s on primary_variables."Sensor id" = s.id WHERE primary_variables."id" = ' + id
+
+        cursor.execute(sql)
+        data = cursor.fetchall()
+
+        variable.set_parameter(data[0][2])
+        variable.set_datatable(data[0][1])
+        variable.set_flag(False)
+
+        sql = 'SELECT "Datetime","' + variable.get_parameter() + '" FROM "' + variable.get_datatable() + '" WHERE "Datetime" > ' + date + ' AND "' + variable.get_parameter() + '" IS NOT NULL ORDER BY "Datetime" DESC'
+
+        cursor.execute(sql)
+        data = cursor.fetchall()
+        data.reverse()
+
+        for i in data:
+            variable.get_x().append(i[0])
+            variable.get_y().append(i[1])
+
+        df = pandas.DataFrame()
+        df['Datetime'] = pandas.DatetimeIndex(variable.get_x())
+        # df['Datetime'] = pd.to_datetime(df['Datetime'])
+        df[variable.get_parameter()] = pandas.Series(variable.get_y())
+        df = dataframe_avarager(df, avg)
+        variable.set_df(df)
+
+        data = plotly.graph_objs.Scatter(
+            x=list(df['Datetime']),
+            y=list(df[variable.get_parameter()]),
+            name='Scatter',
+            mode='lines+markers'
+        )
+
+        if len(df['Datetime']) != 0:
+            min_x = min(df['Datetime'])
+            sec = max(df['Datetime']) - min(df['Datetime'])
+            min_x = min_x - timedelta(seconds=sec.total_seconds() * 0.03)
+            max_x = max(df['Datetime'])
+            max_x = max_x + timedelta(seconds=sec.total_seconds() * 0.03)
+
+            min_y = min(df[variable.get_parameter()]) - min(df[variable.get_parameter()]) * 0.03
+            max_y = max(df[variable.get_parameter()]) + max(df[variable.get_parameter()]) * 0.03
+
+            return {'data': [data],
+                    'layout': go.Layout(autosize=True, xaxis=dict(range=[min_x, max_x], title='Datetime'),
+                                        yaxis=dict(range=[min_y, max_y], title=go.layout.yaxis.Title(text=variable.get_parameter())),
+                                        title=variable.get_sensor(), transition={'duration': 500, 'easing': 'cubic-in-out'})}
+    elif variable.get_flag() == False:
+
+        latest_date = variable.get_x()[-1].__str__()
+        delta = max(variable.get_x()) - timedelta(hours=1)
+        aph = "'"
+        latest_date = aph + latest_date + aph
+
+        sql = 'SELECT "Datetime","' + variable.get_parameter() + '" FROM "' + variable.get_datatable() + '" WHERE "Datetime" > ' + latest_date + ' AND "' + variable.get_parameter() + '" IS NOT NULL ORDER BY "Datetime" ASC'
+        cursor.execute(sql)
+        data = cursor.fetchall()
+
+        for i in data:
+            variable.get_x().append(i[0])
+            variable.get_y().append(i[1])
+
+        df_1 = pandas.DataFrame()
+        df_1['Datetime'] = pandas.DatetimeIndex(variable.get_x())
+        # df_1['Datetime'] = pd.to_datetime(df_1['Datetime'])
+        df_1[variable.get_parameter()] = pandas.Series(variable.get_y())
+        df = variable.get_df()
+        df = pandas.concat([df, df_1])
+        df = df.loc[df['Datetime'] > delta]
+        df = dataframe_avarager(df, avg)
+        variable.set_df(df)
+
+        data = plotly.graph_objs.Scatter(
+            x=list(df['Datetime']),
+            y=list(df[variable.get_parameter()]),
+            name='Scatter',
+            mode='lines+markers'
+        )
+
+        min_x = min(df['Datetime'])
+        sec = max(df['Datetime']) - min(df['Datetime'])
+        min_x = min_x - timedelta(seconds=sec.total_seconds() * 0.03)
+
+        max_x = max(df['Datetime'])
+        max_x = max_x + timedelta(seconds=sec.total_seconds() * 0.03)
+
+        min_y = min(df[variable.get_parameter()]) - min(df[variable.get_parameter()]) * 0.03
+        max_y = max(df[variable.get_parameter()]) + max(df[variable.get_parameter()]) * 0.03
+
+        return {'data': [data],
+                'layout': go.Layout(autosize=True, xaxis=dict(range=[min_x, max_x], title='Datetime'),
+                                    yaxis=dict(range=[min_y, max_y], title=variable.get_parameter()),
+                                    title=variable.get_sensor())}
+    # except (KeyError, psycopg2.ProgrammingError, psycopg2.errors.InFailedSqlTransaction) as e:
+    #     variable.set_flag(True)
+    cursor.close()
