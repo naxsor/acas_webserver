@@ -112,7 +112,6 @@ app = DjangoDash('Homeplot1', external_stylesheets=[dbc.themes.BOOTSTRAP, 'https
 
 with open('/etc/config.json') as config_file:
 # with open("C:/Users/ACAS/Documents/config.json") as config_file:
-# with open('/etc/config.json') as config_file:
     config = json.load(config_file)
 
 conn = psycopg2.connect(dbname=config.get('db_sensor_name'), user=config.get('db_sensor_username'),
