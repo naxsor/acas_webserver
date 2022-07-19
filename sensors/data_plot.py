@@ -123,8 +123,8 @@ class variables:
 
 app = DjangoDash('SimpleExample', external_stylesheets=[dbc.themes.BOOTSTRAP, 'https://acas.uprrp.edu/static/blog/plot.css', 'https://codepen.io/chriddyp/pen/bWLwgP.css'])
 
-with open('/etc/config.json') as config_file:
-# with open("C:/Users/ACAS/Documents/config.json") as config_file:
+# with open('/etc/config.json') as config_file:
+with open("C:/Users/ACAS/Documents/config.json") as config_file:
         config = json.load(config_file)
 
 conn = psycopg2.connect(dbname=config.get('db_sensor_name'), user=config.get('db_sensor_username'), password=config.get('db_sensor_password'), host=config.get('db_ip_failover'), port=config.get('db_sensor_port'))
