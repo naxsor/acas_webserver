@@ -1,4 +1,3 @@
-from django.shortcuts import render
 from sensors.models import Sensor, ACAS_part, Reference
 from app.models import content
 from blog.models import Image
@@ -35,11 +34,4 @@ def sensors(request):
 
 
 def data(request):
-    # Plotly visualizations
-    # target_plot = plotly_plot(sql_connection)
-
-    # Return context to home page view
-    # context = {'target_plot': target_plot}
-
-    # Render the HTML template index.html with the data in the context variable.
     return render(request, 'data.html')

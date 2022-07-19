@@ -123,8 +123,8 @@ class variables:
 
 app = DjangoDash('SimpleExample', external_stylesheets=[dbc.themes.BOOTSTRAP, 'https://acas.uprrp.edu/static/blog/plot.css', 'https://codepen.io/chriddyp/pen/bWLwgP.css'])
 
-with open('/etc/config.json') as config_file:
-# with open("C:/Users/ACAS/Documents/config.json") as config_file:
+# with open('/etc/config.json') as config_file:
+with open("C:/Users/ACAS/Documents/config.json") as config_file:
         config = json.load(config_file)
 
 conn = psycopg2.connect(dbname=config.get('db_sensor_name'), user=config.get('db_sensor_username'), password=config.get('db_sensor_password'), host=config.get('db_ip_failover'), port=config.get('db_sensor_port'))
@@ -296,6 +296,7 @@ def sensor_callback(input_value):
 
 @app.callback(Output('live-graph','figure'),
               [Input('dropdown_2', 'value'), Input('year_slider','value')])
+
 def parameter_callback(input_value, value):
     dates = [0,1]
     dates[0] = unixToDatetime(value[0])
@@ -373,7 +374,7 @@ def parameter_callback(input_value, value):
                                     yaxis=dict(range=[min_y, max_y],
                                                title=go.layout.yaxis.Title(text=variable.get_parameter() + ' (' + variable.get_unit() + ')')),
                                     title=variable.get_sensor(),
-                                    transition={'duration': 500, 'easing': 'cubic-in-out'}, hovermode='x', margin=go.layout.Margin(l=45, r=0, b=45, t=25))}
+                                    transition={'duration': 500, 'easing': 'cubic-in-out'}, hovermode='x', margin=go.layout.Margin(l=45, r=0, b=80, t=25))}
 
     # try:
     #     if variable.get_flag() == True or variable.get_value() != input_value and input_value != None:

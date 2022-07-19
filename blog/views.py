@@ -2,6 +2,7 @@ from django.shortcuts import render, get_object_or_404
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin, PermissionRequiredMixin
 from django.contrib.auth.models import User
 from sensors.models import Sensor
+
 from django.views.generic import (
     ListView,
     DetailView,
@@ -11,6 +12,14 @@ from django.views.generic import (
 )
 from .models import Post, Slideshow, Image
 from app.models import content
+from django.http import HttpResponse, HttpResponseRedirect
+from django.db import connections
+from django.contrib import messages
+from django.urls import reverse
+import pandas as pd
+from plotly.offline import plot
+import plotly.graph_objs as go
+from sensors.home_plot import *
 
 def home(request):
     context = {

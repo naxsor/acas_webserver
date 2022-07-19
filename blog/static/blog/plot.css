@@ -101,7 +101,7 @@
 /*  color: #999;*/
 /*}*/
 
-@media (max-width: 990px) {
+@media (max-width: 474px) {
   .rc-slider-mark-text {
     /*color: #666;*/
     top: 40px;
@@ -111,5 +111,8 @@
 
 .container-fluid{
   padding-left: 0px;
-  padding-right: 8px;
+}
+
+.embed-responsive{
+  height: 775px;
 }
