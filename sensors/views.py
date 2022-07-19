@@ -10,14 +10,7 @@ from django.views.generic import (
     DeleteView
 )
 from django.shortcuts import render
-from django.http import HttpResponse, HttpResponseRedirect
-from django.db import connections
-from django.contrib import messages
-from django.urls import reverse
-import pandas as pd
-from plotly.offline import plot
-import plotly.graph_objs as go
-from .plot import *
+
 
 # Create your views here.
 class StatusListView(ListView):
@@ -36,11 +29,4 @@ def sensors(request):
 
 
 def data(request):
-    # Plotly visualizations
-    # target_plot = plotly_plot(sql_connection)
-
-    # Return context to home page view
-    # context = {'target_plot': target_plot}
-
-    # Render the HTML template index.html with the data in the context variable.
     return render(request, 'data.html')

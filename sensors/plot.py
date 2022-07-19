@@ -296,6 +296,7 @@ def sensor_callback(input_value):
 
 @app.callback(Output('live-graph','figure'),
               [Input('dropdown_2', 'value'), Input('year_slider','value')])
+
 def parameter_callback(input_value, value):
     dates = [0,1]
     dates[0] = unixToDatetime(value[0])
@@ -373,7 +374,7 @@ def parameter_callback(input_value, value):
                                     yaxis=dict(range=[min_y, max_y],
                                                title=go.layout.yaxis.Title(text=variable.get_parameter() + ' (' + variable.get_unit() + ')')),
                                     title=variable.get_sensor(),
-                                    transition={'duration': 500, 'easing': 'cubic-in-out'}, hovermode='x', margin=go.layout.Margin(l=45, r=0, b=45, t=25))}
+                                    transition={'duration': 500, 'easing': 'cubic-in-out'}, hovermode='x', margin=go.layout.Margin(l=45, r=0, b=80, t=25))}
 
     # try:
     #     if variable.get_flag() == True or variable.get_value() != input_value and input_value != None:

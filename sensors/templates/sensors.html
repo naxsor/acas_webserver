@@ -41,7 +41,7 @@
                                      aria-labelledby="v-pills-aerosol-tab">
 {#                                            #Aerosol Sensors Nav#}
                                     <ul class="nav nav-pills nav-fill flex-column flex-sm-row">
-                                        <div class="container">
+                                        <div class="container" style="padding-left: 0px; padding-right: 0px">
                                             {% for sensor in sensors_list %}
                                                 {% if sensor.type == "Aerosol" %}
 
@@ -235,7 +235,7 @@
                                      aria-labelledby="v-pills-cloud-tab">
 {#                                            #Cloud Sensor Nav#}
                                     <ul class="nav nav-pills nav-fill">
-                                        <div class="container">
+                                        <div class="container" style="padding-left: 0px; padding-right: 0px">
                                             {% for sensor in sensors_list %}
                                                 {% if sensor.type == "Cloud" %}
                                                           <div class="row">
@@ -423,7 +423,7 @@
                                      aria-labelledby="v-pills-meteorology-tab">
 {#                                            #Cloud Sensor Nav#}
                                     <ul class="nav nav-pills nav-fill">
-                                        <div class="container">
+                                        <div class="container" style="padding-left: 0px; padding-right: 0px">
                                             {% for sensor in sensors_list %}
                                                 {% if sensor.type == "Meteorology" %}
                                                           <div class="row">
