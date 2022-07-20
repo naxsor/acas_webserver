@@ -253,7 +253,7 @@ def parameter_callback(n, data):
             return {'data': [data],
                     'layout': go.Layout(autosize=True, xaxis=dict(range=[min_x, max_x], title='Datetime'),
                                         yaxis=dict(range=[min_y, max_y], title=go.layout.yaxis.Title(text=variable.get_parameter())),
-                                        title=variable.get_sensor(), transition={'duration': 500, 'easing': 'cubic-in-out'})}
+                                        title=variable.get_sensor(), transition={'duration': 500, 'easing': 'cubic-in-out'}, hovermode='x')}
     elif variable.get_flag() == False:
 
         latest_date = variable.get_x()[-1].__str__()
@@ -299,7 +299,7 @@ def parameter_callback(n, data):
         return {'data': [data],
                 'layout': go.Layout(autosize=True, xaxis=dict(range=[min_x, max_x], title='Datetime'),
                                     yaxis=dict(range=[min_y, max_y], title=variable.get_parameter()),
-                                    title=variable.get_sensor())}
+                                    title=variable.get_sensor(), transition={'duration': 500, 'easing': 'cubic-in-out'}, hovermode='x', margin=go.layout.Margin(l=80, r=20, b=50, t=30))}
     cursor.close()
     # except (IndexError, psycopg2.ProgrammingError, psycopg2.errors.InFailedSqlTransaction) as e:
     #     variable.set_flag(True)
@@ -370,7 +370,7 @@ def parameter_callback_1(n, data):
             return {'data': [data],
                     'layout': go.Layout(autosize=True, xaxis=dict(range=[min_x, max_x], title='Datetime'),
                                         yaxis=dict(range=[min_y, max_y], title=go.layout.yaxis.Title(text=variable.get_parameter())),
-                                        title=variable.get_sensor(), transition={'duration': 500, 'easing': 'cubic-in-out'})}
+                                        title=variable.get_sensor(),  transition={'duration': 500, 'easing': 'cubic-in-out'})}
     elif variable.get_flag() == False:
 
         latest_date = variable.get_x()[-1].__str__()
@@ -416,7 +416,7 @@ def parameter_callback_1(n, data):
         return {'data': [data],
                 'layout': go.Layout(autosize=True, xaxis=dict(range=[min_x, max_x], title='Datetime'),
                                     yaxis=dict(range=[min_y, max_y], title=variable.get_parameter()),
-                                    title=variable.get_sensor())}
+                                    title=variable.get_sensor(), transition={'duration': 500, 'easing': 'cubic-in-out'}, hovermode='x', margin=go.layout.Margin(l=80, r=20, b=50, t=30))}
     # except (IndexError, psycopg2.ProgrammingError, psycopg2.errors.InFailedSqlTransaction) as e:
     #     variable.set_flag(True)
     cursor.close()
@@ -532,7 +532,7 @@ def parameter_callback_2(n, data):
         return {'data': [data],
                 'layout': go.Layout(autosize=True, xaxis=dict(range=[min_x, max_x], title='Datetime'),
                                     yaxis=dict(range=[min_y, max_y], title=variable.get_parameter()),
-                                    title=variable.get_sensor())}
+                                    title=variable.get_sensor(), transition={'duration': 500, 'easing': 'cubic-in-out'}, hovermode='x', margin=go.layout.Margin(l=80, r=20, b=50, t=30))}
     # except (KeyError, psycopg2.ProgrammingError, psycopg2.errors.InFailedSqlTransaction) as e:
     #     variable.set_flag(True)
     cursor.close()
