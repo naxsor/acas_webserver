@@ -54,10 +54,18 @@ def getMarks(start, end, range, Nth=1500):
     Nth = len(range) / 7
     Nth = round(Nth)
     result = {}
+    x = range.max() - range.min()
     for i, date in enumerate(range):
         if(i%Nth == 1):
             # Append value to dict
-            result[unixTimeMillis(date)] = str(date.strftime('%Y-%m-%d'))
+            if (range.max() - range.min()) > timedelta(days=365):
+                result[unixTimeMillis(date)] = str(date.strftime('%Y-%m-%d %H:%M:%S'))
+            elif (range.max() - range.min()) > timedelta(days=31):
+                result[unixTimeMillis(date)] = str(date.strftime('%m-%d %H:%M:%S'))
+            elif (range.max() - range.min()) > timedelta(hours=13):
+                result[unixTimeMillis(date)] = str(date.strftime('%d %H:%M:%S'))
+            elif (range.max() - range.min()) < timedelta(hours=12):
+                result[unixTimeMillis(date)] = str(date.strftime('%H:%M:%S'))
 
     return result
 
@@ -197,7 +205,7 @@ app.layout = dbc.Container(
                     value=[unixTimeMillis(a),
                            unixTimeMillis(range.max())],
                     marks=getMarks(range.min(),
-                                   range.max(), range),
+                                   range.max(), range)
                     # tooltip={"placement": "top", "always_visible": True},
 
                 ),
@@ -265,6 +273,19 @@ app.layout = dbc.Container(
 #     else:
 #         return False, 'Stop'
 
+# @app.callback(Output('year_slider','marks'),
+#               Input('year_slider','value'))
+# def slider(value):
+#     dates[0] = unixToDatetime(value[0])
+#     dates[1] = unixToDatetime(value[1])
+#     range = pandas.date_range(dates[0][0], dates[0][1], freq='T')
+#
+#     marks = getMarks(range.min(), range.max(), range)
+#
+#     return marks
+
+
+
 @app.callback([Output('dropdown_2','options'), Output('dropdown_2','value'), Output('year_slider','min'), Output('year_slider','max'), Output('year_slider','value'), Output('year_slider','marks'),],
               [Input('dropdown', 'value')])
 def sensor_callback(input_value):
@@ -317,6 +338,8 @@ def parameter_callback(input_value, value):
         avg = 'Hour'
     elif timedelta(hours=12) < delta:
         avg = 'Minute'
+    elif timedelta(weeks=1) < delta:
+        avg = 'Hour'
 
     variable.set_value(input_value)
     X.clear()
@@ -374,7 +397,7 @@ def parameter_callback(input_value, value):
                                     yaxis=dict(range=[min_y, max_y],
                                                title=go.layout.yaxis.Title(text=variable.get_parameter() + ' (' + variable.get_unit() + ')')),
                                     title=variable.get_sensor(),
-                                    transition={'duration': 500, 'easing': 'cubic-in-out'}, hovermode='x', margin=go.layout.Margin(l=45, r=0, b=80, t=25))}
+                                    transition={'duration': 500, 'easing': 'cubic-in-out'}, hovermode='x', margin=go.layout.Margin(l=60, r=0, b=80, t=25))}
 
     # try:
     #     if variable.get_flag() == True or variable.get_value() != input_value and input_value != None:

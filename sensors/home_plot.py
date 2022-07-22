@@ -193,7 +193,7 @@ app.layout = dbc.Container(
 )
 
 @app.callback(
-    Output('live-graph', 'figure'),
+    [Output('live-graph', 'figure'), Output('live-graph', 'config')],
     [Input('graph-update', 'n_intervals'), Input('memory', 'data')]
 )
 def parameter_callback(n, data):
@@ -300,16 +300,18 @@ def parameter_callback(n, data):
         min_y = min(df[variable.get_parameter()]) - min(df[variable.get_parameter()]) * 0.03
         max_y = max(df[variable.get_parameter()]) + max(df[variable.get_parameter()]) * 0.03
 
+        config = {'staticPlot': True}
+
         return {'data': [data],
                 'layout': go.Layout(autosize=True, xaxis=dict(range=[min_x, max_x], title='Datetime'),
                                     yaxis=dict(range=[min_y, max_y], title=variable.get_parameter()),
-                                    title=variable.get_sensor(), transition={'duration': 500, 'easing': 'cubic-in-out'}, hovermode='x', margin=go.layout.Margin(l=80, r=20, b=50, t=30))}
+                                    title=variable.get_sensor(), hovermode='x', margin=go.layout.Margin(l=80, r=20, b=50, t=30))}, config
     cursor.close()
     # except (IndexError, psycopg2.ProgrammingError, psycopg2.errors.InFailedSqlTransaction) as e:
     #     variable.set_flag(True)
 
 @app.callback(
-    Output('live-graph-1', 'figure'),
+    [Output('live-graph-1', 'figure'), Output('live-graph-1', 'config')],
     [Input('graph-update-1', 'n_intervals'), Input('memory-1', 'data')]
 )
 def parameter_callback_1(n, data):
@@ -417,16 +419,18 @@ def parameter_callback_1(n, data):
         min_y = min(df[variable.get_parameter()]) - min(df[variable.get_parameter()]) * 0.03
         max_y = max(df[variable.get_parameter()]) + max(df[variable.get_parameter()]) * 0.03
 
+        config = {'staticPlot': True}
+
         return {'data': [data],
                 'layout': go.Layout(autosize=True, xaxis=dict(range=[min_x, max_x], title='Datetime'),
                                     yaxis=dict(range=[min_y, max_y], title=variable.get_parameter()),
-                                    title=variable.get_sensor(), transition={'duration': 500, 'easing': 'cubic-in-out'}, hovermode='x', margin=go.layout.Margin(l=80, r=20, b=50, t=30))}
+                                    title=variable.get_sensor(), hovermode='x', margin=go.layout.Margin(l=80, r=20, b=50, t=30))}, config
     # except (IndexError, psycopg2.ProgrammingError, psycopg2.errors.InFailedSqlTransaction) as e:
     #     variable.set_flag(True)
     cursor.close()
 
 @app.callback(
-    Output('live-graph-2', 'figure'),
+    [Output('live-graph-2', 'figure'), Output('live-graph-2', 'config')],
     [Input('graph-update-2', 'n_intervals'), Input('memory-2', 'data')]
 )
 def parameter_callback_2(n, data):
@@ -533,10 +537,12 @@ def parameter_callback_2(n, data):
         min_y = min(df[variable.get_parameter()]) - min(df[variable.get_parameter()]) * 0.03
         max_y = max(df[variable.get_parameter()]) + max(df[variable.get_parameter()]) * 0.03
 
+        config = {'staticPlot': True}
+
         return {'data': [data],
                 'layout': go.Layout(autosize=True, xaxis=dict(range=[min_x, max_x], title='Datetime'),
                                     yaxis=dict(range=[min_y, max_y], title=variable.get_parameter()),
-                                    title=variable.get_sensor(), transition={'duration': 500, 'easing': 'cubic-in-out'}, hovermode='x', margin=go.layout.Margin(l=80, r=20, b=50, t=30))}
+                                    title=variable.get_sensor(), hovermode='x', margin=go.layout.Margin(l=80, r=20, b=50, t=30))}, config
     # except (KeyError, psycopg2.ProgrammingError, psycopg2.errors.InFailedSqlTransaction) as e:
     #     variable.set_flag(True)
     cursor.close()
