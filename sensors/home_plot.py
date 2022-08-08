@@ -17,7 +17,7 @@ import pandas as pd
 from datetime import datetime, timedelta
 
 def dataframe_avarager(df, avg):
-    if type(df.index) == pd.TimedeltaIndex or pd.DatetimeIndex or pd.PeriodIndex:
+    if (type(df.index) == pd.TimedeltaIndex or pd.DatetimeIndex or pd.PeriodIndex) and not df.empty:
         if avg == 'Raw':
             df = df
         elif avg == 'Second':
@@ -124,8 +124,8 @@ class variables:
 
 app = DjangoDash('Homeplot1', external_stylesheets=[dbc.themes.BOOTSTRAP, 'https://acas.uprrp.edu/static/blog/plot.css', 'https://codepen.io/chriddyp/pen/bWLwgP.css'])
 
-with open('/etc/config.json') as config_file:
-# with open("C:/Users/ACAS/Documents/config.json") as config_file:
+# with open('/etc/config.json') as config_file:
+with open("C:/Users/ACAS/Documents/config.json") as config_file:
     config = json.load(config_file)
 
 conn = psycopg2.connect(dbname=config.get('db_sensor_name'), user=config.get('db_sensor_username'),

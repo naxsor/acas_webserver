@@ -5,8 +5,6 @@ from dash import html
 from dash import dcc
 import dash_bootstrap_components as dbc
 import plotly
-import numpy as np
-import random
 import plotly.graph_objs as go
 from collections import deque
 from django_plotly_dash import DjangoDash
@@ -73,6 +71,7 @@ class variables:
     def __init__(self):
         self.datatable = None
         self.val = 3
+        self.sid = 2
         self.flag = False
         self.parameter = 'Water Vapor Content'
         self.sensor = 'Tunable Diode Laser Hygrometer'
@@ -80,6 +79,12 @@ class variables:
         self.df = None
         self.slider = None
         self.unit = None
+
+    def get_sid(self):
+        return self.sid
+
+    def set_sid(self, sid):
+        self.sid = sid
 
     def get_unit(self):
         return self.unit
@@ -149,11 +154,22 @@ a = datetime.now() - timedelta(days=1)
 x = a.__str__()
 y = "'"
 x = y + x + y
-sql_1 = 'SELECT * FROM public.sensor_hygrometer WHERE "Datetime" > ' + x +  ' ORDER BY "Datetime" ASC'
 
-cursor.execute(sql_1)
+sql = 'SELECT sensor.name, "data table", "Variable Name", sensor.id FROM sensor JOIN process p on sensor.id = p."Sensor id" join primary_variables pv on sensor.id = pv."Sensor id"WHERE status = ' + "'RECORDING'" + ' LIMIT 1'
+
+cursor.execute(sql)
 data = cursor.fetchall()
+
 variable = variables()
+variable.set_sensor(data[0][0])
+variable.set_datatable(data[0][1])
+variable.set_parameter(data[0][2])
+variable.set_sid(data[0][3])
+
+# sql_1 = 'SELECT * FROM public.sensor_hygrometer WHERE "Datetime" > ' + x +  ' ORDER BY "Datetime" ASC'
+#
+# cursor.execute(sql_1)
+# data = cursor.fetchall()
 
 sql = 'SELECT MIN("Datetime"), MAX("Datetime") FROM ' + variable.get_datatable()
 cursor.execute(sql)
@@ -164,7 +180,6 @@ range = pandas.date_range(dates[0][0], dates[0][1], freq='T')
 
 variable.set_flag(True)
 variable.set_slider([unixTimeMillis(a), unixTimeMillis(range.max())])
-
 
 X = deque()
 Y = deque()
@@ -181,7 +196,7 @@ app.layout = dbc.Container(
                 html.H5(id='H5', children='Sensor:'),
                 dcc.Dropdown(id='dropdown',
                              options=sensor_list,
-                             value=2,
+                             value=variable.get_sid(),
                              clearable=False,
                         ),
                 html.Br(),
@@ -192,8 +207,7 @@ app.layout = dbc.Container(
                              clearable=False,
                         ),
                 html.Br(),
-
-                dcc.Graph(id='live-graph'),
+                dcc.Loading(id='loading', children=[dcc.Graph(id='live-graph')], type="circle"),
                 # dcc.Interval(
                 #     id='graph-update',
                 #     interval=1000,
@@ -232,7 +246,6 @@ app.layout = dbc.Container(
     fluid=True,
     style={"height":'100%'},
 )
-
 
 # @app.callback(
 #     Output('live-graph', 'figure'),
@@ -286,12 +299,15 @@ app.layout = dbc.Container(
 #
 #     return marks
 
-
+@app.callback(Output("live-graph", "children"), Input("live-graph", "figure"))
+def input_triggers_spinner(value):
+    return value
 
 @app.callback([Output('dropdown_2','options'), Output('dropdown_2','value'), Output('year_slider','min'), Output('year_slider','max'), Output('year_slider','value'), Output('year_slider','marks'),],
               [Input('dropdown', 'value')])
 def sensor_callback(input_value):
     sql = 'SELECT "name", "data table" From public.sensor WHERE id =' + str(input_value)
+    cursor = conn.cursor()
     cursor.execute(sql)
     sensors = cursor.fetchall()
     variable.set_sensor(sensors[0][0])
@@ -302,7 +318,9 @@ def sensor_callback(input_value):
     dates = cursor.fetchall()
 
     range = pandas.date_range(dates[0][0], dates[0][1], freq='T')
-    a = datetime.now() - timedelta(days=1)
+    delta = range.max() - range.min()
+    delta = delta.days / 3
+    a = datetime.now() - timedelta(days=delta)
 
     sql = 'SELECT * FROM public.primary_variables WHERE "Sensor id" = ' + str(input_value) + ' AND "Available" = TRUE'
     cursor.execute(sql)
@@ -314,13 +332,13 @@ def sensor_callback(input_value):
     variable.set_value(sensors[-1][0])
     variable.set_flag(True)
     variable.set_slider(unixTimeMillis(a))
-
+    cursor.close()
     return parameter_list, variable.get_value(), unixTimeMillis(range.min()), unixTimeMillis(range.max()), [unixTimeMillis(a), unixTimeMillis(range.max())], getMarks(range.min(),range.max(), range)
 
 @app.callback(Output('live-graph','figure'),
               [Input('dropdown_2', 'value'), Input('year_slider','value')])
-
 def parameter_callback(input_value, value):
+    cursor = conn.cursor()
     dates = [0,1]
     dates[0] = unixToDatetime(value[0])
     dates[1] = unixToDatetime(value[1])
@@ -336,9 +354,7 @@ def parameter_callback(input_value, value):
     variable.set_slider(value)
 
     avg = 'Second'
-    if timedelta(days=1, hours=12) < delta:
-        avg = 'Hour'
-    elif timedelta(hours=12) < delta:
+    if timedelta(hours=12) < delta:
         avg = 'Minute'
     elif timedelta(weeks=1) < delta:
         avg = 'Hour'
@@ -384,23 +400,21 @@ def parameter_callback(input_value, value):
         mode='lines+markers'
     )
 
-    if len(df['Datetime']) != 0:
-        min_x = min(df['Datetime'])
-        sec = max(df['Datetime']) - min(df['Datetime'])
-        min_x = min_x - timedelta(seconds=sec.total_seconds() * 0.03)
-        max_x = max(df['Datetime'])
-        max_x = max_x + timedelta(seconds=sec.total_seconds() * 0.03)
+    min_x = min(df['Datetime'])
+    sec = max(df['Datetime']) - min(df['Datetime'])
+    min_x = min_x - timedelta(seconds=sec.total_seconds() * 0.03)
+    max_x = max(df['Datetime'])
+    max_x = max_x + timedelta(seconds=sec.total_seconds() * 0.03)
 
-        min_y = min(df[variable.get_parameter()]) - min(df[variable.get_parameter()]) * 0.03
-        max_y = max(df[variable.get_parameter()]) + max(df[variable.get_parameter()]) * 0.03
-
-        return {'data': [data],
-                'layout': go.Layout(autosize=True, xaxis=dict(range=[min_x, max_x], title='Datetime'),
-                                    yaxis=dict(range=[min_y, max_y],
-                                               title=go.layout.yaxis.Title(text=variable.get_parameter() + ' (' + variable.get_unit() + ')')),
-                                    title=variable.get_sensor(),
-                                    transition={'duration': 500, 'easing': 'cubic-in-out'}, hovermode='x', margin=go.layout.Margin(l=60, r=0, b=80, t=25))}
-
+    min_y = min(df[variable.get_parameter()]) - min(df[variable.get_parameter()]) * 0.03
+    max_y = max(df[variable.get_parameter()]) + max(df[variable.get_parameter()]) * 0.03
+    cursor.close()
+    return {'data': [data],
+            'layout': go.Layout(autosize=True, xaxis=dict(range=[min_x, max_x], title='Datetime'),
+                                yaxis=dict(range=[min_y, max_y],
+                                           title=go.layout.yaxis.Title(text=variable.get_parameter() + ' (' + variable.get_unit() + ')')),
+                                title=variable.get_sensor(),
+                                transition={'duration': 500, 'easing': 'cubic-in-out'}, hovermode='x', margin=go.layout.Margin(l=60, r=0, b=80, t=25))}
     # try:
     #     if variable.get_flag() == True or variable.get_value() != input_value and input_value != None:
     #         variable.set_value(input_value)
