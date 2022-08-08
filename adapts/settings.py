@@ -11,7 +11,6 @@ from pathlib import Path
 import os
 import json
 
-# with open('/etc/config.json') as config_file:
 # with open("C:/Users/ACAS/Documents/config.json") as config_file:
 with open('/etc/config.json') as config_file:
 	config = json.load(config_file)
