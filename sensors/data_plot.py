@@ -177,7 +177,6 @@ dates = cursor.fetchall()
 
 range = pandas.date_range(dates[0][0], dates[0][1], freq='T')
 
-
 variable.set_flag(True)
 variable.set_slider([unixTimeMillis(a), unixTimeMillis(range.max())])
 
