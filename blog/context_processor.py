@@ -9,7 +9,7 @@ def process(request):
     liis_status = Process.objects.get(name="sp2_process")
     tdlh_status = Process.objects.get(name="hygrometer_process")
     bam_status = Process.objects.get(name="bam_process")
-    acsm_status = Process.objects.get(name="bam_process")
+    acsm_status = Process.objects.get(name="acsm_process")
     sensors = {"ccn": ccn_status.status, "uv_lif":uv_lif_status.status, "dma":dma_status.status,
             "bcp":bcp_status.status, "cpd3":cpd3_status.status, "liis":liis_status.status, "tdlh":tdlh_status.status,
             "bam":bam_status.status, "acsm":acsm_status.status}
