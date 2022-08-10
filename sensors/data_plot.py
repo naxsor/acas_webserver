@@ -25,11 +25,11 @@ def dataframe_avarager(df, avg):
         elif avg == 'Hour':
             df = df.resample('H', on='Datetime').mean()
         elif avg == 'Day':
-            df = df.resample('D').mean()
+            df = df.resample('D', on='Datetime').mean()
         elif avg == 'Week':
-            df = df.resample('W').mean()
+            df = df.resample('W', on='Datetime').mean()
         elif avg == 'Month':
-            df = df.resample('M').mean()
+            df = df.resample('M', on='Datetime').mean()
         df = df.dropna(axis=0, how='all')
         df['Datetime'] = df.index
         df = df.reset_index(drop=True)
@@ -206,24 +206,30 @@ app.layout = dbc.Container(
                              clearable=False,
                         ),
                 html.Br(),
-                dcc.Loading(id='loading', children=[dcc.Graph(id='live-graph')], type="circle"),
+                dcc.Loading(id='loading',
+                            children=[
+                                dcc.Graph(id='live-graph'),
+                                dcc.RangeSlider(
+                                    id='year_slider',
+                                    min=unixTimeMillis(range.min()),
+                                    max=unixTimeMillis(range.max()),
+                                    value=[unixTimeMillis(a),
+                                           unixTimeMillis(range.max())],
+                                    marks=getMarks(range.min(),
+                                                   range.max(), range)
+                                    # tooltip={"placement": "top", "always_visible": True},
+
+                                )
+
+                            ],
+                            type="circle"),
                 # dcc.Interval(
                 #     id='graph-update',
                 #     interval=1000,
                 #     n_intervals=0,
                 #     disabled=False,
                 # ),
-                dcc.RangeSlider(
-                    id='year_slider',
-                    min=unixTimeMillis(range.min()),
-                    max=unixTimeMillis(range.max()),
-                    value=[unixTimeMillis(a),
-                           unixTimeMillis(range.max())],
-                    marks=getMarks(range.min(),
-                                   range.max(), range)
-                    # tooltip={"placement": "top", "always_visible": True},
 
-                ),
                 # dcc.Slider(
                 #     id='year_slider',
                 #     min=unixTimeMillis(range.min()),
@@ -318,7 +324,7 @@ def sensor_callback(input_value):
 
     range = pandas.date_range(dates[0][0], dates[0][1], freq='T')
     delta = range.max() - range.min()
-    delta = delta.days / 3
+    delta = delta.days / 15
     a = datetime.now() - timedelta(days=delta)
 
     sql = 'SELECT * FROM public.primary_variables WHERE "Sensor id" = ' + str(input_value) + ' AND "Available" = TRUE'
@@ -353,10 +359,14 @@ def parameter_callback(input_value, value):
     variable.set_slider(value)
 
     avg = 'Second'
-    if timedelta(hours=12) < delta:
-        avg = 'Minute'
+    if timedelta(days=20) < delta:
+        avg = 'Day'
     elif timedelta(weeks=1) < delta:
         avg = 'Hour'
+    elif timedelta(hours=12) < delta:
+        avg = 'Minute'
+
+
 
     variable.set_value(input_value)
     X.clear()
