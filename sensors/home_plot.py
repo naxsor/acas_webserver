@@ -132,15 +132,18 @@ conn = psycopg2.connect(dbname=config.get('db_sensor_name'), user=config.get('db
                         password=config.get('db_sensor_password'), host=config.get('db_ip_failover'),
                         port=config.get('db_sensor_port'))
 # cursor = conn.cursor()
-hygrometer = variables()
-sp2 = variables()
-sp2.set_parameter('Incandescence Particle Concentration')
-sp2.set_sensor('Single Particle Soot Photometer – Extended Range')
-sp2.set_datatable('sensor_liis')
+plot1 = variables()
+plot1.set_datatable('sensor_acsm')
+plot1.set_sensor('Aerosol Chemical Speciation Monitor')
 
-hygrometer_2 = variables()
+plot2 = variables()
+plot2.set_parameter('Incandescence Particle Concentration')
+plot2.set_sensor('Single Particle Soot Photometer – Extended Range')
+plot2.set_datatable('sensor_liis')
 
-plots = [['0', hygrometer, '5'], ['1', sp2, '36'], ['2', hygrometer_2, '3']]
+plot3 = variables()
+
+plots = [['0', plot1, '61'], ['1', plot2, '36'], ['2', plot3, '3']]
 
 app.layout = dbc.Container(
     children=[
